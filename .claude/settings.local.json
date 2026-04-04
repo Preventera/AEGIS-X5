@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip install:*)",
+      "Bash(python -m pytest tests/ -v)",
+      "Bash(python:*)",
+      "Bash(pip show:*)",
+      "Bash(PYTHONPATH=src python -m pytest tests/ -v)"
+    ]
+  }
+}

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "aegis-x5"
-version = "0.1.0"
+version = "0.3.0"
 description = "Autonomous Agent Governance — observe, guard, evaluate, and govern AI agent fleets at scale."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -23,7 +23,14 @@ dependencies = [
     "pyyaml>=6.0",
 ]
 
+[project.scripts]
+aegis = "aegis.cli:main"
+
 [project.optional-dependencies]
+dashboard = [
+    "fastapi>=0.110",
+    "uvicorn>=0.29",
+]
 dev = [
     "pytest>=8.0",
     "ruff>=0.4",

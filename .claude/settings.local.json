@@ -5,7 +5,12 @@
       "Bash(python -m pytest tests/ -v)",
       "Bash(python:*)",
       "Bash(pip show:*)",
-      "Bash(PYTHONPATH=src python -m pytest tests/ -v)"
+      "Bash(PYTHONPATH=src python -m pytest tests/ -v)",
+      "Bash(docker-compose up:*)",
+      "Bash(docker compose:*)",
+      "Bash(mkdir -p \"C:/Users/Mario/Documents/2025/Projets de développement Agentique/AEGIS-X5/src/aegis/local\")",
+      "Bash(mkdir -p \"C:/Users/Mario/Documents/2025/Projets de développement Agentique/AEGIS-X5/src/aegis/dashboard\")",
+      "Bash(mkdir -p \"C:/Users/Mario/Documents/2025/Projets de développement Agentique/AEGIS-X5/examples\")"
     ]
   }
 }

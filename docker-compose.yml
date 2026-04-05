@@ -1,0 +1,73 @@
+version: "3.9"
+
+services:
+  # --- PostgreSQL 16 (persistent data) ---
+  postgres:
+    image: postgres:16-alpine
+    container_name: aegis-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-aegis}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-aegis_secret}
+      POSTGRES_DB: ${POSTGRES_DB:-aegis}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-aegis}"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # --- Redis 7 (cache + sessions) ---
+  redis:
+    image: redis:7-alpine
+    container_name: aegis-redis
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # --- AEGIS-X5 API (FastAPI backend) ---
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aegis-api
+    environment:
+      AEGIS_WORKSPACE: ${AEGIS_WORKSPACE:-default}
+      AEGIS_API_KEYS: ${AEGIS_API_KEYS:-}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-aegis}:${POSTGRES_PASSWORD:-aegis_secret}@postgres:5432/${POSTGRES_DB:-aegis}
+      REDIS_URL: redis://redis:6379/0
+    ports:
+      - "${API_PORT:-4000}:4000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4000/api/v1/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # --- Mini Dashboard (Nginx serving dashboard) ---
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aegis-dashboard
+    command: ["python", "-m", "aegis.cli", "dashboard", "--port", "4005"]
+    environment:
+      AEGIS_WORKSPACE: ${AEGIS_WORKSPACE:-default}
+    ports:
+      - "${DASHBOARD_PORT:-4005}:4005"
+    depends_on:
+      - api
+
+volumes:
+  pgdata:

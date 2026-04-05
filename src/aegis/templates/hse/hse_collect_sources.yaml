@@ -1,0 +1,89 @@
+# AEGIS-X5 — HSE Collection Sources
+# Pre-configured web sources for occupational safety intelligence
+
+sources:
+  - name: CNESST
+    domain: cnesst.gouv.qc.ca
+    confidence: 0.95
+    frequency_hours: 24
+    description: "Commission des normes, de l'équité, de la santé et de la sécurité du travail"
+    keywords:
+      - santé sécurité travail
+      - règlement SST
+      - accident de travail
+      - prévention
+      - droit de refus
+      - cadenassage
+      - espace confiné
+
+  - name: IRSST
+    domain: irsst.qc.ca
+    confidence: 0.90
+    frequency_hours: 48
+    description: "Institut de recherche Robert-Sauvé en santé et en sécurité du travail"
+    keywords:
+      - recherche SST
+      - ergonomie
+      - substances chimiques
+      - bruit milieu travail
+      - troubles musculosquelettiques
+      - équipements de protection
+
+  - name: APSAM
+    domain: apsam.com
+    confidence: 0.85
+    frequency_hours: 48
+    description: "Association paritaire pour la santé et la sécurité du travail, secteur municipal"
+    keywords:
+      - municipal
+      - travaux publics
+      - espaces verts
+      - voirie
+      - eau potable
+      - incendie
+
+  - name: CCHST
+    domain: cchst.ca
+    confidence: 0.90
+    frequency_hours: 48
+    description: "Centre canadien d'hygiène et de sécurité au travail"
+    keywords:
+      - fiches signalétiques
+      - SIMDUT
+      - risques chimiques
+      - ergonomie
+      - santé mentale travail
+      - violence au travail
+
+  - name: ISO
+    domain: iso.org
+    confidence: 0.95
+    frequency_hours: 168
+    description: "International Organization for Standardization"
+    keywords:
+      - ISO 45001
+      - management santé sécurité
+      - certification
+      - audit SST
+      - amélioration continue
+
+  - name: OSHA
+    domain: osha.gov
+    confidence: 0.90
+    frequency_hours: 72
+    description: "Occupational Safety and Health Administration (US)"
+    keywords:
+      - construction safety
+      - fall protection
+      - confined spaces
+      - hazard communication
+      - PPE requirements
+      - lockout tagout
+
+scoring:
+  government: 0.95
+  research_institute: 0.90
+  professional_association: 0.85
+  international_standard: 0.95
+  industry_publication: 0.75
+  news_media: 0.60

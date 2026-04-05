@@ -1,0 +1,74 @@
+# AEGIS-X5 — HSE Template Configuration
+# Health, Safety & Environment — Quebec/Canada context
+# Calibrated for occupational safety agent governance
+
+workspace: hse-default
+
+modules:
+  - observe
+  - guard
+  - evaluate
+  - collect
+  - remember
+  - predict
+
+autonomy: semi-auto
+
+# --- Guard configuration ---
+guard:
+  level: N4
+  pipeline:
+    - sst-fact-check
+    - epi-validator
+    - cnesst-compliance
+    - hazard-minimizer
+    - pii-detector
+    - injection-detector
+
+# --- Evaluate configuration ---
+evaluate:
+  faithfulness_threshold: 0.97
+  relevancy_threshold: 0.90
+  golden_set: hse_eval_golden_set.json
+  drift:
+    warning_threshold: 0.03
+    critical_threshold: 0.05
+
+# --- Predict configuration ---
+predict:
+  health_score:
+    weights:
+      faithfulness: 0.30
+      error_rate: 0.20
+      guard_blocks: 0.20
+      latency_p95: 0.10
+      cost_per_day: 0.05
+      drift: 0.10
+      memory_usage: 0.05
+  drift_predictor:
+    critical_threshold: 0.97
+    min_points: 7
+
+# --- Regulatory references ---
+regulations:
+  - name: ISO 45001
+    description: Occupational health and safety management systems
+    scope: international
+  - name: OSHA 1910
+    description: General Industry Standards
+    scope: usa
+  - name: OSHA 1926
+    description: Construction Industry Standards
+    scope: usa
+  - name: CNESST RSST
+    description: "Règlement sur la santé et la sécurité du travail"
+    scope: quebec
+  - name: CNESST CSTC
+    description: "Code de sécurité pour les travaux de construction"
+    scope: quebec
+  - name: Loi 25
+    description: "Loi modernisant des dispositions législatives en matière de protection des renseignements personnels"
+    scope: quebec
+  - name: EU AI Act
+    description: European Union Artificial Intelligence Act
+    scope: eu

@@ -11,7 +11,8 @@
       "Bash(mkdir -p \"C:/Users/Mario/Documents/2025/Projets de développement Agentique/AEGIS-X5/src/aegis/local\")",
       "Bash(mkdir -p \"C:/Users/Mario/Documents/2025/Projets de développement Agentique/AEGIS-X5/src/aegis/dashboard\")",
       "Bash(mkdir -p \"C:/Users/Mario/Documents/2025/Projets de développement Agentique/AEGIS-X5/examples\")",
-      "Bash(ruff check:*)"
+      "Bash(ruff check:*)",
+      "Bash(wc -c site/aegis-x5-site.html whitepapers/*.html prompts/*.md)"
     ]
   }
 }

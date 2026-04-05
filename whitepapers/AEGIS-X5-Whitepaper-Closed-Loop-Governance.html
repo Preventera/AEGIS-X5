@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AEGIS-X5 Whitepaper — Closed-Loop Governance Architecture</title>
+<style>
+@page{margin:2.5cm}body{font-family:Georgia,'Times New Roman',serif;max-width:700px;margin:0 auto;padding:40px 24px;color:#1a1a2e;line-height:1.8;font-size:15px}
+h1{font-size:28px;font-weight:700;margin-bottom:8px;color:#0a0e17}h2{font-size:20px;margin-top:40px;margin-bottom:12px;color:#1a1a2e;border-bottom:2px solid #06b6d4;padding-bottom:6px}
+h3{font-size:16px;margin-top:24px;margin-bottom:8px}.meta{color:#64748b;font-size:13px;margin-bottom:32px}
+.highlight{background:#ecfdf5;padding:16px 20px;border-left:4px solid #10b981;margin:20px 0;border-radius:0 8px 8px 0}
+.code{background:#f8fafc;border:1px solid #e2e8f0;padding:16px;border-radius:8px;font-family:'SF Mono',monospace;font-size:13px;margin:16px 0;overflow-x:auto}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:14px}th,td{padding:8px 12px;border:1px solid #d1d5db;text-align:left}th{background:#f8fafc;font-weight:600}
+.footer{margin-top:48px;padding-top:16px;border-top:1px solid #d1d5db;font-size:12px;color:#64748b;text-align:center}
+blockquote{border-left:3px solid #8b5cf6;padding-left:16px;margin:20px 0;font-style:italic;color:#475569}
+</style>
+</head>
+<body>
+
+<h1>Closed-Loop Governance Architecture</h1>
+<p class="meta">AEGIS-X5 Technical Whitepaper &middot; Preventera &middot; April 2026 &middot; 4 pages</p>
+
+<h2>1. Introduction</h2>
+<p>Traditional AI governance operates in open-loop mode: observe a problem, alert a human, wait for manual intervention. This architecture fails at scale — when hundreds of agents operate 24/7, the latency between detection and correction becomes the primary risk vector.</p>
+<p>AEGIS-X5 introduces closed-loop governance: autonomous feedback loops that detect, correct, validate, and learn — with configurable human-in-the-loop gates for high-risk decisions.</p>
+
+<h2>2. The Four-Phase Cycle</h2>
+<p>Every AEGIS-X5 closed loop follows a universal four-phase cycle:</p>
+
+<div class="code">
+DETECT &rarr; Is there a problem?<br>
+CORRECT &rarr; Apply a fix<br>
+VALIDATE &rarr; Did the fix work?<br>
+LEARN &rarr; Update thresholds for next time
+</div>
+
+<h3>Phase 1: Detect</h3>
+<p>The detection phase examines current system state against learned baselines. For drift correction, this means comparing current faithfulness scores against the stored baseline. For latency scaling, it means checking p95 latency against the configured threshold.</p>
+<p>Detection is stateless and side-effect-free — it reads metrics and returns a diagnosis dict or None (no problem detected).</p>
+
+<h3>Phase 2: Correct</h3>
+<p>Correction applies a targeted fix based on the diagnosis. This is the only phase that modifies system state:</p>
+<ul>
+<li><strong>DriftAutoCorrect</strong> — triggers a retraining pipeline with the diagnosis context</li>
+<li><strong>GuardAutoTune</strong> — adjusts validator thresholds based on false positive rates</li>
+<li><strong>LatencyAutoScale</strong> — applies model fallback (e.g., Opus &rarr; Sonnet) or request throttling</li>
+</ul>
+
+<h3>Phase 3: Validate</h3>
+<p>After correction, the system re-evaluates the same metrics to verify the fix worked. If validation fails, the loop status is set to FAILED and the correction is rolled back or escalated.</p>
+
+<h3>Phase 4: Learn</h3>
+<p>The learning phase updates internal state: new baselines, adjusted thresholds, pattern history. This feedback mechanism means each loop execution improves future detection accuracy.</p>
+
+<h2>3. Autonomy Modes</h2>
+<p>Not all corrections should be autonomous. AEGIS-X5 provides three autonomy levels, configurable per loop:</p>
+
+<table>
+<tr><th>Mode</th><th>Low-Risk Loops</th><th>High-Risk Loops</th><th>Use Case</th></tr>
+<tr><td><strong>Monitor</strong></td><td>Detect only</td><td>Detect only</td><td>Initial deployment, audit mode</td></tr>
+<tr><td><strong>Semi-Auto</strong></td><td>Full cycle</td><td>HITL approval gate</td><td>Production with oversight</td></tr>
+<tr><td><strong>Full-Auto</strong></td><td>Full cycle</td><td>Full cycle</td><td>Mature, validated deployments</td></tr>
+</table>
+
+<p>The <strong>LoopOrchestrator</strong> manages all registered loops and enforces autonomy policies. High-risk loops (e.g., retraining) require explicit HITL approval in semi-auto mode, while low-risk loops (e.g., latency scaling) execute autonomously.</p>
+
+<div class="highlight">
+<strong>Key design principle:</strong> Autonomy is earned, not assumed. Organizations start in monitor mode, graduate to semi-auto after validation, and enable full-auto only for loops with proven track records.
+</div>
+
+<h2>4. Predictive Integration</h2>
+<p>AEGIS-X5's prediction engine transforms closed loops from reactive to <em>preventive</em>:</p>
+<ul>
+<li><strong>DriftPredictor</strong> forecasts faithfulness 48 hours ahead using linear regression + exponential smoothing. When the prediction crosses the threshold, DriftAutoCorrect triggers <em>before</em> quality degrades.</li>
+<li><strong>CostForecaster</strong> projects 7-day costs per agent. When a spike is predicted, LatencyAutoScale preemptively applies model fallback.</li>
+<li><strong>AnomalyDetector</strong> (Z-score + IQR ensemble) flags abnormal agent behavior in real-time, triggering immediate investigation.</li>
+</ul>
+
+<p>The prediction-loop integration bridges foresight to action:</p>
+
+<div class="code">
+Metrics &rarr; DriftPredictor &rarr; "breach in 36h" &rarr; DriftAutoCorrect (preventive)<br>
+Metrics &rarr; AnomalyDetector &rarr; "cost spike z=4.2" &rarr; LatencyAutoScale (immediate)<br>
+Metrics &rarr; HealthScore &lt; 60 &rarr; Alert + corrective loop
+</div>
+
+<h2>5. Provenance and Auditability</h2>
+<p>Every loop execution is recorded in the provenance tracker (PROV-O compatible):</p>
+<ul>
+<li>What was detected (diagnosis)</li>
+<li>What correction was applied</li>
+<li>Whether HITL approval was requested/granted</li>
+<li>Whether validation succeeded</li>
+<li>What was learned (threshold updates)</li>
+</ul>
+<p>This audit trail satisfies EU AI Act requirements for human oversight documentation and ISO 45001 requirements for safety management system records.</p>
+
+<h2>6. Implementation Example</h2>
+
+<div class="code">
+from aegis.loops import LoopOrchestrator, DriftAutoCorrect<br>
+from aegis.evaluate.drift import DriftDetector<br><br>
+detector = DriftDetector(warning=0.03, critical=0.05)<br>
+detector.set_baseline({"faithfulness": 0.97})<br><br>
+loop = DriftAutoCorrect(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;detector=detector,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;retrain_fn=my_retrain_pipeline,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;score_fn=get_current_scores,<br>
+)<br><br>
+orch = LoopOrchestrator(autonomy="semi-auto")<br>
+orch.register(loop, high_risk=True)<br>
+results = orch.run_all()
+</div>
+
+<blockquote>"The best governance system is one that corrects problems before humans notice them — while keeping humans in control of what matters."</blockquote>
+
+<div class="footer">
+&copy; 2026 Preventera &middot; GenAISafety &middot; ReadinessX5&trade;<br>
+AEGIS-X5 is a proprietary commercial platform. All rights reserved.<br>
+Contact: contact@preventera.com
+</div>
+
+</body>
+</html>

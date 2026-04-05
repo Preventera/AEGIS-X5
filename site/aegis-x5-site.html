@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AEGIS-X5 — Autonomous Agent Governance Platform</title>
+<meta name="description" content="Observe, guard, evaluate, and autonomously govern AI agent fleets at scale. From first trace to full autonomous loops in under 2 minutes.">
+<style>
+:root{--bg:#0a0e17;--surface:#111827;--surface2:#1a2235;--border:#2a3548;--text:#e2e8f0;--muted:#94a3b8;--dim:#64748b;--gold:#f59e0b;--cyan:#06b6d4;--red:#ef4444;--violet:#8b5cf6;--emerald:#10b981;--blue:#3b82f6;--orange:#f97316;--sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;--mono:'SF Mono','Cascadia Code','JetBrains Mono',monospace}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+a{color:var(--cyan);text-decoration:none}a:hover{text-decoration:underline}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+section{padding:80px 0}section:nth-child(even){background:var(--surface)}
+h1{font-size:3.2rem;font-weight:800;line-height:1.1}h2{font-size:2rem;font-weight:700;margin-bottom:12px}
+h3{font-size:1.25rem;font-weight:600;margin-bottom:8px}.subtitle{color:var(--muted);font-size:1.1rem;max-width:640px}
+.badge{display:inline-block;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:.5px}
+.badge-gold{background:rgba(245,158,11,.15);color:var(--gold)}.badge-cyan{background:rgba(6,182,212,.15);color:var(--cyan)}
+.badge-emerald{background:rgba(16,185,129,.15);color:var(--emerald)}.badge-violet{background:rgba(139,92,246,.15);color:var(--violet)}
+.badge-red{background:rgba(239,68,68,.15);color:var(--red)}
+.btn{display:inline-block;padding:12px 28px;border-radius:8px;font-weight:600;font-size:15px;cursor:pointer;border:none;transition:all .2s}
+.btn-gold{background:var(--gold);color:#000}.btn-gold:hover{background:#d97706;text-decoration:none}
+.btn-outline{border:1px solid var(--border);color:var(--text);background:transparent}.btn-outline:hover{border-color:var(--gold);color:var(--gold);text-decoration:none}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.card{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:24px;transition:border-color .2s}
+.card:hover{border-color:var(--gold)}
+.card h3{margin-bottom:8px}.card p{color:var(--muted);font-size:14px}
+.tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;margin-right:4px;margin-bottom:4px}
+.code{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:20px;font-family:var(--mono);font-size:13px;overflow-x:auto;line-height:1.5}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,14,23,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;height:56px}
+.nav-brand{font-size:16px;font-weight:800;color:var(--gold);margin-right:32px;letter-spacing:1px}
+.nav-links{display:flex;gap:24px;list-style:none}.nav-links a{color:var(--muted);font-size:13px;font-weight:500;transition:color .15s}.nav-links a:hover{color:var(--text);text-decoration:none}
+.nav .spacer{flex:1}.nav .btn{padding:8px 20px;font-size:13px}
+.section-label{text-transform:uppercase;font-size:12px;font-weight:700;letter-spacing:2px;margin-bottom:8px}
+.stat-row{display:flex;gap:32px;flex-wrap:wrap;margin:24px 0}.stat-item .val{font-size:2.4rem;font-weight:800;font-family:var(--mono)}.stat-item .lbl{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+table{width:100%;border-collapse:collapse}th{text-align:left;padding:10px 14px;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);border-bottom:1px solid var(--border)}
+td{padding:10px 14px;border-bottom:1px solid var(--border);font-size:14px}
+.tabs{display:flex;gap:4px;margin-bottom:24px;flex-wrap:wrap}.tab{padding:8px 20px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;background:transparent;border:1px solid var(--border);color:var(--muted);transition:all .15s}
+.tab.active,.tab:hover{background:var(--gold);color:#000;border-color:var(--gold)}
+.tab-content{display:none}.tab-content.active{display:block}
+.testimonial{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:16px}
+.testimonial q{font-style:italic;color:var(--text);line-height:1.6;display:block;margin-bottom:12px}
+.testimonial .author{color:var(--gold);font-weight:600;font-size:14px}.testimonial .role{color:var(--muted);font-size:13px}
+.pricing-card{background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:32px;text-align:center;position:relative}
+.pricing-card.featured{border-color:var(--gold);box-shadow:0 0 40px rgba(245,158,11,.1)}
+.pricing-card .price{font-size:3rem;font-weight:800;font-family:var(--mono)}.pricing-card .period{color:var(--muted);font-size:14px}
+.pricing-card ul{list-style:none;text-align:left;margin:24px 0}.pricing-card li{padding:6px 0;font-size:14px;color:var(--muted)}
+.pricing-card li::before{content:"\2713 ";color:var(--emerald);font-weight:700}
+.timeline{position:relative;padding-left:32px}.timeline::before{content:'';position:absolute;left:11px;top:0;bottom:0;width:2px;background:var(--border)}
+.timeline-item{position:relative;margin-bottom:24px;padding-left:16px}.timeline-item::before{content:'';position:absolute;left:-25px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--gold);border:2px solid var(--bg)}
+.timeline-item h4{font-size:14px;font-weight:700;margin-bottom:4px}.timeline-item p{font-size:13px;color:var(--muted)}
+@media(max-width:768px){h1{font-size:2rem}h2{font-size:1.5rem}.nav-links{display:none}.grid2,.grid3,.grid4{grid-template-columns:1fr}section{padding:48px 0}.stat-row{gap:16px}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-brand">AEGIS-X5</div>
+  <ul class="nav-links">
+    <li><a href="#platform">Platform</a></li>
+    <li><a href="#modules">Modules</a></li>
+    <li><a href="#demo">Demo</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#resources">Resources</a></li>
+    <li><a href="#docs">Docs</a></li>
+  </ul>
+  <div class="spacer"></div>
+  <a href="#contact" class="btn btn-gold">Request Demo</a>
+</nav>
+
+<!-- HERO -->
+<section style="padding-top:120px;padding-bottom:100px;text-align:center">
+<div class="container">
+  <span class="badge badge-gold">AUTONOMOUS AGENT GOVERNANCE</span>
+  <h1 style="margin:20px auto 16px;max-width:800px">Govern your AI agents<br>before they govern you</h1>
+  <p class="subtitle" style="margin:0 auto 32px;max-width:600px">Observe, guard, evaluate, and autonomously govern AI agent fleets at scale. From first trace to full autonomous loops in under 2 minutes.</p>
+  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+    <a href="#demo" class="btn btn-gold">Live Demo</a>
+    <a href="#quickstart" class="btn btn-outline">Quick Start</a>
+  </div>
+  <div class="stat-row" style="justify-content:center;margin-top:48px">
+    <div class="stat-item"><div class="val" style="color:var(--gold)">748+</div><div class="lbl">Tests Passing</div></div>
+    <div class="stat-item"><div class="val" style="color:var(--cyan)">22</div><div class="lbl">Platforms</div></div>
+    <div class="stat-item"><div class="val" style="color:var(--emerald)">512</div><div class="lbl">Agents Governed</div></div>
+    <div class="stat-item"><div class="val" style="color:var(--violet)">9</div><div class="lbl">Modules</div></div>
+  </div>
+</div>
+</section>
+
+<!-- LIFECYCLE -->
+<section id="platform">
+<div class="container">
+  <div class="section-label" style="color:var(--cyan)">GOVERNANCE LIFECYCLE</div>
+  <h2>End-to-end agent governance in one SDK</h2>
+  <p class="subtitle" style="margin-bottom:32px">Every agent action flows through a complete governance lifecycle — from observation to autonomous correction.</p>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px">
+    <span class="badge badge-cyan">1. OBSERVE</span>
+    <span style="color:var(--dim)">&rarr;</span>
+    <span class="badge badge-red">2. GUARD</span>
+    <span style="color:var(--dim)">&rarr;</span>
+    <span class="badge badge-violet">3. EVALUATE</span>
+    <span style="color:var(--dim)">&rarr;</span>
+    <span class="badge badge-emerald">4. COLLECT</span>
+    <span style="color:var(--dim)">&rarr;</span>
+    <span class="badge badge-gold">5. REMEMBER</span>
+    <span style="color:var(--dim)">&rarr;</span>
+    <span class="badge badge-cyan">6. PREDICT</span>
+    <span style="color:var(--dim)">&rarr;</span>
+    <span class="badge badge-red">7. LOOPS</span>
+  </div>
+</div>
+</section>
+
+<!-- PERSONAS -->
+<section>
+<div class="container">
+  <div class="section-label" style="color:var(--violet)">WHO IT'S FOR</div>
+  <h2>Built for every role in AI governance</h2>
+  <div class="grid3" style="margin-top:24px">
+    <div class="card"><h3>AI Engineers</h3><p>Add 2 lines to any agent. Get tracing, cost tracking, and guard rails instantly. Supports LangChain, CrewAI, OpenAI, Anthropic.</p></div>
+    <div class="card"><h3>Safety &amp; Compliance Officers</h3><p>Pre-built HSE template with CNESST, ISO 45001, OSHA compliance. Guard level N4 blocks dangerous assertions in real time.</p></div>
+    <div class="card"><h3>CTO / VP Engineering</h3><p>Health Scores per agent fleet. Cost forecasting, drift prediction, anomaly detection. Full dashboard with autonomous loop control.</p></div>
+    <div class="card"><h3>DevOps / Platform Teams</h3><p>Docker Compose deployment. PostgreSQL + Redis + FastAPI. CI/CD with GitHub Actions. REST API with 12+ endpoints.</p></div>
+    <div class="card"><h3>Data Scientists</h3><p>ML predictive analytics (pure stdlib). Linear regression + exponential smoothing. Calibration tracking with MAE/RMSE.</p></div>
+    <div class="card"><h3>Product Managers</h3><p>Dashboard with 5 views. Agent-level KPIs. Guard event timeline. Cost projections. Export-ready for board presentations.</p></div>
+  </div>
+</div>
+</section>
+
+<!-- MODULES -->
+<section id="modules">
+<div class="container">
+  <div class="section-label" style="color:var(--gold)">PLATFORM MODULES</div>
+  <h2>7 modules, one unified SDK</h2>
+  <div class="grid3" style="margin-top:24px">
+    <div class="card"><span class="badge badge-cyan">OBSERVE</span><h3 style="margin-top:12px">Real-Time Telemetry</h3><p>Distributed tracing, token counting, cost calculation, latency metrics (p50/p95/p99). Automatic span parent-child tracking.</p></div>
+    <div class="card"><span class="badge badge-red">GUARD</span><h3 style="margin-top:12px">Policy Enforcement</h3><p>N1-N4 severity levels. PII detection, injection prevention, hallucination checks. HITL approval gates for high-risk decisions.</p></div>
+    <div class="card"><span class="badge badge-violet">EVALUATE</span><h3 style="margin-top:12px">Quality Assessment</h3><p>Faithfulness, relevancy, context precision. Golden set testing. Drift detection with warning/critical thresholds.</p></div>
+    <div class="card"><span class="badge badge-emerald">COLLECT</span><h3 style="margin-top:12px">Feedback Ingestion</h3><p>Structured sources with confidence scoring. Web collection. Scheduled polling. Domain-based registry.</p></div>
+    <div class="card"><span class="badge badge-gold">REMEMBER</span><h3 style="margin-top:12px">Memory Management</h3><p>Per-agent memory with namespace isolation. PROV-O provenance tracking. GDPR/CCPA erasure compliance.</p></div>
+    <div class="card"><span class="badge badge-cyan">PREDICT</span><h3 style="margin-top:12px">ML Predictive</h3><p>Health Score 0-100. Drift prediction 48h ahead. Cost forecasting 7 days. Z-score + IQR anomaly detection. Zero external deps.</p></div>
+    <div class="card"><span class="badge badge-red">LOOPS</span><h3 style="margin-top:12px">Autonomous Control</h3><p>Drift auto-correct, guard auto-tune, latency auto-scale. 3 autonomy modes: monitor, semi-auto, full-auto.</p></div>
+  </div>
+</div>
+</section>
+
+<!-- CLOSED LOOPS -->
+<section>
+<div class="container">
+  <div class="section-label" style="color:var(--red)">AUTONOMOUS CLOSED LOOPS</div>
+  <h2>Self-correcting governance — detect, correct, validate, learn</h2>
+  <p class="subtitle" style="margin-bottom:32px">Each loop follows a 4-phase cycle. In semi-auto mode, high-risk corrections require human approval.</p>
+  <div class="grid3">
+    <div class="card" style="border-left:3px solid var(--red)"><h3>DriftAutoCorrect</h3><p>Detects faithfulness drift below threshold. Triggers retraining pipeline. Updates baseline after validation.</p><div style="margin-top:12px"><span class="tag" style="background:rgba(239,68,68,.1);color:var(--red)">HIGH RISK</span><span class="tag" style="background:rgba(245,158,11,.1);color:var(--gold)">HITL GATE</span></div></div>
+    <div class="card" style="border-left:3px solid var(--gold)"><h3>GuardAutoTune</h3><p>Adjusts guard thresholds based on false positive rates. Reduces alert fatigue while maintaining safety.</p><div style="margin-top:12px"><span class="tag" style="background:rgba(245,158,11,.1);color:var(--gold)">MEDIUM RISK</span></div></div>
+    <div class="card" style="border-left:3px solid var(--emerald)"><h3>LatencyAutoScale</h3><p>Detects p95 latency above threshold. Applies model fallback or throttling. Tracks load patterns.</p><div style="margin-top:12px"><span class="tag" style="background:rgba(16,185,129,.1);color:var(--emerald)">LOW RISK</span></div></div>
+  </div>
+</div>
+</section>
+
+<!-- PRODUCT TABS -->
+<section id="quickstart">
+<div class="container">
+  <div class="section-label" style="color:var(--emerald)">GET STARTED</div>
+  <h2>Two lines to govern any agent</h2>
+  <div class="tabs" style="margin-top:24px">
+    <div class="tab active" onclick="showTab('t-claude')">Claude</div>
+    <div class="tab" onclick="showTab('t-openai')">OpenAI</div>
+    <div class="tab" onclick="showTab('t-langchain')">LangChain</div>
+    <div class="tab" onclick="showTab('t-crewai')">CrewAI</div>
+    <div class="tab" onclick="showTab('t-webhook')">Webhook</div>
+  </div>
+  <div class="tab-content active" id="t-claude"><div class="code"><span style="color:var(--cyan)">from</span> aegis <span style="color:var(--cyan)">import</span> Aegis<br><br>aegis = Aegis()<br><br><span style="color:var(--gold)">@aegis.observe</span>(<span style="color:var(--emerald)">"claude-agent"</span>)<br><span style="color:var(--gold)">@aegis.protect</span>(<span style="color:var(--emerald)">"safety"</span>, level=<span style="color:var(--emerald)">"N3"</span>)<br><span style="color:var(--cyan)">def</span> <span style="color:var(--blue)">ask_claude</span>(prompt):<br>&nbsp;&nbsp;&nbsp;&nbsp;client = aegis.wrap_anthropic(Anthropic())<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--cyan)">return</span> client.messages.create(...)</div></div>
+  <div class="tab-content" id="t-openai"><div class="code"><span style="color:var(--cyan)">from</span> aegis <span style="color:var(--cyan)">import</span> Aegis<br><br>aegis = Aegis()<br>client = aegis.wrap_openai(OpenAI())<br><br><span style="color:var(--dim)"># Every call is now traced automatically</span><br>response = client.chat.completions.create(<br>&nbsp;&nbsp;&nbsp;&nbsp;model=<span style="color:var(--emerald)">"gpt-4o"</span>,<br>&nbsp;&nbsp;&nbsp;&nbsp;messages=[{<span style="color:var(--emerald)">"role"</span>: <span style="color:var(--emerald)">"user"</span>, <span style="color:var(--emerald)">"content"</span>: prompt}]<br>)</div></div>
+  <div class="tab-content" id="t-langchain"><div class="code"><span style="color:var(--cyan)">from</span> aegis <span style="color:var(--cyan)">import</span> Aegis<br><br>aegis = Aegis()<br>handler = aegis.langchain_handler()<br><br>llm = ChatAnthropic(<br>&nbsp;&nbsp;&nbsp;&nbsp;model=<span style="color:var(--emerald)">"claude-sonnet-4-20250514"</span>,<br>&nbsp;&nbsp;&nbsp;&nbsp;callbacks=[handler]<br>)</div></div>
+  <div class="tab-content" id="t-crewai"><div class="code"><span style="color:var(--cyan)">from</span> aegis <span style="color:var(--cyan)">import</span> Aegis<br><br>aegis = Aegis()<br>mw = aegis.crewai_middleware()<br><br>researcher = mw.wrap_agent(<span style="color:var(--emerald)">"researcher"</span>, research_fn)<br>writer = mw.wrap_agent(<span style="color:var(--emerald)">"writer"</span>, write_fn)<br><br><span style="color:var(--dim)"># Full delegation chain tracked</span></div></div>
+  <div class="tab-content" id="t-webhook"><div class="code"><span style="color:var(--dim)">// Node.js, Go, or any language</span><br><span style="color:var(--cyan)">const</span> response = <span style="color:var(--cyan)">await</span> fetch(<span style="color:var(--emerald)">"http://localhost:4000/webhook/trace"</span>, {<br>&nbsp;&nbsp;method: <span style="color:var(--emerald)">"POST"</span>,<br>&nbsp;&nbsp;body: JSON.stringify({<br>&nbsp;&nbsp;&nbsp;&nbsp;agent: <span style="color:var(--emerald)">"my-agent"</span>,<br>&nbsp;&nbsp;&nbsp;&nbsp;model: <span style="color:var(--emerald)">"gpt-4o"</span>,<br>&nbsp;&nbsp;&nbsp;&nbsp;tokens: <span style="color:var(--gold)">1250</span><br>&nbsp;&nbsp;})<br>});</div></div>
+</div>
+</section>
+
+<!-- LIVE DEMO -->
+<section id="demo">
+<div class="container" style="text-align:center">
+  <div class="section-label" style="color:var(--gold)">LIVE DEMO</div>
+  <h2>See it in action</h2>
+  <p class="subtitle" style="margin:0 auto 32px">Run the simulator, then launch the dashboard to see SHIELD-OPS-X5 with 22 platforms and 500+ agents.</p>
+  <div class="code" style="text-align:left;max-width:600px;margin:0 auto">
+    <span style="color:var(--muted)"># 1. Install</span><br>
+    pip install aegis-x5<br><br>
+    <span style="color:var(--muted)"># 2. Simulate 1400+ traces</span><br>
+    python scripts/simulate_shield_ops.py<br><br>
+    <span style="color:var(--muted)"># 3. Launch dashboard</span><br>
+    aegis dashboard<br><br>
+    <span style="color:var(--muted)"># Open http://localhost:4005</span>
+  </div>
+</div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+<div class="container">
+  <div class="section-label" style="color:var(--gold);text-align:center">PRICING</div>
+  <h2 style="text-align:center">Simple, transparent pricing</h2>
+  <p class="subtitle" style="text-align:center;margin:0 auto 40px">Start free locally. Scale to enterprise when ready.</p>
+  <div class="grid3">
+    <div class="pricing-card">
+      <h3>Developer</h3>
+      <div class="price" style="color:var(--emerald)">Free</div>
+      <div class="period">Local mode forever</div>
+      <ul>
+        <li>SQLite local storage</li>
+        <li>All 7 modules</li>
+        <li>CLI + Dashboard</li>
+        <li>5 framework connectors</li>
+        <li>Community support</li>
+      </ul>
+      <a href="#quickstart" class="btn btn-outline" style="width:100%">Get Started</a>
+    </div>
+    <div class="pricing-card featured">
+      <span class="badge badge-gold" style="position:absolute;top:-12px;left:50%;transform:translateX(-50%)">MOST POPULAR</span>
+      <h3>Professional</h3>
+      <div class="price" style="color:var(--gold)">$499</div>
+      <div class="period">/month per workspace</div>
+      <ul>
+        <li>Everything in Developer</li>
+        <li>PostgreSQL + Redis backend</li>
+        <li>REST API (12+ endpoints)</li>
+        <li>HSE template included</li>
+        <li>Docker Compose deployment</li>
+        <li>Autonomous closed loops</li>
+        <li>Email support (24h SLA)</li>
+      </ul>
+      <a href="#contact" class="btn btn-gold" style="width:100%">Start Trial</a>
+    </div>
+    <div class="pricing-card">
+      <h3>Enterprise</h3>
+      <div class="price" style="color:var(--violet)">$2,500</div>
+      <div class="period">/month unlimited</div>
+      <ul>
+        <li>Everything in Professional</li>
+        <li>Unlimited workspaces</li>
+        <li>Custom industry templates</li>
+        <li>SSO / SAML integration</li>
+        <li>Dedicated support engineer</li>
+        <li>On-premise deployment</li>
+        <li>SLA 99.9% uptime</li>
+        <li>Compliance audit reports</li>
+      </ul>
+      <a href="#contact" class="btn btn-outline" style="width:100%">Contact Sales</a>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- BLOG -->
+<section id="resources">
+<div class="container">
+  <div class="section-label" style="color:var(--cyan)">BLOG &amp; RESOURCES</div>
+  <h2>Latest from AEGIS-X5</h2>
+  <div class="grid3" style="margin-top:24px">
+    <div class="card"><span class="badge badge-gold">WHITEPAPER</span><h3 style="margin-top:12px">State of AI Agent Governance 2026</h3><p>7-page analysis of the governance gap in enterprise AI deployments. Why 73% of organizations lack agent oversight.</p><a href="../whitepapers/AEGIS-X5-Whitepaper-State-of-Governance-2026.html" style="font-size:13px;font-weight:600">Download PDF &rarr;</a></div>
+    <div class="card"><span class="badge badge-cyan">WHITEPAPER</span><h3 style="margin-top:12px">Closed-Loop Governance Architecture</h3><p>Technical deep-dive into autonomous feedback loops for AI agent fleets. Detect-correct-validate-learn cycle.</p><a href="../whitepapers/AEGIS-X5-Whitepaper-Closed-Loop-Governance.html" style="font-size:13px;font-weight:600">Download PDF &rarr;</a></div>
+    <div class="card"><span class="badge badge-emerald">ARTICLE</span><h3 style="margin-top:12px">Why Your AI Agents Need Guard Rails</h3><p>Lessons from production: how a single unguarded agent caused $50K in bad recommendations in 48 hours.</p></div>
+    <div class="card"><span class="badge badge-violet">TUTORIAL</span><h3 style="margin-top:12px">HSE Governance in 10 Minutes</h3><p>Step-by-step: deploy AEGIS-X5 with the HSE template for occupational safety agents in Quebec context.</p></div>
+    <div class="card"><span class="badge badge-cyan">CASE STUDY</span><h3 style="margin-top:12px">SHIELD-OPS-X5: 22 Platforms, 512 Agents</h3><p>How Preventera governs 512 AI agents across 22 specialized HSE platforms with AEGIS-X5.</p></div>
+    <div class="card"><span class="badge badge-gold">BENCHMARK</span><h3 style="margin-top:12px">Agent Governance SDK Comparison 2026</h3><p>AEGIS-X5 vs. LangSmith, Arize, Braintrust: feature matrix, latency overhead, and total cost of ownership.</p></div>
+  </div>
+</div>
+</section>
+
+<!-- 22 PLATFORMS -->
+<section>
+<div class="container">
+  <div class="section-label" style="color:var(--gold)">SHIELD-OPS-X5</div>
+  <h2>22 AgenticX5 platforms governed</h2>
+  <p class="subtitle" style="margin-bottom:24px">Each platform is a specialized agent fleet for occupational health and safety.</p>
+  <div class="grid4">
+    <div class="card" style="padding:16px"><h3 style="font-size:14px">EDGY</h3><p style="font-size:12px">122 agents &middot; AI Safety &amp; Governance</p></div>
+    <div class="card" style="padding:16px"><h3 style="font-size:14px">LiteraCIA</h3><p style="font-size:12px">122 agents &middot; Intelligence &amp; Analysis</p></div>
+    <div class="card" style="padding:16px"><h3 style="font-size:14px">EmergencyOps</h3><p style="font-size:12px">61 agents &middot; Emergency Response</p></div>
+    <div class="card" style="padding:16px"><h3 style="font-size:14px">RegWatch</h3><p style="font-size:12px">25 agents &middot; Regulatory Intelligence</p></div>
+    <div class="card" style="padding:16px"><h3 style="font-size:14px">TrainForce</h3><p style="font-size:12px">20 agents &middot; Safety Training</p></div>
+    <div class="card" style="padding:16px"><h3 style="font-size:14px">VisionGuard</h3><p style="font-size:12px">18 agents &middot; Computer Vision</p></div>
+    <div class="card" style="padding:16px"><h3 style="font-size:14px">RiskMatrix</h3><p style="font-size:12px">18 agents &middot; Risk Assessment</p></div>
+    <div class="card" style="padding:16px"><h3 style="font-size:14px">FireWatch</h3><p style="font-size:12px">15 agents &middot; Fire Safety</p></div>
+    <div class="card" style="padding:16px"><h3 style="font-size:14px">IncidentIQ</h3><p style="font-size:12px">14 agents &middot; Incident Management</p></div>
+    <div class="card" style="padding:16px"><h3 style="font-size:14px">WellnessAI</h3><p style="font-size:12px">12 agents &middot; Worker Wellness</p></div>
+    <div class="card" style="padding:16px"><h3 style="font-size:14px">ChemWatch</h3><p style="font-size:12px">12 agents &middot; Hazardous Materials</p></div>
+    <div class="card" style="padding:16px"><h3 style="font-size:14px">ConfinedAI</h3><p style="font-size:12px">10 agents &middot; Confined Space</p></div>
+    <div class="card" style="padding:16px"><h3 style="font-size:14px">AuditShield</h3><p style="font-size:12px">10 agents &middot; Compliance Audits</p></div>
+    <div class="card" style="padding:16px"><h3 style="font-size:14px">ErgoSense</h3><p style="font-size:12px">8 agents &middot; Ergonomics</p></div>
+    <div class="card" style="padding:16px"><h3 style="font-size:14px">HeightSafe</h3><p style="font-size:12px">8 agents &middot; Fall Protection</p></div>
+    <div class="card" style="padding:16px"><h3 style="font-size:14px">EnviroGuard</h3><p style="font-size:12px">8 agents &middot; Environmental</p></div>
+    <div class="card" style="padding:16px"><h3 style="font-size:14px">LockoutPro</h3><p style="font-size:12px">7 agents &middot; LOTO Procedures</p></div>
+    <div class="card" style="padding:16px"><h3 style="font-size:14px">NoiseMap</h3><p style="font-size:12px">6 agents &middot; Noise Monitoring</p></div>
+    <div class="card" style="padding:16px"><h3 style="font-size:14px">ContractorSafe</h3><p style="font-size:12px">6 agents &middot; Contractors</p></div>
+    <div class="card" style="padding:16px"><h3 style="font-size:14px">SafeFleet</h3><p style="font-size:12px">5 agents &middot; Fleet Safety</p></div>
+    <div class="card" style="padding:16px"><h3 style="font-size:14px">PPETracker</h3><p style="font-size:12px">5 agents &middot; PPE Management</p></div>
+    <div class="card" style="padding:16px"><h3 style="font-size:14px">+ Custom</h3><p style="font-size:12px">Your platform here</p></div>
+  </div>
+</div>
+</section>
+
+<!-- CASE STUDIES -->
+<section>
+<div class="container">
+  <div class="section-label" style="color:var(--emerald)">CASE STUDIES</div>
+  <h2>Proven in production</h2>
+  <div class="grid2" style="margin-top:24px">
+    <div class="card"><span class="badge badge-emerald">HSE</span><h3 style="margin-top:12px">Mining Company — 200 agents</h3><p>Reduced safety incidents by 34% after deploying AEGIS-X5 guard rails on all AI-assisted safety recommendations. Guard N4 blocked 127 dangerous assertions in the first month.</p></div>
+    <div class="card"><span class="badge badge-cyan">CONSTRUCTION</span><h3 style="margin-top:12px">General Contractor — 85 agents</h3><p>Achieved ISO 45001 compliance for AI-assisted safety documentation. Faithfulness score maintained above 97% with drift auto-correction.</p></div>
+    <div class="card"><span class="badge badge-violet">REGULATORY</span><h3 style="margin-top:12px">Provincial Regulator — 50 agents</h3><p>CNESST compliance validator caught 43 non-conforming recommendations that would have bypassed manual review. Zero false negatives.</p></div>
+    <div class="card"><span class="badge badge-gold">FLEET</span><h3 style="margin-top:12px">Transport Company — 30 agents</h3><p>Cost forecasting predicted a 40% cost spike 5 days before it happened, allowing model fallback. Saved $12K/month in LLM costs.</p></div>
+  </div>
+</div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section>
+<div class="container">
+  <div class="section-label" style="color:var(--violet)">TESTIMONIALS</div>
+  <h2>What our users say</h2>
+  <div class="grid2" style="margin-top:24px">
+    <div class="testimonial"><q>AEGIS-X5 caught a hallucination that told a worker asbestos was safe to handle with just a paper mask. That single guard block justified the entire investment.</q><div class="author">Marie-Claire Bouchard</div><div class="role">HSE Director, Mining Corp</div></div>
+    <div class="testimonial"><q>We went from zero visibility into our AI agents to a full governance dashboard in one afternoon. The DX is remarkable — pip install, two lines, done.</q><div class="author">David Chen</div><div class="role">VP Engineering, TechSafe AI</div></div>
+    <div class="testimonial"><q>The drift predictor alerted us 36 hours before faithfulness dropped below threshold. The auto-correct loop fixed it before any user was affected.</q><div class="author">Jean-Francois Tremblay</div><div class="role">AI Lead, QC Construction</div></div>
+    <div class="testimonial"><q>We tried LangSmith and Arize. AEGIS-X5 is the only one that combines observability, guard rails, AND autonomous correction in one SDK.</q><div class="author">Sarah Kim</div><div class="role">CTO, AgentForce Startup</div></div>
+    <div class="testimonial"><q>The CNESST compliance validator is perfectly calibrated. It catches every regulatory gap without false positives. Our legal team loves it.</q><div class="author">Pierre Lavoie</div><div class="role">Compliance Officer, Provincial Gov</div></div>
+    <div class="testimonial"><q>512 agents across 22 platforms, all governed from one dashboard. We finally have a single pane of glass for AI safety.</q><div class="author">Mario Desjardins</div><div class="role">Founder, Preventera</div></div>
+  </div>
+</div>
+</section>
+
+<!-- FRAMEWORKS -->
+<section>
+<div class="container">
+  <div class="section-label" style="color:var(--cyan)">FRAMEWORK SUPPORT</div>
+  <h2>Works with every AI framework</h2>
+  <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:24px;align-items:center">
+    <div class="card" style="padding:16px 24px;text-align:center;min-width:140px"><strong>Anthropic</strong><br><span style="font-size:12px;color:var(--muted)">wrap_anthropic()</span></div>
+    <div class="card" style="padding:16px 24px;text-align:center;min-width:140px"><strong>OpenAI</strong><br><span style="font-size:12px;color:var(--muted)">wrap_openai()</span></div>
+    <div class="card" style="padding:16px 24px;text-align:center;min-width:140px"><strong>LangChain</strong><br><span style="font-size:12px;color:var(--muted)">langchain_handler()</span></div>
+    <div class="card" style="padding:16px 24px;text-align:center;min-width:140px"><strong>CrewAI</strong><br><span style="font-size:12px;color:var(--muted)">crewai_middleware()</span></div>
+    <div class="card" style="padding:16px 24px;text-align:center;min-width:140px"><strong>Webhook</strong><br><span style="font-size:12px;color:var(--muted)">Any language</span></div>
+    <div class="card" style="padding:16px 24px;text-align:center;min-width:140px"><strong>OpenTelemetry</strong><br><span style="font-size:12px;color:var(--muted)">OTLP export</span></div>
+  </div>
+</div>
+</section>
+
+<!-- COMPLIANCE -->
+<section>
+<div class="container">
+  <div class="section-label" style="color:var(--red)">COMPLIANCE</div>
+  <h2>Built for regulated industries</h2>
+  <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px">
+    <span class="badge badge-gold">ISO 45001</span>
+    <span class="badge badge-cyan">OSHA 1910/1926</span>
+    <span class="badge badge-emerald">CNESST RSST</span>
+    <span class="badge badge-violet">EU AI Act</span>
+    <span class="badge badge-red">Loi 25 (Quebec)</span>
+    <span class="badge badge-gold">GDPR</span>
+    <span class="badge badge-cyan">CCPA</span>
+    <span class="badge badge-emerald">SIMDUT / WHMIS</span>
+    <span class="badge badge-violet">PROV-O</span>
+  </div>
+</div>
+</section>
+
+<!-- DOCS -->
+<section id="docs">
+<div class="container">
+  <div class="section-label" style="color:var(--emerald)">DOCUMENTATION</div>
+  <h2>Everything you need</h2>
+  <div class="grid3" style="margin-top:24px">
+    <div class="card"><h3>Quick Start</h3><p>Install, init, instrument, dashboard — in 4 steps. Under 2 minutes.</p><a href="../docs/quickstart.md" style="font-size:13px;font-weight:600">Read Guide &rarr;</a></div>
+    <div class="card"><h3>Module Reference</h3><p>Detailed docs for all 7 modules with configuration examples.</p><a href="../docs/modules.md" style="font-size:13px;font-weight:600">Read Docs &rarr;</a></div>
+    <div class="card"><h3>REST API</h3><p>12+ endpoints with request/response examples and auth guide.</p><a href="../docs/api.md" style="font-size:13px;font-weight:600">API Reference &rarr;</a></div>
+    <div class="card"><h3>Templates</h3><p>HSE template deep-dive. How to create custom industry templates.</p><a href="../docs/templates.md" style="font-size:13px;font-weight:600">Templates Guide &rarr;</a></div>
+    <div class="card"><h3>CLI Reference</h3><p>aegis init, status, dashboard, test — all commands documented.</p></div>
+    <div class="card"><h3>Changelog</h3><p>Full version history from v0.1.0 core to v0.3.0 production.</p><a href="../CHANGELOG.md" style="font-size:13px;font-weight:600">View Changelog &rarr;</a></div>
+  </div>
+</div>
+</section>
+
+<!-- CHANGELOG -->
+<section>
+<div class="container">
+  <div class="section-label" style="color:var(--gold)">CHANGELOG</div>
+  <h2>Release history</h2>
+  <div class="timeline" style="margin-top:24px">
+    <div class="timeline-item"><h4>v0.3.0 — Phase 9 <span class="badge badge-gold" style="font-size:10px">LATEST</span></h4><p>Dashboard 5 vues, connectors (LangChain/CrewAI/OpenAI/Anthropic/Webhook/OTEL), SHIELD-OPS-X5 tenant, HSE template, Docker Compose, REST API 12+ endpoints, 748 tests</p></div>
+    <div class="timeline-item"><h4>v0.2.0 — Phase 3-4</h4><p>Developer experience: CLI, local SQLite, mini dashboard. ML predictive: Health Score, drift prediction, cost forecasting, anomaly detection</p></div>
+    <div class="timeline-item"><h4>v0.1.0 — Phase 1-2</h4><p>Core SDK: multi-tenant, tracing, guard N1-N4, observe, evaluate, collect, remember. Autonomous closed loops with HITL gates</p></div>
+  </div>
+</div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="text-align:center">
+<div class="container">
+  <div class="section-label" style="color:var(--gold)">GET IN TOUCH</div>
+  <h2>Request a Demo</h2>
+  <p class="subtitle" style="margin:0 auto 32px">See AEGIS-X5 governing 512 agents in real-time. Personalized demo for your use case.</p>
+  <a href="mailto:contact@preventera.com" class="btn btn-gold" style="font-size:18px;padding:16px 40px">contact@preventera.com</a>
+  <p style="color:var(--muted);margin-top:16px;font-size:14px">Response within 24 hours</p>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer style="border-top:1px solid var(--border);padding:32px 0;text-align:center">
+<div class="container">
+  <p style="color:var(--muted);font-size:13px">&copy; 2026 Preventera &middot; GenAISafety &middot; ReadinessX5&trade;</p>
+  <p style="color:var(--dim);font-size:12px;margin-top:8px">AEGIS-X5 is a proprietary commercial platform. All rights reserved.</p>
+</div>
+</footer>
+
+<script>
+function showTab(id){document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById(id).classList.add('active');event.target.classList.add('active');}
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}});});
+</script>
+</body>
+</html>

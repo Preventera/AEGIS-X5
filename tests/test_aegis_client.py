@@ -225,16 +225,14 @@ class TestTraceContextManager:
 
     def test_error_status(self):
         a = Aegis(workspace="x")
-        with pytest.raises(ValueError):
-            with a.trace("fail") as span:
-                raise ValueError("bad")
+        with pytest.raises(ValueError), a.trace("fail") as span:
+            raise ValueError("bad")
         assert span.error == "bad"
 
     def test_nested_traces(self):
         a = Aegis(workspace="x")
-        with a.trace("parent") as parent:
-            with a.trace("child") as child:
-                pass
+        with a.trace("parent") as parent, a.trace("child") as child:
+            pass
         assert child.parent_id == parent.span_id
 
     def test_attributes_at_creation(self):

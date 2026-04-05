@@ -3,14 +3,12 @@
 from __future__ import annotations
 
 import os
-import sys
-import tempfile
 from pathlib import Path
 from unittest import mock
 
 import pytest
 
-from aegis.cli import main, cmd_init, cmd_status, cmd_test
+from aegis.cli import cmd_init, cmd_status, cmd_test, main
 
 
 @pytest.fixture(autouse=True)

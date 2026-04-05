@@ -10,7 +10,6 @@ from aegis.collect.registry import SourceRegistry
 from aegis.collect.scheduler import ScheduledCollector
 from aegis.collect.sources import CollectedItem, Source, WebSource
 
-
 # ---------------------------------------------------------------------------
 # Test helpers
 # ---------------------------------------------------------------------------
@@ -68,7 +67,7 @@ class TestSourceABC:
         items = s.collect("q")
         assert len(items) == 2
         assert items[0].confidence == 0.8
-        assert "q:a" == items[0].content
+        assert items[0].content == "q:a"
 
 
 # ---------------------------------------------------------------------------

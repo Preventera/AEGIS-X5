@@ -4,12 +4,9 @@ from __future__ import annotations
 
 from pathlib import Path
 
-import pytest
-
 from aegis.core.trace import Span
-from aegis.dashboard.server import render_dashboard_html, _DASHBOARD_HTML
+from aegis.dashboard.server import _DASHBOARD_HTML, render_dashboard_html
 from aegis.local.store import LocalStore
-
 
 # ---------------------------------------------------------------------------
 # HTML template

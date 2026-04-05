@@ -7,7 +7,6 @@ import time
 import pytest
 
 from aegis.predict.engine import CalibrationRecord, PredictionEngine
-from aegis.predict.health_score import HealthStatus
 
 
 @pytest.fixture()
@@ -178,8 +177,8 @@ class TestEngineComponents:
         assert engine.anomaly_detector is not None
 
     def test_custom_components(self) -> None:
-        from aegis.predict.health_score import HealthScore
         from aegis.predict.drift import DriftPredictor
+        from aegis.predict.health_score import HealthScore
 
         hs = HealthScore(weights={"error_rate": 1.0})
         dp = DriftPredictor(critical_threshold=0.90)

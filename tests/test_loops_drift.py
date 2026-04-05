@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 from aegis.evaluate.drift import DriftDetector
-from aegis.loops.drift_correct import DriftAutoCorrect
 from aegis.loops.base import LoopStatus
+from aegis.loops.drift_correct import DriftAutoCorrect
 from aegis.remember.provenance import ActivityType, ProvenanceTracker
 
 

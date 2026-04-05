@@ -3,9 +3,10 @@
 from __future__ import annotations
 
 import time
-from dataclasses import dataclass, field
+from collections.abc import Callable
+from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Callable
+from typing import Any
 
 from aegis.loops.base import ClosedLoop, LoopResult, LoopStatus
 from aegis.remember.provenance import ActivityType, ProvenanceTracker

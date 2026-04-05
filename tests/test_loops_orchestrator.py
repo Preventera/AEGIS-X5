@@ -2,14 +2,11 @@
 
 from __future__ import annotations
 
-from typing import Any
-
 import pytest
 
-from aegis.loops.base import ClosedLoop, LoopResult, LoopStatus
+from aegis.loops.base import ClosedLoop, LoopStatus
 from aegis.loops.orchestrator import AutonomyLevel, LoopOrchestrator
 from aegis.remember.provenance import ActivityType, ProvenanceTracker
-
 
 # ---------------------------------------------------------------------------
 # Test helpers

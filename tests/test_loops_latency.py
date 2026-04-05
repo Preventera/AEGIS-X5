@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import time
 
-from aegis.loops.latency_scale import LatencyAutoScale
 from aegis.loops.base import LoopStatus
+from aegis.loops.latency_scale import LatencyAutoScale
 from aegis.observe.metrics import SlidingWindowMetrics
 from aegis.remember.provenance import ActivityType, ProvenanceTracker
 

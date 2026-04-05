@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from aegis.evaluate.drift import AlertLevel, DriftAlert, DriftDetector
+from aegis.evaluate.drift import AlertLevel, DriftDetector
 
 
 class TestDriftDetector:

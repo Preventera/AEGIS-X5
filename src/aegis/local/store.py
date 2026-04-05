@@ -122,15 +122,14 @@ class LocalStore:
             now,
         )
 
-        with self._lock:
-            with self._connect() as conn:
-                conn.execute(
-                    "INSERT INTO traces "
-                    "(span_id, parent_id, name, workspace, tenant_id, status, "
-                    "start_time, end_time, duration_ms, attributes, events, error, created_at) "
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                    row,
-                )
+        with self._lock, self._connect() as conn:
+            conn.execute(
+                "INSERT INTO traces "
+                "(span_id, parent_id, name, workspace, tenant_id, status, "
+                "start_time, end_time, duration_ms, attributes, events, error, created_at) "
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                row,
+            )
 
         return TraceSummary(
             name=span.name,
@@ -145,41 +144,39 @@ class LocalStore:
 
     def recent_traces(self, limit: int = 50, workspace: str | None = None) -> list[dict[str, Any]]:
         """Return the most recent traces as dicts."""
-        with self._lock:
-            with self._connect() as conn:
-                if workspace:
-                    rows = conn.execute(
-                        "SELECT * FROM traces WHERE workspace = ? "
-                        "ORDER BY created_at DESC LIMIT ?",
-                        (workspace, limit),
-                    ).fetchall()
-                else:
-                    rows = conn.execute(
-                        "SELECT * FROM traces ORDER BY created_at DESC LIMIT ?",
-                        (limit,),
-                    ).fetchall()
+        with self._lock, self._connect() as conn:
+            if workspace:
+                rows = conn.execute(
+                    "SELECT * FROM traces WHERE workspace = ? "
+                    "ORDER BY created_at DESC LIMIT ?",
+                    (workspace, limit),
+                ).fetchall()
+            else:
+                rows = conn.execute(
+                    "SELECT * FROM traces ORDER BY created_at DESC LIMIT ?",
+                    (limit,),
+                ).fetchall()
         return [dict(r) for r in rows]
 
     def stats(self, workspace: str | None = None) -> dict[str, Any]:
         """Aggregate stats: total traces, total cost, avg latency, guard blocks."""
-        with self._lock:
-            with self._connect() as conn:
-                where = "WHERE workspace = ?" if workspace else ""
-                params: tuple = (workspace,) if workspace else ()
+        with self._lock, self._connect() as conn:
+            where = "WHERE workspace = ?" if workspace else ""
+            params: tuple = (workspace,) if workspace else ()
 
-                row = conn.execute(
-                    f"SELECT COUNT(*) as total, "
-                    f"COALESCE(AVG(duration_ms), 0) as avg_latency, "
-                    f"COALESCE(MAX(duration_ms), 0) as max_latency "
-                    f"FROM traces {where}",
-                    params,
-                ).fetchone()
+            row = conn.execute(
+                f"SELECT COUNT(*) as total, "
+                f"COALESCE(AVG(duration_ms), 0) as avg_latency, "
+                f"COALESCE(MAX(duration_ms), 0) as max_latency "
+                f"FROM traces {where}",
+                params,
+            ).fetchone()
 
-                guard_blocks = conn.execute(
-                    f"SELECT COUNT(*) as cnt FROM traces "
-                    f"WHERE status = 'error' {('AND workspace = ?' if workspace else '')}",
-                    params,
-                ).fetchone()
+            guard_blocks = conn.execute(
+                f"SELECT COUNT(*) as cnt FROM traces "
+                f"WHERE status = 'error' {('AND workspace = ?' if workspace else '')}",
+                params,
+            ).fetchone()
 
         return {
             "total_traces": row["total"],
@@ -190,21 +187,19 @@ class LocalStore:
 
     def workspaces(self) -> list[str]:
         """Return all distinct workspace names."""
-        with self._lock:
-            with self._connect() as conn:
-                rows = conn.execute(
-                    "SELECT DISTINCT workspace FROM traces ORDER BY workspace"
-                ).fetchall()
+        with self._lock, self._connect() as conn:
+            rows = conn.execute(
+                "SELECT DISTINCT workspace FROM traces ORDER BY workspace"
+            ).fetchall()
         return [r["workspace"] for r in rows]
 
     def clear(self, workspace: str | None = None) -> int:
         """Delete traces. Returns count deleted."""
-        with self._lock:
-            with self._connect() as conn:
-                if workspace:
-                    cur = conn.execute(
-                        "DELETE FROM traces WHERE workspace = ?", (workspace,)
-                    )
-                else:
-                    cur = conn.execute("DELETE FROM traces")
-                return cur.rowcount
+        with self._lock, self._connect() as conn:
+            if workspace:
+                cur = conn.execute(
+                    "DELETE FROM traces WHERE workspace = ?", (workspace,)
+                )
+            else:
+                cur = conn.execute("DELETE FROM traces")
+            return cur.rowcount

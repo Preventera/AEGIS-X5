@@ -15,7 +15,6 @@ from typing import Any
 from aegis.core.guard_levels import GuardLevel, GuardResult
 from aegis.guard.validators import BaseValidator
 
-
 # ---------------------------------------------------------------------------
 # SSTFactCheck — detects dangerous safety assertions
 # ---------------------------------------------------------------------------

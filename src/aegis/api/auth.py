@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import os
-from typing import Any
 
 
 def require_api_key(api_key: str, valid_keys: list[str] | None = None) -> bool:

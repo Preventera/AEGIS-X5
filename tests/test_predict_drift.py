@@ -2,19 +2,16 @@
 
 from __future__ import annotations
 
-import time
-
 import pytest
 
 from aegis.predict.drift import (
-    DriftPredictor,
     DriftPrediction,
+    DriftPredictor,
     DriftSeverity,
-    _linear_regression,
     _exponential_smoothing,
+    _linear_regression,
     _residual_stderr,
 )
-
 
 # ---------------------------------------------------------------------------
 # Math helpers

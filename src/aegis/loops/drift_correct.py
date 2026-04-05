@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 
-from aegis.evaluate.drift import AlertLevel, DriftDetector
+from aegis.evaluate.drift import DriftDetector
 from aegis.loops.base import ClosedLoop, LoopResult
 from aegis.remember.provenance import ActivityType, ProvenanceTracker
 

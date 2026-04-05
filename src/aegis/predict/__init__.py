@@ -5,11 +5,11 @@ and predictive loop integration. Pure stdlib — no PyTorch/sklearn.
 """
 
 from aegis.predict.anomaly import AnomalyDetector, AnomalyDirection, AnomalyResult
-from aegis.predict.cost import CostForecaster, CostForecastResult, DailyForecast, CostAnomaly
-from aegis.predict.drift import DriftPredictor, DriftPrediction, DriftSeverity
-from aegis.predict.engine import PredictionEngine, CalibrationRecord
+from aegis.predict.cost import CostAnomaly, CostForecaster, CostForecastResult, DailyForecast
+from aegis.predict.drift import DriftPrediction, DriftPredictor, DriftSeverity
+from aegis.predict.engine import CalibrationRecord, PredictionEngine
 from aegis.predict.health_score import HealthScore, HealthStatus, ScoreSnapshot
-from aegis.predict.integration import PredictiveLoopIntegration, PredictiveAlert, AlertType
+from aegis.predict.integration import AlertType, PredictiveAlert, PredictiveLoopIntegration
 
 __all__ = [
     "AlertType",

@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import pytest
-
 from aegis.core.guard_levels import GuardLevel
 from aegis.templates.hse.hse_validators import (
     CNESSTCompliance,
@@ -11,7 +9,6 @@ from aegis.templates.hse.hse_validators import (
     HazardMinimizer,
     SSTFactCheck,
 )
-
 
 # ---------------------------------------------------------------------------
 # SSTFactCheck

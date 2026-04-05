@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 
-from aegis.evaluate.metrics import FaithfulnessMetric, MetricResult, RelevancyMetric, EvalMetric
+from aegis.evaluate.metrics import EvalMetric, FaithfulnessMetric, MetricResult, RelevancyMetric
 from aegis.evaluate.runner import CaseResult, EvalReport, EvalRunner, TestCase
 
 

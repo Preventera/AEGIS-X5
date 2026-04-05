@@ -9,9 +9,10 @@ Connects predictors to autonomous loops for preventive action:
 from __future__ import annotations
 
 import time
-from dataclasses import dataclass, field
+from collections.abc import Callable
+from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Callable
+from typing import Any
 
 from aegis.predict.anomaly import AnomalyDetector, AnomalyDirection
 from aegis.predict.drift import DriftPredictor, DriftSeverity

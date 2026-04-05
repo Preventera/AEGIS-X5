@@ -6,9 +6,8 @@ Pure stdlib — no external ML dependencies.
 
 from __future__ import annotations
 
-import math
 import statistics
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from enum import Enum
 from typing import Any
 

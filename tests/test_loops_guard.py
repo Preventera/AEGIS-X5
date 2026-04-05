@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 from aegis.guard.validators import HallucinationDetector
-from aegis.loops.guard_tune import GuardAutoTune
 from aegis.loops.base import LoopStatus
+from aegis.loops.guard_tune import GuardAutoTune
 from aegis.remember.provenance import ActivityType, ProvenanceTracker
 
 

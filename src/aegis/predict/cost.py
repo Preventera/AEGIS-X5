@@ -7,9 +7,7 @@ from __future__ import annotations
 
 import math
 import statistics
-import time
-from dataclasses import dataclass, field
-from typing import Any
+from dataclasses import dataclass
 
 
 @dataclass(frozen=True)
@@ -132,7 +130,6 @@ class CostForecaster:
         anomalies = self._detect_anomalies(points)
 
         # --- Forecast using weighted moving average + trend ---
-        mean_cost = statistics.mean(costs)
         stdev = statistics.stdev(costs) if len(costs) >= 2 else 0.0
 
         # Weighted recent average (last 7 days weigh more)

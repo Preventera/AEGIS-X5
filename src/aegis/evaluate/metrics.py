@@ -170,13 +170,7 @@ class ContextPrecision(EvalMetric):
 # ---------------------------------------------------------------------------
 
 _STOP_WORDS = frozenset(
-    "a an the is are was were be been being have has had do does did will would "
-    "shall should may might can could of in to for on with at by from as into "
-    "through during before after above below between out off over under about "
-    "and but or nor not no so yet both either neither each every all any few "
-    "more most other some such than too very it its this that these those i me "
-    "my we our you your he him his she her they them their what which who whom "
-    "how when where why".split()
+    ["a", "an", "the", "is", "are", "was", "were", "be", "been", "being", "have", "has", "had", "do", "does", "did", "will", "would", "shall", "should", "may", "might", "can", "could", "of", "in", "to", "for", "on", "with", "at", "by", "from", "as", "into", "through", "during", "before", "after", "above", "below", "between", "out", "off", "over", "under", "about", "and", "but", "or", "nor", "not", "no", "so", "yet", "both", "either", "neither", "each", "every", "all", "any", "few", "more", "most", "other", "some", "such", "than", "too", "very", "it", "its", "this", "that", "these", "those", "i", "me", "my", "we", "our", "you", "your", "he", "him", "his", "she", "her", "they", "them", "their", "what", "which", "who", "whom", "how", "when", "where", "why"]
 )
 
 

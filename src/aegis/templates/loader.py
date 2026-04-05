@@ -21,7 +21,6 @@ from typing import Any
 
 from aegis.guard.validators import BaseValidator
 
-
 # ---------------------------------------------------------------------------
 # Template directory layout convention:
 #   src/aegis/templates/<name>/

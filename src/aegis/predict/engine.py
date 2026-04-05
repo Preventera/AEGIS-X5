@@ -5,17 +5,16 @@ Registers predictions, compares them against reality, and exposes accuracy metri
 
 from __future__ import annotations
 
-import time
 import math
 import statistics
-from dataclasses import dataclass, field
+import time
+from dataclasses import dataclass
 from typing import Any
 
-from aegis.predict.anomaly import AnomalyDetector, AnomalyResult
-from aegis.predict.cost import CostForecaster, CostForecastResult
-from aegis.predict.drift import DriftPredictor, DriftPrediction
-from aegis.predict.health_score import HealthScore, HealthStatus, ScoreSnapshot
-
+from aegis.predict.anomaly import AnomalyDetector
+from aegis.predict.cost import CostForecaster
+from aegis.predict.drift import DriftPredictor
+from aegis.predict.health_score import HealthScore
 
 # ---------------------------------------------------------------------------
 # Calibration record: prediction vs reality

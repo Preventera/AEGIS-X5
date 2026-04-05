@@ -2,14 +2,11 @@
 
 from __future__ import annotations
 
-import os
 import textwrap
-from pathlib import Path
 
 import pytest
 
 from aegis.core.config import AegisConfig, _deep_merge, _parse_simple_yaml, load_config
-
 
 # ---------------------------------------------------------------------------
 # _deep_merge

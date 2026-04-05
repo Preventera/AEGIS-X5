@@ -13,9 +13,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-import textwrap
-import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 _AEGIS_YAML_TEMPLATE = """\
@@ -47,7 +45,7 @@ def cmd_init(args: argparse.Namespace) -> None:
     """Create aegis.yaml in the current directory."""
     target = Path.cwd() / "aegis.yaml"
     if target.exists() and not args.force:
-        print(f"aegis.yaml already exists. Use --force to overwrite.", file=sys.stderr)
+        print("aegis.yaml already exists. Use --force to overwrite.", file=sys.stderr)
         sys.exit(1)
 
     workspace = args.workspace or Path.cwd().name
@@ -91,7 +89,7 @@ def cmd_status(args: argparse.Namespace) -> None:
         print(f"{'Name':<30} {'Status':<8} {'Latency':>10} {'Time'}")
         print("-" * 72)
         for t in traces:
-            ts = datetime.fromtimestamp(t["created_at"], tz=timezone.utc).strftime(
+            ts = datetime.fromtimestamp(t["created_at"], tz=UTC).strftime(
                 "%Y-%m-%d %H:%M:%S"
             )
             print(
@@ -119,7 +117,7 @@ def cmd_dashboard(args: argparse.Namespace) -> None:
         sys.exit(1)
 
     app = create_app(db_path=args.db)
-    print(f"\n  AEGIS-X5 Dashboard")
+    print("\n  AEGIS-X5 Dashboard")
     print(f"  http://localhost:{port}\n")
     print("  Press Ctrl+C to stop.\n")
 
@@ -137,6 +135,7 @@ def cmd_dashboard(args: argparse.Namespace) -> None:
 def _run_fallback_server(app: object, port: int) -> None:
     """Minimal fallback if uvicorn is not installed."""
     from http.server import HTTPServer, SimpleHTTPRequestHandler
+
     from aegis.dashboard.server import render_dashboard_html
     from aegis.local.store import LocalStore
 

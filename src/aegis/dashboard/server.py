@@ -5,9 +5,6 @@ Runs on port 4005 by default.  No React, no npm — one HTML page with inline JS
 
 from __future__ import annotations
 
-import json
-from datetime import datetime, timezone
-from pathlib import Path
 from typing import Any
 
 from aegis.local.store import LocalStore

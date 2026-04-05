@@ -30,14 +30,15 @@ from __future__ import annotations
 import functools
 import importlib.util
 import sys
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable
+from typing import Any
 
 from aegis.core.config import AegisConfig, load_config
 from aegis.core.guard_levels import GuardLevel, GuardResult, GuardViolation
-from aegis.core.tenant import Tenant, TenantContext, set_current_tenant
-from aegis.core.trace import Span, SpanContext, SpanStatus, get_collector
+from aegis.core.tenant import Tenant, set_current_tenant
+from aegis.core.trace import Span, SpanContext, SpanStatus
 
 __version__ = "0.3.0"
 __all__ = [
@@ -254,8 +255,6 @@ class Aegis:
 
             # Attach post-hook via monkey-patching the SpanContext for local mode
             if self._is_local:
-                original_wrapper = wrapper
-
                 @functools.wraps(func)
                 def local_wrapper(*args: Any, **kwargs: Any) -> Any:
                     with SpanContext(span_name, **attributes) as span:

@@ -2,9 +2,7 @@
 
 from __future__ import annotations
 
-import sys
 from pathlib import Path
-from unittest import mock
 
 import pytest
 
@@ -143,7 +141,7 @@ class TestLocalTrace:
     def test_trace_captures_duration(self, local_aegis: Aegis) -> None:
         import time
 
-        with local_aegis.trace("timed") as span:
+        with local_aegis.trace("timed") as _span:
             time.sleep(0.01)
 
         traces = local_aegis.local_store.recent_traces()

@@ -76,7 +76,6 @@ class TestTenantContext:
     def test_restores_on_exception(self):
         t = Tenant(workspace="err-org")
         before = get_current_tenant()
-        with pytest.raises(RuntimeError):
-            with TenantContext(t):
-                raise RuntimeError("boom")
+        with pytest.raises(RuntimeError), TenantContext(t):
+            raise RuntimeError("boom")
         assert get_current_tenant() is before

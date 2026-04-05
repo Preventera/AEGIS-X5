@@ -6,7 +6,6 @@ import pytest
 
 from aegis.predict.anomaly import AnomalyDetector
 from aegis.predict.drift import DriftPredictor
-from aegis.predict.health_score import HealthScore
 from aegis.predict.integration import (
     AlertType,
     PredictiveAlert,

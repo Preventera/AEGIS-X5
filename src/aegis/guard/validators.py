@@ -4,11 +4,9 @@ from __future__ import annotations
 
 import abc
 import re
-from dataclasses import dataclass, field
 from typing import Any
 
 from aegis.core.guard_levels import GuardLevel, GuardResult
-
 
 # ---------------------------------------------------------------------------
 # Base interface

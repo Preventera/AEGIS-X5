@@ -2,12 +2,9 @@
 
 from __future__ import annotations
 
-from typing import Any
-
 import pytest
 
 from aegis.loops.base import ClosedLoop, LoopResult, LoopStatus
-
 
 # ---------------------------------------------------------------------------
 # Test helpers

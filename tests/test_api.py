@@ -41,7 +41,7 @@ class TestAuth:
 # ---------------------------------------------------------------------------
 
 @pytest.fixture()
-def client(tmp_path: Path) -> "TestClient | None":
+def client(tmp_path: Path) -> TestClient | None:
     if not _HAS_TESTCLIENT:
         pytest.skip("FastAPI not installed")
     from aegis.api.app import create_api
@@ -51,7 +51,7 @@ def client(tmp_path: Path) -> "TestClient | None":
 
 
 class TestHealthEndpoint:
-    def test_health_check(self, client: "TestClient") -> None:
+    def test_health_check(self, client: TestClient) -> None:
         if client is None:
             pytest.skip("No test client")
         r = client.get("/api/v1/health")
@@ -62,7 +62,7 @@ class TestHealthEndpoint:
 
 
 class TestTraceEndpoint:
-    def test_record_trace(self, client: "TestClient") -> None:
+    def test_record_trace(self, client: TestClient) -> None:
         if client is None:
             pytest.skip("No test client")
         r = client.post("/api/v1/trace", json={
@@ -76,7 +76,7 @@ class TestTraceEndpoint:
         assert data["status"] == "ok"
         assert "span_id" in data
 
-    def test_trace_default_values(self, client: "TestClient") -> None:
+    def test_trace_default_values(self, client: TestClient) -> None:
         if client is None:
             pytest.skip("No test client")
         r = client.post("/api/v1/trace", json={})
@@ -84,7 +84,7 @@ class TestTraceEndpoint:
 
 
 class TestGuardEndpoint:
-    def test_validate_clean(self, client: "TestClient") -> None:
+    def test_validate_clean(self, client: TestClient) -> None:
         if client is None:
             pytest.skip("No test client")
         r = client.post("/api/v1/guard/validate", json={
@@ -94,7 +94,7 @@ class TestGuardEndpoint:
         data = r.json()
         assert data["passed"] is True
 
-    def test_validate_pii(self, client: "TestClient") -> None:
+    def test_validate_pii(self, client: TestClient) -> None:
         if client is None:
             pytest.skip("No test client")
         r = client.post("/api/v1/guard/validate", json={
@@ -106,7 +106,7 @@ class TestGuardEndpoint:
 
 
 class TestAgentsEndpoint:
-    def test_list_agents_empty(self, client: "TestClient") -> None:
+    def test_list_agents_empty(self, client: TestClient) -> None:
         if client is None:
             pytest.skip("No test client")
         r = client.get("/api/v1/agents")
@@ -114,7 +114,7 @@ class TestAgentsEndpoint:
         data = r.json()
         assert data["count"] == 0
 
-    def test_list_agents_after_trace(self, client: "TestClient") -> None:
+    def test_list_agents_after_trace(self, client: TestClient) -> None:
         if client is None:
             pytest.skip("No test client")
         # Record a trace first
@@ -128,7 +128,7 @@ class TestAgentsEndpoint:
 
 
 class TestPredictionsEndpoint:
-    def test_list_predictions(self, client: "TestClient") -> None:
+    def test_list_predictions(self, client: TestClient) -> None:
         if client is None:
             pytest.skip("No test client")
         r = client.get("/api/v1/predictions")
@@ -139,7 +139,7 @@ class TestPredictionsEndpoint:
 
 
 class TestStatsEndpoint:
-    def test_get_stats(self, client: "TestClient") -> None:
+    def test_get_stats(self, client: TestClient) -> None:
         if client is None:
             pytest.skip("No test client")
         r = client.get("/api/v1/stats")
@@ -149,7 +149,7 @@ class TestStatsEndpoint:
 
 
 class TestTracesEndpoint:
-    def test_get_traces(self, client: "TestClient") -> None:
+    def test_get_traces(self, client: TestClient) -> None:
         if client is None:
             pytest.skip("No test client")
         r = client.get("/api/v1/traces")

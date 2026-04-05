@@ -1,0 +1,27 @@
+name: Docker
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t aegis-x5:test .
+
+      - name: Run health check
+        run: |
+          docker run -d --name aegis-test -p 4000:4000 aegis-x5:test
+          sleep 5
+          curl -f http://localhost:4000/api/v1/health || exit 1
+          docker stop aegis-test
+          docker rm aegis-test
+
+      - name: Run tests inside container
+        run: |
+          docker run --rm aegis-x5:test python -m pytest tests/ -x --tb=short -q

@@ -14,12 +14,9 @@ import os
 import time
 from typing import Any
 
-from aegis.api.auth import require_api_key
-
 # Defer FastAPI import to allow running without it installed
 try:
     from fastapi import Depends, FastAPI, Header, HTTPException, Request
-    from fastapi.responses import JSONResponse
 
     _HAS_FASTAPI = True
 except ImportError:
@@ -43,17 +40,15 @@ def create_api(
     if not _HAS_FASTAPI:
         raise ImportError("FastAPI required: pip install aegis-x5[dashboard]")
 
+    from aegis.core.trace import Span, SpanStatus
+    from aegis.guard.pipeline import GuardPipeline
+    from aegis.guard.validators import HallucinationDetector, InjectionDetector, PIIDetector
     from aegis.local.store import LocalStore
     from aegis.predict.engine import PredictionEngine
-    from aegis.predict.health_score import HealthScore
-    from aegis.guard.pipeline import GuardPipeline
-    from aegis.guard.validators import PIIDetector, InjectionDetector, HallucinationDetector
-    from aegis.core.trace import Span, SpanStatus
 
     # Initialize shared state
     store = LocalStore(db_path=db_path)
     engine = PredictionEngine()
-    health = engine.health_score
 
     # Default guard pipeline
     pipeline = GuardPipeline()

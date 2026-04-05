@@ -2,14 +2,14 @@
 
 from __future__ import annotations
 
-import asyncio
 import functools
 import inspect
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 
 from aegis.core.tenant import Tenant, get_current_tenant
-from aegis.core.trace import Span, SpanContext, get_collector
-from aegis.observe.cost import CostCalculator, CostResult
+from aegis.core.trace import Span, SpanContext
+from aegis.observe.cost import CostCalculator
 from aegis.observe.metrics import SlidingWindowMetrics
 from aegis.observe.tokens import TokenUsage, extract_tokens
 

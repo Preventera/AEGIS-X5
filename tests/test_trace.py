@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import time
-
 import pytest
 
 from aegis.core.tenant import Tenant, TenantContext
@@ -67,24 +65,21 @@ class TestSpanContext:
         assert spans[0].name == "collected"
 
     def test_error_status_on_exception(self):
-        with pytest.raises(ValueError):
-            with SpanContext("fail") as span:
-                raise ValueError("bad input")
+        with pytest.raises(ValueError), SpanContext("fail") as span:
+            raise ValueError("bad input")
         assert span.status == SpanStatus.ERROR
         assert span.error == "bad input"
 
     def test_tenant_propagation(self):
         tenant = Tenant(workspace="acme", tenant_id="t123")
-        with TenantContext(tenant):
-            with SpanContext("tenant-op") as span:
-                pass
+        with TenantContext(tenant), SpanContext("tenant-op") as span:
+            pass
         assert span.workspace == "acme"
         assert span.tenant_id == "t123"
 
     def test_nested_spans_parent_id(self):
-        with SpanContext("parent") as parent:
-            with SpanContext("child") as child:
-                pass
+        with SpanContext("parent") as parent, SpanContext("child") as child:
+            pass
         assert child.parent_id == parent.span_id
         assert parent.parent_id is None
 

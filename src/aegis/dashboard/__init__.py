@@ -1,4 +1,4 @@
-"""AEGIS-X5 Mini Dashboard — local web UI for trace inspection."""
+"""AEGIS-X5 Dashboard — full multi-view web UI for agent governance."""
 
 from aegis.dashboard.server import create_app
 

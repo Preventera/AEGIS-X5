@@ -1,0 +1,171 @@
+# SHIELD-OPS-X5 — 21 AgenticX5 Platforms Registry
+# Each platform is an agent group governed by AEGIS-X5
+
+platforms:
+  - name: "EDGY — AI Safety & Governance"
+    code: edgy
+    agent_count: 122
+    status: live
+    guard_level: N4
+    modules: [observe, guard, evaluate, collect, remember, predict, loops]
+    description: "Plateforme principale de gouvernance IA, agents de conformité et sécurité"
+
+  - name: "LiteraCIA — Intelligence & Analysis"
+    code: literacia
+    agent_count: 122
+    status: live
+    guard_level: N4
+    modules: [observe, guard, evaluate, collect, remember, predict, loops]
+    description: "Analyse documentaire avancée, veille stratégique, intelligence artificielle"
+
+  - name: "SafeFleet — Fleet Safety Management"
+    code: safefleet
+    agent_count: 5
+    status: live
+    guard_level: N4
+    modules: [observe, guard, evaluate, remember]
+    description: "Gestion de la sécurité des flottes véhicules, télématique et conformité"
+
+  - name: "VisionGuard — Computer Vision Safety"
+    code: visionguard
+    agent_count: 18
+    status: live
+    guard_level: N4
+    modules: [observe, guard, evaluate, collect, remember]
+    description: "Détection de risques par vision par ordinateur, EPI, zones dangereuses"
+
+  - name: "ChemWatch — Hazardous Materials"
+    code: chemwatch
+    agent_count: 12
+    status: live
+    guard_level: N4
+    modules: [observe, guard, evaluate, collect, remember, predict]
+    description: "Gestion des matières dangereuses, FDS, SIMDUT, stockage et manutention"
+
+  - name: "ErgoSense — Ergonomics & TMS"
+    code: ergosense
+    agent_count: 8
+    status: live
+    guard_level: N3
+    modules: [observe, guard, evaluate, remember]
+    description: "Analyse ergonomique, prévention des troubles musculosquelettiques"
+
+  - name: "NoiseMap — Noise Monitoring"
+    code: noisemap
+    agent_count: 6
+    status: live
+    guard_level: N3
+    modules: [observe, guard, evaluate, collect]
+    description: "Cartographie du bruit, dosimétrie, programme de protection auditive"
+
+  - name: "ConfinedAI — Confined Space"
+    code: confinedai
+    agent_count: 10
+    status: live
+    guard_level: N4
+    modules: [observe, guard, evaluate, collect, remember, predict]
+    description: "Procédures d'entrée en espace confiné, détection atmosphérique, permis"
+
+  - name: "HeightSafe — Fall Protection"
+    code: heightsafe
+    agent_count: 8
+    status: live
+    guard_level: N4
+    modules: [observe, guard, evaluate, remember]
+    description: "Travail en hauteur, protection contre les chutes, harnais, lignes de vie"
+
+  - name: "LockoutPro — LOTO Procedures"
+    code: lockoutpro
+    agent_count: 7
+    status: live
+    guard_level: N4
+    modules: [observe, guard, evaluate, remember]
+    description: "Cadenassage / verrouillage, procédures LOTO, isolation des énergies"
+
+  - name: "FireWatch — Fire Safety"
+    code: firewatch
+    agent_count: 15
+    status: live
+    guard_level: N4
+    modules: [observe, guard, evaluate, collect, remember]
+    description: "Prévention incendie, plans d'urgence, systèmes de détection et extinction"
+
+  - name: "TrainForce — Safety Training"
+    code: trainforce
+    agent_count: 20
+    status: live
+    guard_level: N3
+    modules: [observe, guard, evaluate, collect, remember]
+    description: "Formation SST, compétences, certifications, suivi de conformité"
+
+  - name: "IncidentIQ — Incident Management"
+    code: incidentiq
+    agent_count: 14
+    status: live
+    guard_level: N4
+    modules: [observe, guard, evaluate, collect, remember, predict, loops]
+    description: "Gestion des incidents, enquêtes, causes racines, actions correctives"
+
+  - name: "AuditShield — Compliance Audits"
+    code: auditshield
+    agent_count: 10
+    status: live
+    guard_level: N3
+    modules: [observe, guard, evaluate, collect, remember]
+    description: "Audits de conformité SST, ISO 45001, inspections planifiées"
+
+  - name: "WellnessAI — Worker Wellness"
+    code: wellnessai
+    agent_count: 12
+    status: prototype
+    guard_level: N3
+    modules: [observe, guard, evaluate, remember]
+    description: "Bien-être des travailleurs, santé mentale, fatigue, stress"
+
+  - name: "EnviroGuard — Environmental Safety"
+    code: enviroguard
+    agent_count: 8
+    status: prototype
+    guard_level: N3
+    modules: [observe, guard, evaluate, collect]
+    description: "Conformité environnementale, déversements, émissions, déchets"
+
+  - name: "ContractorSafe — Contractor Management"
+    code: contractorsafe
+    agent_count: 6
+    status: prototype
+    guard_level: N3
+    modules: [observe, guard, evaluate, remember]
+    description: "Gestion des sous-traitants, qualifications, accès chantier"
+
+  - name: "PPETracker — PPE Management"
+    code: ppetracker
+    agent_count: 5
+    status: live
+    guard_level: N3
+    modules: [observe, guard, evaluate, remember]
+    description: "Suivi des EPI, inventaire, inspections, remplacement, conformité"
+
+  - name: "RiskMatrix — Risk Assessment"
+    code: riskmatrix
+    agent_count: 18
+    status: live
+    guard_level: N4
+    modules: [observe, guard, evaluate, collect, remember, predict]
+    description: "Analyse de risques, matrices de criticité, plans de mitigation"
+
+  - name: "RegWatch — Regulatory Intelligence"
+    code: regwatch
+    agent_count: 25
+    status: live
+    guard_level: N3
+    modules: [observe, guard, evaluate, collect, remember, predict, loops]
+    description: "Veille réglementaire, CNESST, normes ISO, changements législatifs"
+
+  - name: "EmergencyOps — Emergency Response"
+    code: emergencyops
+    agent_count: 61
+    status: live
+    guard_level: N4
+    modules: [observe, guard, evaluate, collect, remember, predict, loops]
+    description: "Plans de mesures d'urgence, évacuation, premiers soins, communication de crise"

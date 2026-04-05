@@ -318,6 +318,65 @@ class Aegis:
 
         return decorator
 
+    # -- connector helpers --
+
+    def wrap_openai(self, client: Any) -> Any:
+        """Wrap an OpenAI client for automatic tracing.
+
+        Usage::
+
+            client = aegis.wrap_openai(OpenAI())
+        """
+        from aegis.connectors.openai_connector import wrap_openai
+
+        return wrap_openai(client, self)
+
+    def wrap_anthropic(self, client: Any) -> Any:
+        """Wrap an Anthropic client for automatic tracing.
+
+        Usage::
+
+            client = aegis.wrap_anthropic(Anthropic())
+        """
+        from aegis.connectors.anthropic_connector import wrap_anthropic
+
+        return wrap_anthropic(client, self)
+
+    def langchain_handler(self) -> Any:
+        """Return a LangChain callback handler for automatic tracing.
+
+        Usage::
+
+            llm = ChatAnthropic(callbacks=[aegis.langchain_handler()])
+        """
+        from aegis.connectors.langchain_connector import AegisCallbackHandler
+
+        return AegisCallbackHandler(self)
+
+    def crewai_middleware(self) -> Any:
+        """Return a CrewAI middleware for agent governance.
+
+        Usage::
+
+            middleware = aegis.crewai_middleware()
+            wrapped = middleware.wrap_agent("researcher", my_fn)
+        """
+        from aegis.connectors.crewai_connector import AegisCrewMiddleware
+
+        return AegisCrewMiddleware(self)
+
+    def webhook_endpoint(self) -> Any:
+        """Return a FastAPI router for webhook trace reception.
+
+        Usage::
+
+            router = aegis.webhook_endpoint()
+            app.include_router(router)
+        """
+        from aegis.connectors.webhook_connector import create_webhook_router
+
+        return create_webhook_router(self)
+
     # -- context manager --
 
     def trace(self, name: str, **attributes: Any) -> SpanContext:

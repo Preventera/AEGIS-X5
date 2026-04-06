@@ -310,46 +310,15 @@ nav{padding:.5rem 1rem}.nr a:not(.cta){display:none}
 <a href="#lifecycle" class="cta2 fr">Comment ça marche →</a>
 </div>
 <div class="stats">
-<div class="stat"><div class="v">748</div><div class="l en">Tests Passing</div><div class="l fr">Tests réussis</div></div>
+<div class="stat"><div class="v">1,128</div><div class="l en">Tests Passing</div><div class="l fr">Tests réussis</div></div>
 <div class="stat"><div class="v">5</div><div class="l en">Governance Modules</div><div class="l fr">Modules gouvernance</div></div>
 <div class="stat"><div class="v">&lt;2min</div><div class="l en">Integration Time</div><div class="l fr">Temps d'intégration</div></div>
 <div class="stat"><div class="v">0</div><div class="l en">Vendor Lock-in</div><div class="l fr">Vendor Lock-in</div></div>
 </div>
-<div class="codebox">
-<div class="codebar"><div class="codedot" style="background:#e84057"></div><div class="codedot" style="background:#e8a317"></div><div class="codedot" style="background:#1cc77a"></div><span style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:var(--dm);margin-left:8px">quickstart.py</span></div>
-<div class="codebody">
-<span class="ck">from</span> aegis <span class="ck">import</span> Aegis<br><br>
-aegis = Aegis(workspace=<span class="cv">"my-project"</span>)<br><br>
-<span class="co">@aegis.protect</span>(name=<span class="cv">"my-agent"</span>, level=<span class="cv">"N3"</span>)<br>
-<span class="ck">def</span> <span class="cf">my_agent</span>(query):<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="ck">return</span> llm.invoke(query)<br><br>
-<span class="cc"># ✓ Trace captured | Cost: $0.004 | Guard: PASS</span><br>
-<span class="cc"># ✓ Health Score: 94 | Drift prediction: stable</span>
-</div>
-</div>
-</section>
 
-<!-- BADGES / CERTIFICATIONS -->
-<section class="sec wide" id="badges" style="text-align:center">
-<div class="label en">Proven at Scale</div>
-<div class="label fr">Prouvé à l'échelle</div>
-<div class="badges">
-<div class="bdg"><div class="bdg-icon">🛡️</div><div class="bdg-text"><div class="bdg-val">748 Tests</div><div class="bdg-lbl en">All passing, 0 dependencies</div><div class="bdg-lbl fr">Tous réussis, 0 dépendances</div></div></div>
-<div class="bdg"><div class="bdg-icon">🤖</div><div class="bdg-text"><div class="bdg-val">500+ Agents</div><div class="bdg-lbl en">Governed in production</div><div class="bdg-lbl fr">Gouvernés en production</div></div></div>
-<div class="bdg"><div class="bdg-icon">📊</div><div class="bdg-text"><div class="bdg-val">22M+ Records</div><div class="bdg-lbl en">HSE incidents analyzed</div><div class="bdg-lbl fr">Incidents HSE analysés</div></div></div>
-<div class="bdg"><div class="bdg-icon">⚡</div><div class="bdg-text"><div class="bdg-val">94.7%</div><div class="bdg-lbl en">ML prediction accuracy</div><div class="bdg-lbl fr">Précision prédictive ML</div></div></div>
-<div class="bdg"><div class="bdg-icon">🏗️</div><div class="bdg-text"><div class="bdg-val">25+ Platforms</div><div class="bdg-lbl en">AgenticX5 ecosystem</div><div class="bdg-lbl fr">Écosystème AgenticX5</div></div></div>
-<div class="bdg"><div class="bdg-icon">💰</div><div class="bdg-text"><div class="bdg-val">$6M+ ROI</div><div class="bdg-lbl en">Documented client savings</div><div class="bdg-lbl fr">Économies clients documentées</div></div></div>
-</div>
 </section>
 
 
-<hr class="divider">
-
-<hr class="divider">
-
-
-<!-- FRAMEWORKS -->
 <section class="sec" id="frameworks" style="text-align:center">
 <div class="label en">Framework Compatibility</div>
 <div class="label fr">Compatibilité Frameworks</div>
@@ -370,6 +339,25 @@ aegis = Aegis(workspace=<span class="cv">"my-project"</span>)<br><br>
 <div class="ftag" style="border-color:rgba(28,199,122,.4)"><img src="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjZmZmZmZmIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+Tm9kZS5qczwvdGl0bGU+PHBhdGggZD0iTTExLjk5OCwyNGMtMC4zMjEsMC0wLjY0MS0wLjA4NC0wLjkyMi0wLjI0N2wtMi45MzYtMS43MzdjLTAuNDM4LTAuMjQ1LTAuMjI0LTAuMzMyLTAuMDgtMC4zODMgYzAuNTg1LTAuMjAzLDAuNzAzLTAuMjUsMS4zMjgtMC42MDRjMC4wNjUtMC4wMzcsMC4xNTEtMC4wMjMsMC4yMTgsMC4wMTdsMi4yNTYsMS4zMzljMC4wODIsMC4wNDUsMC4xOTcsMC4wNDUsMC4yNzIsMGw4Ljc5NS01LjA3NiBjMC4wODItMC4wNDcsMC4xMzQtMC4xNDEsMC4xMzQtMC4yMzhWNi45MjFjMC0wLjA5OS0wLjA1My0wLjE5Mi0wLjEzNy0wLjI0MmwtOC43OTEtNS4wNzJjLTAuMDgxLTAuMDQ3LTAuMTg5LTAuMDQ3LTAuMjcxLDAgTDMuMDc1LDYuNjhDMi45OSw2LjcyOSwyLjkzNiw2LjgyNSwyLjkzNiw2LjkyMXYxMC4xNWMwLDAuMDk3LDAuMDU0LDAuMTg5LDAuMTM5LDAuMjM1bDIuNDA5LDEuMzkyIGMxLjMwNywwLjY1NCwyLjEwOC0wLjExNiwyLjEwOC0wLjg5VjcuNzg3YzAtMC4xNDIsMC4xMTQtMC4yNTMsMC4yNTYtMC4yNTNoMS4xMTVjMC4xMzksMCwwLjI1NSwwLjExMiwwLjI1NSwwLjI1M3YxMC4wMjEgYzAsMS43NDUtMC45NSwyLjc0NS0yLjYwNCwyLjc0NWMtMC41MDgsMC0wLjkwOSwwLTIuMDI2LTAuNTUxTDIuMjgsMTguNjc1Yy0wLjU3LTAuMzI5LTAuOTIyLTAuOTQ1LTAuOTIyLTEuNjA0VjYuOTIxIGMwLTAuNjU5LDAuMzUzLTEuMjc1LDAuOTIyLTEuNjAzbDguNzk1LTUuMDgyYzAuNTU3LTAuMzE1LDEuMjk2LTAuMzE1LDEuODQ4LDBsOC43OTQsNS4wODJjMC41NywwLjMyOSwwLjkyNCwwLjk0NCwwLjkyNCwxLjYwMyB2MTAuMTVjMCwwLjY1OS0wLjM1NCwxLjI3My0wLjkyNCwxLjYwNGwtOC43OTQsNS4wNzhDMTIuNjQzLDIzLjkxNiwxMi4zMjQsMjQsMTEuOTk4LDI0eiBNMTkuMDk5LDEzLjk5MyBjMC0xLjktMS4yODQtMi40MDYtMy45ODctMi43NjNjLTIuNzMxLTAuMzYxLTMuMDA5LTAuNTQ4LTMuMDA5LTEuMTg3YzAtMC41MjgsMC4yMzUtMS4yMzMsMi4yNTgtMS4yMzMgYzEuODA3LDAsMi40NzMsMC4zODksMi43NDcsMS42MDdjMC4wMjQsMC4xMTUsMC4xMjksMC4xOTksMC4yNDcsMC4xOTloMS4xNDFjMC4wNzEsMCwwLjEzOC0wLjAzMSwwLjE4Ni0wLjA4MSBjMC4wNDgtMC4wNTQsMC4wNzQtMC4xMjMsMC4wNjctMC4xOTZjLTAuMTc3LTIuMDk4LTEuNTcxLTMuMDc2LTQuMzg4LTMuMDc2Yy0yLjUwOCwwLTQuMDA0LDEuMDU4LTQuMDA0LDIuODMzIGMwLDEuOTI1LDEuNDg4LDIuNDU3LDMuODk1LDIuNjk1YzIuODgsMC4yODIsMy4xMDMsMC43MDMsMy4xMDMsMS4yNjljMCwwLjk4My0wLjc4OSwxLjQwMi0yLjY0MiwxLjQwMiBjLTIuMzI3LDAtMi44MzktMC41ODQtMy4wMTEtMS43NDJjLTAuMDItMC4xMjQtMC4xMjYtMC4yMTUtMC4yNTMtMC4yMTVoLTEuMTM3Yy0wLjE0MSwwLTAuMjU0LDAuMTEyLTAuMjU0LDAuMjUzIGMwLDEuNDgyLDAuODA2LDMuMjQ4LDQuNjU1LDMuMjQ4QzE3LjUwMSwxNy4wMDcsMTkuMDk5LDE1LjkxLDE5LjA5OSwxMy45OTN6Ii8+PC9zdmc+" width="24" height="24" style="vertical-align:middle;margin-right:6px" alt="Node.js / Go">Node.js / Go</div>
 </div>
 </section>
+
+<!-- BADGES / CERTIFICATIONS -->
+<section class="sec wide" id="badges" style="text-align:center">
+<div class="label en">Proven at Scale</div>
+<div class="label fr">Prouvé à l'échelle</div>
+<div class="badges">
+<div class="bdg"><div class="bdg-icon">🛡️</div><div class="bdg-text"><div class="bdg-val">748 Tests</div><div class="bdg-lbl en">All passing, 0 dependencies</div><div class="bdg-lbl fr">Tous réussis, 0 dépendances</div></div></div>
+<div class="bdg"><div class="bdg-icon">🤖</div><div class="bdg-text"><div class="bdg-val">500+ Agents</div><div class="bdg-lbl en">Governed in production</div><div class="bdg-lbl fr">Gouvernés en production</div></div></div>
+<div class="bdg"><div class="bdg-icon">📊</div><div class="bdg-text"><div class="bdg-val">22M+ Records</div><div class="bdg-lbl en">HSE incidents analyzed</div><div class="bdg-lbl fr">Incidents HSE analysés</div></div></div>
+<div class="bdg"><div class="bdg-icon">⚡</div><div class="bdg-text"><div class="bdg-val">94.7%</div><div class="bdg-lbl en">ML prediction accuracy</div><div class="bdg-lbl fr">Précision prédictive ML</div></div></div>
+<div class="bdg"><div class="bdg-icon">🏗️</div><div class="bdg-text"><div class="bdg-val">25+ Platforms</div><div class="bdg-lbl en">AgenticX5 ecosystem</div><div class="bdg-lbl fr">Écosystème AgenticX5</div></div></div>
+<div class="bdg"><div class="bdg-icon">💰</div><div class="bdg-text"><div class="bdg-val">$6M+ ROI</div><div class="bdg-lbl en">Documented client savings</div><div class="bdg-lbl fr">Économies clients documentées</div></div></div>
+</div>
+</section>
+
+
+<hr class="divider">
+
+
 
 <hr class="divider">
 
@@ -1123,4 +1111,10 @@ document.querySelectorAll('.sec,.form-sec').forEach(el=>{el.style.opacity='0';el
 setTimeout(()=>document.querySelectorAll('.sec,.form-sec').forEach(el=>el.style.opacity='1'),100);
 </script>
 </body>
-</html>
+
+</html><hr class="divider">
+
+
+<!-- FRAMEWORKS -->
+
+

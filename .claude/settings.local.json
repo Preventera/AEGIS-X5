@@ -12,7 +12,29 @@
       "Bash(mkdir -p \"C:/Users/Mario/Documents/2025/Projets de développement Agentique/AEGIS-X5/src/aegis/dashboard\")",
       "Bash(mkdir -p \"C:/Users/Mario/Documents/2025/Projets de développement Agentique/AEGIS-X5/examples\")",
       "Bash(ruff check:*)",
-      "Bash(wc -c site/aegis-x5-site.html whitepapers/*.html prompts/*.md)"
+      "Bash(wc -c site/aegis-x5-site.html whitepapers/*.html prompts/*.md)",
+      "Bash(cp 'C:/Users/Mario/Downloads/aegis-x5-site \\(6\\).html' 'C:/Users/Mario/Documents/2025/Projets de développement Agentique/AEGIS-X5/aegis-x5-deploy/index.html')",
+      "Bash(cp 'C:/Users/Mario/Documents/2025/Projets de développement Agentique/AEGIS-X5/whitepapers/*.html' 'C:/Users/Mario/Documents/2025/Projets de développement Agentique/AEGIS-X5/aegis-x5-deploy/')",
+      "Bash(explorer.exe C:\\\\Users\\\\Mario\\\\Documents\\\\2025\\\\Projets de développement Agentique\\\\AEGIS-X5\\\\aegis-x5-deploy:*)",
+      "Bash(cmd.exe:*)",
+      "Bash(curl -sL https://cdn.simpleicons.org/openai/white -o 'C:/Users/Mario/Documents/2025/Projets de développement Agentique/AEGIS-X5/aegis-x5-deploy/logos/openai.svg')",
+      "Bash(curl -sL https://cdn.simpleicons.org/anthropic/white -o 'C:/Users/Mario/Documents/2025/Projets de développement Agentique/AEGIS-X5/aegis-x5-deploy/logos/anthropic.svg')",
+      "Bash(curl -sL https://cdn.simpleicons.org/python/white -o 'C:/Users/Mario/Documents/2025/Projets de développement Agentique/AEGIS-X5/aegis-x5-deploy/logos/python.svg')",
+      "Bash(curl -sL https://cdn.simpleicons.org/nodedotjs/white -o 'C:/Users/Mario/Documents/2025/Projets de développement Agentique/AEGIS-X5/aegis-x5-deploy/logos/nodejs.svg')",
+      "Bash(curl -sL https://cdn.simpleicons.org/vercel/white -o 'C:/Users/Mario/Documents/2025/Projets de développement Agentique/AEGIS-X5/aegis-x5-deploy/logos/vercel.svg')",
+      "Bash(curl -sL https://raw.githubusercontent.com/langchain-ai/langchain/master/docs/static/img/brand/wordmark.png -o 'C:/Users/Mario/Documents/2025/Projets de développement Agentique/AEGIS-X5/aegis-x5-deploy/logos/langchain.png')",
+      "Bash(curl -sL https://raw.githubusercontent.com/open-telemetry/opentelemetry.io/main/iconography/32x32.png -o 'C:/Users/Mario/Documents/2025/Projets de développement Agentique/AEGIS-X5/aegis-x5-deploy/logos/opentelemetry.png')",
+      "WebFetch(domain:api.github.com)",
+      "Bash(curl -sL https://raw.githubusercontent.com/langchain-ai/langchain/master/docs/static/wordmark.png -o 'C:/Users/Mario/Documents/2025/Projets de développement Agentique/AEGIS-X5/aegis-x5-deploy/logos/langchain.png')",
+      "Bash(curl -sL https://raw.githubusercontent.com/langchain-ai/langchain/master/docs/static/img/parrot-chainlink-icon.png -o 'C:/Users/Mario/Documents/2025/Projets de développement Agentique/AEGIS-X5/aegis-x5-deploy/logos/langchain.png')",
+      "Bash(curl -sL https://cdn.simpleicons.org/langchain/white -o 'C:/Users/Mario/Documents/2025/Projets de développement Agentique/AEGIS-X5/aegis-x5-deploy/logos/langchain.svg')",
+      "Bash(curl -sL https://cdn.simpleicons.org/opentelemetry/white -o 'C:/Users/Mario/Documents/2025/Projets de développement Agentique/AEGIS-X5/aegis-x5-deploy/logos/opentelemetry.svg')",
+      "Bash(curl -sL https://cdn.simpleicons.org/crewai/white -o 'C:/Users/Mario/Documents/2025/Projets de développement Agentique/AEGIS-X5/aegis-x5-deploy/logos/crewai.svg')",
+      "Bash(curl -sL https://cdn.simpleicons.org/autogen/white -o 'C:/Users/Mario/Documents/2025/Projets de développement Agentique/AEGIS-X5/aegis-x5-deploy/logos/autogen.svg')",
+      "Bash(curl -sL https://cdn.simpleicons.org/llamaindex/white -o 'C:/Users/Mario/Documents/2025/Projets de développement Agentique/AEGIS-X5/aegis-x5-deploy/logos/llamaindex.svg')",
+      "Bash(curl -sL https://cdn.simpleicons.org/haystack/white -o 'C:/Users/Mario/Documents/2025/Projets de développement Agentique/AEGIS-X5/aegis-x5-deploy/logos/haystack.svg')",
+      "Bash(curl -sL https://simpleicons.org/icons/openai.svg -o 'C:/Users/Mario/Documents/2025/Projets de développement Agentique/AEGIS-X5/aegis-x5-deploy/logos/openai.svg')",
+      "Bash(python3 -c ':*)"
     ]
   }
 }

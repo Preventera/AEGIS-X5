@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AEGIS-X5 | Autonomous Agent Governance</title>
+<meta name="description" content="Observe, protect, evaluate, collect, and remember — in closed-loop autonomy. The governance layer for AI agents in regulated industries.">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#08090c;--s1:#0e1017;--s2:#13151e;--card:#171a24;--card2:#1c2030;--bdr:#222640;--bdr2:#2d3352;--tx:#eef0f6;--tx2:#9499ad;--mu:#6b7089;--dm:#4a4f66;--gold:#e8a317;--gold2:#f5c042;--goldd:#e8a31718;--cy:#22b8cf;--cyd:#22b8cf15;--rd:#e84057;--rdd:#e8405715;--vi:#7c5cfa;--vid:#7c5cfa15;--gr:#1cc77a;--grd:#1cc77a15;--bl:#4285f4;--bld:#4285f415}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);color:var(--tx);-webkit-font-smoothing:antialiased;line-height:1.6}
+::selection{background:var(--gold);color:var(--bg)}
+
+/* LANG SYSTEM */
+.fr .en{display:none!important}
+:not(.fr) .fr{display:none!important}
+
+/* NAV */
+nav{position:fixed;top:0;width:100%;z-index:100;padding:.65rem 2.5rem;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(20px);background:rgba(8,9,12,.85);border-bottom:1px solid var(--bdr)}
+.nl{display:flex;align-items:center;gap:10px}
+.nlogo{width:26px;height:26px;border-radius:6px}
+.nbrand{font-weight:800;font-size:.88rem;letter-spacing:-.2px}
+.nbrand em{font-style:normal;color:var(--gold)}
+.ntag{font-family:'JetBrains Mono',monospace;font-size:.5rem;color:var(--mu);letter-spacing:1.2px;padding:2px 7px;border:1px solid var(--bdr);border-radius:3px;text-transform:uppercase}
+.nr{display:flex;align-items:center;gap:1.8rem}
+.nr a{color:var(--tx2);text-decoration:none;font-size:.8rem;font-weight:500;transition:color .2s}
+.nr a:hover{color:var(--tx)}
+.lbtn{background:none;border:1px solid var(--bdr);color:var(--tx2);padding:3px 9px;border-radius:4px;font-size:.65rem;cursor:pointer;font-family:'JetBrains Mono',monospace;transition:all .2s}
+.lbtn:hover{border-color:var(--gold);color:var(--gold)}
+.cta{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);padding:8px 22px;border-radius:6px;font-weight:700;font-size:.82rem;text-decoration:none;transition:all .2s;border:none;cursor:pointer;display:inline-block;box-shadow:0 0 15px rgba(232,163,23,.3);animation:ctapulse 2s infinite}
+.cta:hover{opacity:.9;transform:translateY(-1px)}
+.cta2{background:none;color:var(--tx);padding:7px 18px;border-radius:6px;font-weight:500;font-size:.82rem;text-decoration:none;border:1px solid var(--bdr);transition:all .2s;display:inline-block}
+.cta2:hover{border-color:var(--tx2)}
+
+/* SECTION BASE */
+.sec{max-width:920px;margin:0 auto;padding:5.5rem 2rem}
+.wide{max-width:1120px}
+.label{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--gold);text-transform:uppercase;letter-spacing:2.5px;font-weight:600;margin-bottom:8px}
+.title{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;letter-spacing:-.4px;margin-bottom:10px;line-height:1.2}
+.desc{color:var(--tx2);font-size:.95rem;line-height:1.75;max-width:560px}
+.divider{border:none;border-top:1px solid var(--bdr);margin:0}
+
+/* HERO */
+.hero{max-width:780px;margin:0 auto;padding:11rem 2rem 4rem;text-align:center}
+.hero-chip{display:inline-block;font-size:.68rem;color:var(--gold);padding:5px 16px;border:1px solid rgba(232,163,23,.2);border-radius:20px;margin-bottom:1.8rem;font-weight:500}
+.hero h1{font-size:clamp(2.4rem,5.5vw,3.8rem);font-weight:800;line-height:1.1;letter-spacing:-.8px;margin-bottom:1.2rem}
+.hero h1 span{background:linear-gradient(135deg,var(--gold),var(--cy));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero>p{font-size:1.05rem;color:var(--tx2);line-height:1.75;max-width:540px;margin:0 auto 2.2rem}
+.hero-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+
+/* STATS ROW */
+.stats{display:flex;justify-content:center;gap:3rem;margin-top:3rem;flex-wrap:wrap}
+.stat{text-align:center}
+.stat .v{font-family:'JetBrains Mono',monospace;font-size:1.8rem;font-weight:700;color:var(--gold)}
+.stat .l{font-size:.6rem;color:var(--mu);text-transform:uppercase;letter-spacing:1.5px;margin-top:2px}
+
+/* CODE */
+.codebox{max-width:520px;width:100%;margin:3rem auto 0;background:var(--s1);border:1px solid var(--bdr);border-radius:10px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.4);text-align:left}
+.codebar{display:flex;align-items:center;gap:5px;padding:9px 14px;background:rgba(255,255,255,.02);border-bottom:1px solid var(--bdr)}
+.codedot{width:7px;height:7px;border-radius:50%}
+.codebody{padding:14px 18px;font-family:'JetBrains Mono',monospace;font-size:.68rem;line-height:2;color:var(--mu)}
+.ck{color:var(--gr)}.cv{color:var(--vi)}.cf{color:var(--cy)}.co{color:var(--gold)}.cc{color:var(--dm)}
+
+/* LIFECYCLE */
+.lc-flow{display:flex;gap:0;align-items:stretch;margin-top:2rem;overflow-x:auto;padding-bottom:1rem}
+.lc-step{flex:1;min-width:110px;text-align:center;padding:1rem .6rem;border:1px solid var(--bdr);border-radius:8px;position:relative;transition:all .3s}
+.lc-step.active{background:var(--goldd);border-color:var(--gold)}
+.lc-num{font-family:'JetBrains Mono',monospace;font-size:.55rem;color:var(--dm);letter-spacing:1px}
+.lc-name{font-size:.8rem;font-weight:700;margin-top:4px}
+.lc-step.active .lc-name{color:var(--gold)}
+.lc-arr{display:flex;align-items:center;color:var(--dm);font-size:1rem;padding:0 2px;flex-shrink:0}
+
+/* PERSONAS */
+.personas{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:2rem}
+.persona{background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:1.6rem;position:relative;overflow:hidden}
+.persona::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px}
+.persona.ent::before{background:var(--vi)}
+.persona.dev::before{background:var(--cy)}
+.persona-icon{font-size:1.6rem;margin-bottom:10px}
+.persona-title{font-size:1rem;font-weight:700;margin-bottom:4px}
+.persona-role{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--mu);letter-spacing:.5px;margin-bottom:10px}
+.persona-desc{font-size:.85rem;color:var(--tx2);line-height:1.7;margin-bottom:12px}
+.persona-path{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--mu);line-height:1.8}
+.persona-path strong{color:var(--tx2)}
+
+/* MODULES */
+.modgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:2rem}
+.mod{background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:1.3rem;transition:all .3s;position:relative;overflow:hidden}
+.mod::before{content:'';position:absolute;top:0;left:0;width:100%;height:2px}
+.mod:hover{transform:translateY(-3px);border-color:var(--bdr2)}
+.mod.m-ob::before{background:var(--cy)}.mod.m-gu::before{background:var(--rd)}.mod.m-ev::before{background:var(--vi)}.mod.m-co::before{background:var(--gr)}.mod.m-re::before{background:var(--bl)}
+.mod-ic{font-size:1.2rem;margin-bottom:8px}
+.mod-nm{font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:700;letter-spacing:.5px;margin-bottom:4px}
+.mod.m-ob .mod-nm{color:var(--cy)}.mod.m-gu .mod-nm{color:var(--rd)}.mod.m-ev .mod-nm{color:var(--vi)}.mod.m-co .mod-nm{color:var(--gr)}.mod.m-re .mod-nm{color:var(--bl)}
+.mod-ds{font-size:.82rem;color:var(--tx2);line-height:1.6}
+
+/* CLOSED LOOP */
+.loop-viz{background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:2rem;margin-top:2rem;text-align:center}
+.loop-flow{display:flex;justify-content:center;align-items:center;gap:4px;flex-wrap:wrap;margin:1.5rem 0}
+.loop-node{background:var(--s2);border:1px solid var(--bdr);border-radius:8px;padding:10px 16px;font-size:.82rem;font-weight:600;transition:all .3s}
+.loop-node:hover{border-color:var(--gold);background:var(--goldd)}
+.loop-hitl{border-color:var(--rd);color:var(--rd);background:var(--rdd)}
+.loop-modes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:1.5rem}
+.loop-mode{background:var(--s2);border:1px solid var(--bdr);border-radius:8px;padding:1rem;text-align:center}
+.loop-mode-name{font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;letter-spacing:.5px;margin-bottom:4px}
+.loop-mode-desc{font-size:.75rem;color:var(--tx2)}
+
+/* PRICING */
+.price-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:2rem}
+.price-card{background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:1.4rem;text-align:center;transition:border-color .3s}
+.price-card:hover{border-color:var(--bdr2)}
+.price-card.pop{border-color:var(--gold);position:relative}
+.price-card.pop::before{content:'POPULAR';position:absolute;top:-10px;left:50%;transform:translateX(-50%);font-family:'JetBrains Mono',monospace;font-size:.5rem;color:var(--bg);background:var(--gold);padding:2px 10px;border-radius:10px;font-weight:700;letter-spacing:1px}
+.price-name{font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;letter-spacing:1px;margin-bottom:6px}
+.price-val{font-size:1.8rem;font-weight:800;margin-bottom:2px}
+.price-per{font-size:.65rem;color:var(--mu);margin-bottom:12px}
+.price-feat{font-size:.75rem;color:var(--tx2);line-height:1.8;text-align:left}
+
+/* PRODUCT TABS */
+.tabs-wrap{max-width:1100px;margin:0 auto;padding:0 2rem 4rem}
+.tabs-bar{display:flex;gap:0;border-bottom:1px solid var(--bdr);margin-bottom:1.5rem;overflow-x:auto}
+.tbtn{padding:10px 18px;background:none;border:none;color:var(--mu);font-size:.82rem;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap}
+.tbtn:hover{color:var(--tx2)}
+.tbtn.on{color:var(--tx);border-bottom-color:var(--gold)}
+.tcont{display:none;animation:fi .4s ease}
+.tcont.on{display:block}
+@keyframes ctapulse{0%,100%{box-shadow:0 0 15px rgba(232,163,23,.3)}50%{box-shadow:0 0 25px rgba(232,163,23,.5)}}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* METRIC BOXES */
+.mgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:10px;margin-bottom:1.2rem}
+.mbox{background:var(--card);border:1px solid var(--bdr);border-radius:8px;padding:1rem}
+.mlab{font-size:.6rem;color:var(--mu);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px}
+.mval{font-family:'JetBrains Mono',monospace;font-size:1.6rem;font-weight:700}
+.mtrend{font-size:.65rem;margin-top:3px}
+.up{color:var(--gr)}.dn{color:var(--rd)}.wrn{color:var(--gold)}
+
+/* PRODUCT CARD */
+.pcard{background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:1.5rem;margin-bottom:1rem}
+.pcard h3{font-size:1rem;font-weight:700;margin-bottom:.4rem}
+.pcard p{color:var(--tx2);font-size:.88rem;line-height:1.7}
+
+/* TRACE TABLE */
+.ttable{width:100%;border-collapse:collapse;font-size:.78rem}
+.ttable th{text-align:left;padding:8px 10px;color:var(--mu);font-weight:500;font-size:.65rem;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--bdr)}
+.ttable td{padding:7px 10px;border-bottom:1px solid rgba(34,38,64,.4)}
+.ttable tr:hover td{background:var(--card2)}
+.badge{font-family:'JetBrains Mono',monospace;font-size:.55rem;padding:2px 7px;border-radius:3px;font-weight:600}
+.b-pass{background:var(--grd);color:var(--gr)}.b-block{background:var(--rdd);color:var(--rd)}.b-flag{background:var(--goldd);color:var(--gold)}
+
+/* MINI CHART */
+.mchart{display:flex;align-items:flex-end;gap:2px;height:50px;margin:10px 0}
+.mbar{flex:1;border-radius:2px 2px 0 0;transition:height .3s}
+
+/* FRAMEWORKS */
+.fwrap{display:flex;flex-wrap:wrap;gap:8px;margin-top:1.5rem;justify-content:center}
+.ftag{font-family:'JetBrains Mono',monospace;font-size:.82rem;padding:10px 20px;border:1px solid var(--bdr);border-radius:6px;color:var(--tx2);transition:all .2s}
+.ftag:hover{border-color:var(--gold);color:var(--gold)}
+
+/* COMPLIANCE */
+.comprow{display:flex;flex-wrap:wrap;gap:10px;margin-top:1.5rem;justify-content:center}
+.comp{background:var(--card);border:1px solid var(--bdr);border-radius:8px;padding:12px 18px;text-align:center;min-width:100px;transition:border-color .2s}
+.comp:hover{border-color:var(--gold)}
+.comp-ic{font-size:1.3rem;margin-bottom:4px}
+.comp-nm{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;color:var(--gold)}
+.comp-sub{font-size:.55rem;color:var(--dm);margin-top:1px}
+
+/* DEMO EXPLAIN */
+.demo-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:1.5rem}
+.dstep{background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:1.2rem;text-align:center}
+.dstep-num{font-family:'JetBrains Mono',monospace;font-size:1.4rem;font-weight:800;color:var(--gold);margin-bottom:6px}
+.dstep-title{font-size:.85rem;font-weight:700;margin-bottom:4px}
+.dstep-desc{font-size:.75rem;color:var(--tx2);line-height:1.5}
+
+/* FORM */
+.form-sec{max-width:540px;margin:0 auto;padding:5rem 2rem;text-align:center}
+.fcard{background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:1.8rem;text-align:left;margin-top:1.5rem}
+.frow{margin-bottom:.9rem}
+.frow label{display:block;font-size:.72rem;color:var(--tx2);margin-bottom:3px;font-weight:500}
+.frow input,.frow select,.frow textarea{width:100%;padding:9px 11px;background:var(--bg);border:1px solid var(--bdr);border-radius:5px;color:var(--tx);font-size:.82rem;font-family:'Plus Jakarta Sans',sans-serif;transition:border-color .2s}
+.frow input:focus,.frow select:focus,.frow textarea:focus{outline:none;border-color:var(--gold)}
+.frow textarea{resize:vertical;min-height:70px}
+.fsecure{display:flex;align-items:center;gap:5px;font-size:.6rem;color:var(--mu);margin-top:.8rem}
+.fsubmit{width:100%;padding:11px;background:var(--tx);color:var(--bg);border:none;border-radius:6px;font-weight:700;font-size:.85rem;cursor:pointer;margin-top:.4rem;transition:opacity .2s}
+.fsubmit:hover{opacity:.9}
+
+/* LIVE DEMO EMBED */
+.demo-embed{background:var(--card);border:1px solid var(--bdr);border-radius:10px;overflow:hidden}
+.demo-hdr{padding:12px 18px;border-bottom:1px solid var(--bdr);display:flex;justify-content:space-between;align-items:center}
+.demo-live-dot{width:7px;height:7px;border-radius:50%;background:var(--gr);box-shadow:0 0 8px rgba(28,199,122,.5);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.demo-kpis{padding:14px 18px;display:grid;grid-template-columns:repeat(6,1fr);gap:8px;border-bottom:1px solid var(--bdr)}
+.dk{text-align:center}
+.dk-l{font-size:.5rem;color:var(--mu);text-transform:uppercase;letter-spacing:.8px}
+.dk-v{font-family:'JetBrains Mono',monospace;font-size:1.2rem;font-weight:700}
+.demo-feed{padding:10px 18px;max-height:130px;overflow-y:auto;font-family:'JetBrains Mono',monospace;font-size:.65rem;line-height:1.9;color:var(--tx2)}
+
+/* FOOTER */
+footer{max-width:920px;margin:0 auto;padding:2.5rem 2rem;border-top:1px solid var(--bdr);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;font-size:.7rem;color:var(--dm)}
+footer a{color:var(--mu);text-decoration:none;margin-left:1rem}
+footer a:hover{color:var(--tx)}
+
+@media(max-width:900px){
+nav{padding:.5rem 1rem}.nr a:not(.cta){display:none}
+.hero{padding:6.5rem 1.5rem 3rem}
+.sec{padding:3.5rem 1.5rem}
+.personas,.price-grid{grid-template-columns:1fr}
+.loop-modes{grid-template-columns:1fr}
+.lc-flow{flex-wrap:nowrap;overflow-x:auto}
+.demo-kpis{grid-template-columns:repeat(3,1fr)}
+}
+
+/* RESOURCE PAGE ADDITIONS */
+.art-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:1.5rem}
+.art{background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:1.5rem;transition:all .3s;cursor:default}
+.art:hover{border-color:var(--bdr2);transform:translateY(-2px)}
+.art-tag{font-family:'JetBrains Mono',monospace;font-size:.55rem;padding:2px 8px;border-radius:3px;font-weight:600;display:inline-block;margin-bottom:8px}
+.tag-blog{background:var(--cyd);color:var(--cy)}
+.tag-wp{background:var(--vid);color:var(--vi)}
+.tag-case{background:var(--grd);color:var(--gr)}
+.art-title{font-size:1rem;font-weight:700;margin-bottom:6px;line-height:1.3}
+.art-meta{font-size:.7rem;color:var(--dm);margin-bottom:8px}
+.art-excerpt{font-size:.82rem;color:var(--tx2);line-height:1.65}
+.art-metrics{display:flex;gap:12px;margin-top:10px;flex-wrap:wrap}
+.art-metric{font-family:'JetBrains Mono',monospace;font-size:.6rem;padding:3px 8px;background:var(--s2);border-radius:4px;color:var(--tx2)}
+.art-metric strong{color:var(--gold)}
+.art-read{font-size:.72rem;color:var(--gold);margin-top:10px;font-weight:600}
+.case{background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:2rem;margin-bottom:16px}
+.case-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;flex-wrap:wrap;gap:12px}
+.case-platform{font-size:1.1rem;font-weight:700}
+.case-badge{font-family:'JetBrains Mono',monospace;font-size:.55rem;padding:3px 10px;border-radius:4px;font-weight:700}
+.case-desc{font-size:.88rem;color:var(--tx2);line-height:1.7;margin-bottom:1rem}
+.case-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:1rem}
+.cm{background:var(--s2);border-radius:8px;padding:.8rem;text-align:center}
+.cm-v{font-family:'JetBrains Mono',monospace;font-size:1.3rem;font-weight:700}
+.cm-l{font-size:.6rem;color:var(--mu);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+.case-quote{font-style:italic;color:var(--tx2);font-size:.88rem;padding:12px 16px;border-left:3px solid var(--gold);margin-top:12px;background:var(--goldd);border-radius:0 6px 6px 0}
+.case-attr{font-size:.7rem;color:var(--mu);margin-top:6px;font-style:normal}
+.test-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:1.5rem}
+.test{background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:1.3rem}
+.test-quote{font-size:.85rem;color:var(--tx2);line-height:1.65;font-style:italic;margin-bottom:10px}
+.test-from{display:flex;align-items:center;gap:8px}
+.test-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700}
+.test-name{font-size:.78rem;font-weight:600}
+.test-role{font-size:.62rem;color:var(--mu)}
+.badges{display:flex;flex-wrap:wrap;gap:12px;margin-top:1.5rem;justify-content:center}
+.bdg{background:var(--card);border:1px solid var(--bdr);border-radius:8px;padding:14px 20px;display:flex;align-items:center;gap:10px;transition:border-color .2s}
+.bdg:hover{border-color:var(--gold)}
+.bdg-icon{font-size:1.3rem}
+.bdg-text{text-align:left}
+.bdg-val{font-family:'JetBrains Mono',monospace;font-size:.85rem;font-weight:700;color:var(--gold)}
+.bdg-lbl{font-size:.6rem;color:var(--mu)}
+.docs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:1.5rem}
+.doc{background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:1.3rem;transition:border-color .3s}
+.doc:hover{border-color:var(--gold)}
+.doc-icon{font-size:1.4rem;margin-bottom:8px}
+.doc-title{font-size:.9rem;font-weight:700;margin-bottom:4px}
+.doc-desc{font-size:.78rem;color:var(--tx2);line-height:1.6}
+.doc-tag{font-family:'JetBrains Mono',monospace;font-size:.55rem;color:var(--mu);margin-top:8px}
+.codeblock{background:var(--s1);border:1px solid var(--bdr);border-radius:8px;padding:14px 18px;font-family:'JetBrains Mono',monospace;font-size:.68rem;line-height:2;color:var(--mu);overflow-x:auto;margin:1rem 0}
+.cl-item{padding:1rem 0;border-bottom:1px solid var(--bdr)}
+.cl-ver{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;color:var(--gold)}
+.cl-date{font-size:.7rem;color:var(--dm);margin-left:8px}
+.cl-changes{font-size:.82rem;color:var(--tx2);margin-top:6px;line-height:1.7}
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+<div class="nl">
+<img src="data:image/png;base64,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" alt="AgenticX5" class="nlogo">
+<span class="nbrand">AEGIS<em>-X5</em></span>
+<span class="ntag">AgenticX5 Tech</span>
+</div>
+<div class="nr">
+<a href="#product" class="en">Product</a><a href="#product" class="fr">Produit</a>
+<a href="#cases" class="en">Case Studies</a><a href="#cases" class="fr">Cas</a>
+<a href="#docs" class="en">Docs</a><a href="#docs" class="fr">Docs</a>
+<a href="#pricing" class="en">Pricing</a><a href="#pricing" class="fr">Tarifs</a>
+<button class="lbtn" onclick="document.body.classList.toggle('fr');this.textContent=document.body.classList.contains('fr')?'EN':'FR'">FR</button>
+<a href="#demo" class="cta en">Get Demo</a><a href="#demo" class="cta fr">Démo</a>
+</div>
+</nav>
+
+
+<!-- LAUNCH BANNER -->
+<div style="background:linear-gradient(90deg,var(--gold),var(--gold2));padding:10px 20px;text-align:center;position:fixed;top:52px;left:0;width:100%;z-index:99;font-size:.78rem;font-weight:600;color:var(--bg)">
+<span class="en">🚀 AEGIS-X5 is now available — Autonomous Agent Governance for Regulated Industries. <a href="#demo" style="color:var(--bg);text-decoration:underline;font-weight:800">Schedule your demo →</a></span>
+<span class="fr">🚀 AEGIS-X5 est maintenant disponible — Gouvernance Agentique Autonome pour Industries Réglementées. <a href="#demo" style="color:var(--bg);text-decoration:underline;font-weight:800">Planifier votre démo →</a></span>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+<div class="hero-chip en">Autonomous Agent Governance Platform</div>
+<div class="hero-chip fr">Plateforme de Gouvernance Agentique Autonome</div>
+<h1>
+<span class="en">Your AI agents.<br><span>Governed autonomously.</span></span>
+<span class="fr">Vos agents IA.<br><span>Gouvernés de manière autonome.</span></span>
+</h1>
+<p class="en">Observe, protect, evaluate, collect, and remember — in closed-loop autonomy. The governance layer for AI agents in regulated industries.</p>
+<p class="fr">Observer, protéger, évaluer, collecter et mémoriser — en boucle fermée autonome. La couche de gouvernance pour agents IA en industries réglementées.</p>
+<div class="hero-btns">
+<a href="#demo" class="cta en" style="padding:10px 26px;font-size:.88rem">Request a Demo</a>
+<a href="#demo" class="cta fr" style="padding:10px 26px;font-size:.88rem">Demander une démo</a>
+<a href="#lifecycle" class="cta2 en">How it works →</a>
+<a href="#lifecycle" class="cta2 fr">Comment ça marche →</a>
+</div>
+<div class="stats">
+<div class="stat"><div class="v">748</div><div class="l en">Tests Passing</div><div class="l fr">Tests réussis</div></div>
+<div class="stat"><div class="v">5</div><div class="l en">Governance Modules</div><div class="l fr">Modules gouvernance</div></div>
+<div class="stat"><div class="v">&lt;2min</div><div class="l en">Integration Time</div><div class="l fr">Temps d'intégration</div></div>
+<div class="stat"><div class="v">0</div><div class="l en">Vendor Lock-in</div><div class="l fr">Vendor Lock-in</div></div>
+</div>
+<div class="codebox">
+<div class="codebar"><div class="codedot" style="background:#e84057"></div><div class="codedot" style="background:#e8a317"></div><div class="codedot" style="background:#1cc77a"></div><span style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:var(--dm);margin-left:8px">quickstart.py</span></div>
+<div class="codebody">
+<span class="ck">from</span> aegis <span class="ck">import</span> Aegis<br><br>
+aegis = Aegis(workspace=<span class="cv">"my-project"</span>)<br><br>
+<span class="co">@aegis.protect</span>(name=<span class="cv">"my-agent"</span>, level=<span class="cv">"N3"</span>)<br>
+<span class="ck">def</span> <span class="cf">my_agent</span>(query):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="ck">return</span> llm.invoke(query)<br><br>
+<span class="cc"># ✓ Trace captured | Cost: $0.004 | Guard: PASS</span><br>
+<span class="cc"># ✓ Health Score: 94 | Drift prediction: stable</span>
+</div>
+</div>
+</section>
+
+<!-- BADGES / CERTIFICATIONS -->
+<section class="sec wide" id="badges" style="text-align:center">
+<div class="label en">Proven at Scale</div>
+<div class="label fr">Prouvé à l'échelle</div>
+<div class="badges">
+<div class="bdg"><div class="bdg-icon">🛡️</div><div class="bdg-text"><div class="bdg-val">748 Tests</div><div class="bdg-lbl en">All passing, 0 dependencies</div><div class="bdg-lbl fr">Tous réussis, 0 dépendances</div></div></div>
+<div class="bdg"><div class="bdg-icon">🤖</div><div class="bdg-text"><div class="bdg-val">500+ Agents</div><div class="bdg-lbl en">Governed in production</div><div class="bdg-lbl fr">Gouvernés en production</div></div></div>
+<div class="bdg"><div class="bdg-icon">📊</div><div class="bdg-text"><div class="bdg-val">22M+ Records</div><div class="bdg-lbl en">HSE incidents analyzed</div><div class="bdg-lbl fr">Incidents HSE analysés</div></div></div>
+<div class="bdg"><div class="bdg-icon">⚡</div><div class="bdg-text"><div class="bdg-val">94.7%</div><div class="bdg-lbl en">ML prediction accuracy</div><div class="bdg-lbl fr">Précision prédictive ML</div></div></div>
+<div class="bdg"><div class="bdg-icon">🏗️</div><div class="bdg-text"><div class="bdg-val">25+ Platforms</div><div class="bdg-lbl en">AgenticX5 ecosystem</div><div class="bdg-lbl fr">Écosystème AgenticX5</div></div></div>
+<div class="bdg"><div class="bdg-icon">💰</div><div class="bdg-text"><div class="bdg-val">$6M+ ROI</div><div class="bdg-lbl en">Documented client savings</div><div class="bdg-lbl fr">Économies clients documentées</div></div></div>
+</div>
+</section>
+
+
+<hr class="divider">
+
+<hr class="divider">
+
+
+<!-- FRAMEWORKS -->
+<section class="sec" id="frameworks" style="text-align:center">
+<div class="label en">Framework Compatibility</div>
+<div class="label fr">Compatibilité Frameworks</div>
+<div class="title en" style="display:inline-block">Works with your stack. Any stack.</div>
+<div class="title fr" style="display:inline-block">Compatible avec votre stack. N'importe laquelle.</div>
+<div class="fwrap">
+<div class="ftag" style="border-color:rgba(34,184,207,.4)"><img src="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjZmZmZmZmIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+TGFuZ0NoYWluPC90aXRsZT48cGF0aCBkPSJNNi4wOTg4IDUuOTE3NUMyLjczNTkgNS45MTc1IDAgOC42NDYyIDAgMTJzMi43MzYgNi4wODI1IDYuMDk4OCA2LjA4MjVoMTEuODAyNEMyMS4yNjQxIDE4LjA4MjUgMjQgMTUuMzUzOCAyNCAxMnMtMi43MzYtNi4wODI1LTYuMDk4OC02LjA4MjVaTTUuOTc3NCA3Ljg1MWMuNDkzLjAxMjQgMS4wMi4yNDk2IDEuMjczLjYyMjguMzY3My40NTkyLjQ3NzggMS4wNjY4Ljg5NDQgMS40OTMyLjU2MDQuNjExOCAxLjE5OSAxLjE1MDUgMS43MTYxIDEuODAyLjQ4OTIuNTk1NC44Mzg2IDEuMjkzNyAxLjE0MzYgMS45OTc1LjEyNDQuMjMzNS4xMjU3LjUyMDIuMzEuNzE5Ny4wOTA4LjEyMDQuNTM0Ni40NDgzLjQzODMuNTY0NS4wNTU1LjEyMDQuNDcwMi4yODYuMzI2My40MDI3LS4xOTQ0LjA0LS40MTI5LjA0NzYtLjU2MTYtLjEwNzQtLjA1NDkuMTI2LS4xODMuMDU5Ni0uMjgxOS4wNDMyYTQgNCAwIDAgMC0uMDI1LjA3MzZjLS4zMjg4LjAyMTktLjU3NTQtLjMxMjYtLjczMi0uNTY1LS4zMTExLS4xNjgtLjY2NDItLjI3MDItLjk4Mi0uNDQ2LS4wMTgyLjI4OTUuMDQ1Mi42NDg1LS4yMzEuODM1My0uMDE0LjU1NjUuODQzNi4wNjU2LjkyMjIuNDgwNC0uMDYxLjAwNjctLjEyODYtLjAwOTUtLjE3NzQuMDM3My0uMjIzOS4yMTcyLS40ODA1LS4xNjQ1LS43Mzg1LS4wMDctLjM0NjQuMTc0LS4zODA4LjMxNjEtLjgwOTYuMzUyLS4wMjM3LS4wMzU5LS4wMTQzLS4wNTkyLjAwNTktLjA4MTEuMTIwNy0uMTM5OS4xMjk1LS4zMDQ2LjMzNTYtLjM2NDMtLjIxMjItLjAzMzQtLjM4OTkuMDgzMy0uNTY4Ni4xNzU3LS4yMzIzLjA5NS0uMjMwNC0uMjE0MS0uNTg3OC4wMTY0LS4wMzk2LS4wMzIyLS4wMjA4LS4wNjE1LjAwMTgtLjA4NjQuMDkwOC0uMTEwNy4yMTAyLS4xMjcuMzQ1LS4xMjA4LS42NjMtLjM2ODYtLjk3NTEuNDUwNy0xLjI4MTMuMDQzMi0uMDkyLjAyNDMtLjEyNjUuMTA2OC0uMTg0NS4xNjUyLS4wNS0uMDU0OC0uMDEyMy0uMTIxMi0uMDA5OS0uMTg1Ny0uMDU5OC0uMDI4LS4xMzU2LS4wNDEtLjExNzktLjEzNjYtLjExNzEtLjAzOTUtLjE5ODguMDI5NS0uMjg2LjA5NTItLjA3ODctLjA2MDguMDUzMi0uMTQ5Mi4wNzc2LS4yMTI1LjA3MDItLjEyMTYuMjMtLjAyNS4zMTExLS4xMTI2LjIzMDYtLjEzMDguNTUyLjA4MTQuODE1NS4wNDU1LjIwMy4wMjU1LjQ1NDQtLjE4MjUuMzUyNi0uMzktLjIxNzEtLjI3NjctLjE3OS0uNjM4Ni0uMTgzOS0uOTY5NS0uMDI2OC0uMTkyOS0uNDkxLS40MzgyLS42MjUyLS42NDYyLS4xNjU5LS4xODczLS4yOTUtLjQwNDctLjQyNDMtLjYxODItLjQ2NjYtLjkwMDgtLjMxOTgtMi4wNTg0LS45MDc3LTIuODk0Ny0uMjY2LjE0NjYtLjYxMjUuMDc3NC0uODQxOC0uMTE5LS4xMjM4LjExMjUtLjEyOTIuMjU5OC0uMTM5LjQxNjEtLjI5Ny0uMjk2Mi0uMjU5My0uODU1OS0uMDIyLTEuMTg1NS4wOTY5LS4xMzAyLjIxMjctLjIzNzMuMzQyLS4zMzE2LjAyOTItLjAyMTMuMDM5MS0uMDQxOS4wMzg1LS4wNzQ3LjExNzQtLjUyNjcuNTc2NC0uNzM5MSAxLjA2OTQtLjcyNjdtMTIuNDA3MS40NmMuNTU3NSAwIDEuMDgwNi4yMTU5IDEuNDc0LjYwODJzLjYxLjkxNDUuNjEgMS40NzA0YzAgLjU1Ni0uMjE2NyAxLjA3OC0uNjEgMS40Njk4di4wMDA2bC0uOTAyLjg5OTVhMi4wOCAyLjA4IDAgMCAxLS44NTk3LjUxNjZsLS4wMTY0LjAwNDctLjAwNTguMDE2NGEyLjA1IDIuMDUgMCAwIDEtLjQ3NC43MzA4bC0uOTAxOC44OTk1Yy0uMzkzNC4zOTI0LS45MTcuNjA4My0xLjQ3NDUuNjA4M3MtMS4wODA2LS4yMTYtMS40NzQtLjYwODNjLS44MTMtLjgxMDctLjgxMy0yLjEyOTQgMC0yLjk0MDJsLjkwMTktLjg5OTVhMi4wNTYgMi4wNTYgMCAwIDEgLjg1OC0uNTE0M2wuMDE3LS4wMDUzLjAwNTgtLjAxNThhMi4wNyAyLjA3IDAgMCAxIC40NzUyLS43MzM3bC45MDE4LS44OTk1Yy4zOTM0LS4zOTI0LjkxNzEtLjYwODMgMS40NzQ1LS42MDgzem0wIC44OTY1YTEuMTggMS4xOCAwIDAgMC0uODM4OC4zNDYybC0uOTAxOC44OTk1YTEuMTgxIDEuMTgxIDAgMCAwLS4zNDI3LjkyNTJsLjAwNTMuMDU3MmMuMDMyMy4yNjUyLjE0OS41MDQ0LjMzNzQuNjkxNy4xMy4xMjk2LjI3MzMuMjExNC40NDcxLjI2ODZhLjkuOSAwIDAgMSAuMDE0LjE1ODIuODg0Ljg4NCAwIDAgMS0uMjYwOS42MzA0bC0uMDU1NC4wNTU0Yy0uMzAxMy0uMTAyOC0uNTUyNS0uMjUzLS43Nzk0LS40NzkyYTIuMDYgMi4wNiAwIDAgMS0uNTc2MS0xLjA5NjhsLS4wMDk5LS4wNTc4LS4wNDYxLjAzNjhhMS4xIDEuMSAwIDAgMC0uMDg3Ni4wNzk0bC0uOTAyNC44OTk1Yy0uNDYyMy40NjEtLjQ2MjMgMS4yMTIgMCAxLjY3My4yMzExLjIzMDUuNTM1LjM0Ni44Mzk0LjM0NjEuMzA0MyAwIC42MDc3LS4xMTU2LjgzODgtLjM0NjJsLjkwMTktLjg5OTVjLjQ2MjMtLjQ2MS40NjIzLTEuMjExMyAwLTEuNjczYTEuMTcgMS4xNyAwIDAgMC0uNDM2Ny0uMjc0OSAxIDEgMCAwIDEtLjAxNC0uMTYxMWMwLS4yNTkxLjEwMjMtLjUwNS4yOTAxLS42OTIzLjMwMTkuMTAyOC41Ny4yNjk0Ljc5NjIuNDk1LjMwMDcuMjk5OS40OTk0LjY3OS41NzU2IDEuMDk2OGwuMDEwNS4wNTc4LjA0NTUtLjAzNzNhMS4xIDEuMSAwIDAgMCAuMDg4Ny0uMDc5NGwuOTAyLS44OTk2Yy40NjIyLS40NjEuNDYyOC0xLjIxMjQgMC0xLjY3MzVhMS4xOCAxLjE4IDAgMCAwLS44Mzk1LS4zNDYyWm0tOS45NzMgNS4xNTY3LS4wMDA2LjAwMDZjLS4wNzkzLjMwNzgtLjEwNDguODMxOC0uNTA2Ljg0Ny0uMDMzLjE3NzYuMTIyOC4yNDQ1LjI2NTUuMTg3NC4xNDEtLjA2NDUuMjA4MS4wNTA4LjI1NTcuMTY1Ny4yMTc3LjAzMTcuNTM5NC0uMDcyNS41NTE2LS4zMjk4LS4zMjUtLjE4NjctLjQyNTMtLjU0MTgtLjU2NjItLjg3MDkiLz48L3N2Zz4=" width="24" height="24" style="vertical-align:middle;margin-right:6px" alt="LangChain">LangChain</div>
+<div class="ftag" style="border-color:rgba(124,92,250,.4)"><img src="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjZmZmZmZmIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+Q3Jld0FJPC90aXRsZT48cGF0aCBkPSJNMTIuNDgyLjE4QzcuMTYxIDEuMzE5IDEuNDc4IDkuMDY5IDEuNDI2IDE1LjM3MmMtLjA1MSA1LjUyNyAzLjEgOC42OCA4LjY4IDguNjI3IDYuNzE2LS4wNSAxNC4yNTktNi44NyAxMi4wOS0xMC45LS42NzItMS4yOTItMS4zOTYtMS4zNDQtMi42ODctLjIwNy0xLjYwMiAxLjM5NS0xLjY1NC4zMS0uMjA3LTIuODkzIDEuNzU3LTMuOTggMS43MDUtNS4zMjItLjMxLTcuNTQ0QzE3LjAzLjM4OCAxNC45NjItLjM4OCAxMi40ODIuMTgxWm01LjMyMiAyLjA2OGMyLjI3MyAyLjAxNSAyLjM3NiA0LjIzNi40NjUgOC40Mi0xLjM5NSAzLjEtMi4xNyAzLjUxNS0zLjgyNCAxLjg2LTEuMjQtMS4yNC0xLjM0My0zLjQ2LS4yNTgtNi4wNDQgMS4xMzctMi42MzUuOTgyLTMuMS0uNTY4LTEuNjUzLTMuNzIgMy4zNTgtNi40NTggOS43NjUtNS40MjQgMTIuNTAzLjQ2NCAxLjE4OS44MjUgMS4zOTUgMi43MzcgMS4zOTUgMi43OSAwIDYuMzAzLTEuNzA1IDcuOTU3LTMuOTI2IDEuNzU2LTIuMjc0IDIuNzktMi4yNzQgMi43OS0uMDUyIDAgMy44NzUtNi40NTkgOC42MjctMTEuNjI1IDguNjI3LTYuMjUxIDAtOS4zNTEtNC43NTItNy40OTEtMTEuNDcuODc4LTIuOTk1IDQuNDQzLTcuOTA0IDcuMDc3LTkuNjYgMy4yNTUtMi4xNyA1LjY4NC0yLjE3IDguMTY0IDB6Ii8+PC9zdmc+" width="24" height="24" style="vertical-align:middle;margin-right:6px" alt="CrewAI">CrewAI</div>
+<div class="ftag" style="border-color:rgba(28,199,122,.4)"><img src="data:image/svg+xml;base64,PCFkb2N0eXBlIGh0bWw+PHNjcmlwdCB0eXBlPSI1ZDIzYzViZTdlZmRhYjQ4OTJjNWJmN2UtdGV4dC9qYXZhc2NyaXB0Ij5jb25zdCBQQVRIPWA0MDQvYCxwYXJhbXM9bmV3IFVSTCh3aW5kb3cubG9jYXRpb24pLnNlYXJjaFBhcmFtcy50b1N0cmluZygpLG9wdHM9cGFyYW1zP2A/JHtwYXJhbXN9YDpgYDt3aW5kb3cubG9jYXRpb249YGh0dHBzOi8vc2ltcGxlaWNvbnMub3JnLzQwNC8ke29wdHN9YDs8L3NjcmlwdD48bm9zY3JpcHQ+PG1ldGEgY29udGVudD0iMDsgVVJMPWh0dHBzOi8vc2ltcGxlaWNvbnMub3JnLzQwNC8iIGh0dHAtZXF1aXY9cmVmcmVzaD48L2hlYWQ+PC9ub3NjcmlwdD48L2h0bWw+PHNjcmlwdCBzcmM9Ii9jZG4tY2dpL3NjcmlwdHMvN2QwZmExMGEvY2xvdWRmbGFyZS1zdGF0aWMvcm9ja2V0LWxvYWRlci5taW4uanMiIGRhdGEtY2Ytc2V0dGluZ3M9IjVkMjNjNWJlN2VmZGFiNDg5MmM1YmY3ZS18NDkiIGRlZmVyPjwvc2NyaXB0Pg==" width="24" height="24" style="vertical-align:middle;margin-right:6px" alt="OpenAI SDK">OpenAI SDK</div>
+<div class="ftag" style="border-color:rgba(232,163,23,.4)"><img src="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjZmZmZmZmIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+QW50aHJvcGljPC90aXRsZT48cGF0aCBkPSJNMTcuMzA0MSAzLjU0MWgtMy42NzE4bDYuNjk2IDE2LjkxOEgyNFptLTEwLjYwODIgMEwwIDIwLjQ1OWgzLjc0NDJsMS4zNjkzLTMuNTUyN2g3LjAwNTJsMS4zNjkzIDMuNTUyOGgzLjc0NDJMMTAuNTM2MyAzLjU0MDlabS0uMzcxMiAxMC4yMjMyIDIuMjkxNC01Ljk0NTYgMi4yOTE0IDUuOTQ1NloiLz48L3N2Zz4=" width="24" height="24" style="vertical-align:middle;margin-right:6px" alt="Anthropic SDK">Anthropic SDK</div>
+<div class="ftag" style="border-color:rgba(66,133,244,.4)"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIHJ4PSIxNiIgZmlsbD0iIzFhMWEyZSIvPjx0ZXh0IHg9IjUwIiB5PSI0MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNmZmZmZmYiPkFVVE88L3RleHQ+PHRleHQgeD0iNTAiIHk9IjYyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzRmYzNmNyI+R0VOPC90ZXh0PjxjaXJjbGUgY3g9IjUwIiBjeT0iNzgiIHI9IjQiIGZpbGw9IiM0ZmMzZjciIG9wYWNpdHk9IjAuNiIvPjwvc3ZnPg==" width="24" height="24" style="vertical-align:middle;margin-right:6px" alt="AutoGen">AutoGen</div>
+<div class="ftag" style="border-color:rgba(124,92,250,.4)"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIHJ4PSIxNiIgZmlsbD0iIzFhMWEyZSIvPjx0ZXh0IHg9IjUwIiB5PSIzOCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNmZmZmZmYiPkxMQU1BPC90ZXh0Pjx0ZXh0IHg9IjUwIiB5PSI1OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNhODU1ZjciPklOREVYPC90ZXh0PjxwYXRoIGQ9Ik00MiA2OCBMNTAgODAgTDU4IDY4IiBzdHJva2U9IiNhODU1ZjciIHN0cm9rZS13aWR0aD0iMi41IiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L3N2Zz4=" width="24" height="24" style="vertical-align:middle;margin-right:6px" alt="LlamaIndex">LlamaIndex</div>
+<div class="ftag" style="border-color:rgba(28,199,122,.4)"><img src="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjZmZmZmZmIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+SGF5c3RhY2s8L3RpdGxlPjxwYXRoIGQ9Ik0yLjAwODQgMEMuODk5MiAwIDAgLjg5OTIgMCAyLjAwODR2MTkuOTgzMkMwIDIzLjEwMDYuODk5MiAyNCAyLjAwODQgMjRoMTkuOTgzMkMyMy4xMDA2IDI0IDI0IDIzLjEwMDcgMjQgMjEuOTkxNlYyLjAwODRDMjQgLjg5OTIgMjMuMTAwNyAwIDIxLjk5MTYgMFptOS45NjI0IDMuODRjMy40MzAzIDAgNi4yMTA4IDIuNzYyNiA2LjIxMDggNi4xNzA5djYuNDg3NWEuMjY4OC4yNjg4IDAgMCAxLS4yNjk3LjI2ODFjLTEuMzQyNSAwLTIuNDMwNi0xLjA4MTEtMi40MzA2LTIuNDE1di00LjM0MDljMC0xLjkyNjUtMS41NzItMy40ODgtMy41MTA1LTMuNDg4cy0zLjQyNCAxLjU2Mi0zLjQyNCAzLjQ4OHYxLjYwOGEuMjYzMy4yNjMzIDAgMCAwIC4yNTkuMjY4MWgxLjUzOTRhLjI2OTMuMjY5MyAwIDAgMCAuMjc1My0uMjYzVjkuOTQ1M2MwLS43NDEyLjYwNDQtMS4zNDE0IDEuMzUwMy0xLjM0MTRzMS4zNTAyLjYwMDIgMS4zNTAyIDEuMzQxNFYyMC4wMjlhLjI3NDcuMjc0NyAwIDAgMS0uMjgwNy4yNjgyYy0xLjMzNjIgMC0yLjQxOTgtMS4wNzY2LTIuNDE5OC0yLjQwNDN2LTMuMjMwN2EuMjc0Ny4yNzQ3IDAgMCAwLS4yNzUzLS4yNjhIOC44MTE0YS4yNjM3LjI2MzcgMCAwIDAtLjI2NDYuMjYzdjEuMDc4OWMwIDEuMzMzOC0xLjE3NDYgMi40MTUyLTIuNTE3IDIuNDE1MmEuMjY4OC4yNjg4IDAgMCAxLS4yNjk4LS4yNjh2LTcuODcyNGMwLTMuNDA4MyAyLjc4MDUtNi4xNzA5IDYuMjEwOC02LjE3MDlaIi8+PC9zdmc+" width="24" height="24" style="vertical-align:middle;margin-right:6px" alt="Haystack">Haystack</div>
+<div class="ftag" style="border-color:rgba(34,184,207,.4)"><img src="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjZmZmZmZmIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+VmVyY2VsPC90aXRsZT48cGF0aCBkPSJtMTIgMS42MDggMTIgMjAuNzg0SDBaIi8+PC9zdmc+" width="24" height="24" style="vertical-align:middle;margin-right:6px" alt="Vercel AI">Vercel AI</div>
+<div class="ftag" style="border-color:rgba(232,163,23,.4)">REST / Webhook</div>
+<div class="ftag" style="border-color:rgba(66,133,244,.4)"><img src="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjZmZmZmZmIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+T3BlblRlbGVtZXRyeTwvdGl0bGU+PHBhdGggZD0iTTEyLjY5NzQgMTMuMTE3M2MtMS4wMjI0IDEuMDIyNC0xLjAyMjQgMi42OCAwIDMuNzAyNCAxLjAyMjQgMS4wMjI0IDIuNjggMS4wMjI0IDMuNzAyNCAwIDEuMDIyNC0xLjAyMjMgMS4wMjI0LTIuNjggMC0zLjcwMjQtMS4wMjIzLTEuMDIyMy0yLjY4LTEuMDIyMy0zLjcwMjQgMHptMi43Njc3IDIuNzcwMWMtLjUwNjMuNTA2My0xLjMyNjcuNTA2My0xLjgzMyAwcy0uNTA2My0xLjMyNjYgMC0xLjgzM2MuNTA2My0uNTA2MiAxLjMyNjctLjUwNjIgMS44MzMgMCAuNTA2My41MDQuNTA2MyAxLjMyNjcgMCAxLjgzM3pNMTYuMzU2LjIzNTVsLTEuNjA0MSAxLjYwNDJjLS4zMTQuMzE0LS4zMTQuODMgMCAxLjE0NEwyMS4wMTUgOS4yNDdjLjMxNC4zMTQuODMuMzE0IDEuMTQ0IDBsMS42MDQyLTEuNjA0MWMuMzE0LS4zMTQuMzE0LS44MyAwLTEuMTQ0TDE3LjQ5NzYuMjM1NGMtLjMxNC0uMzE0LS44Mjc2LS4zMTQtMS4xNDE2IDB6TTUuMTE3MyAyMC43MzRjLjI4NDgtLjI4NDguMjg0OC0uNzQ5NyAwLTEuMDM0NWwtLjgxNTUtLjgxNTVjLS4yODQ4LS4yODQ4LS43NDk3LS4yODQ4LTEuMDM0NSAwbC0xLjY4NDUgMS42ODQ1LS4wMDI0LjAwMjQtLjQ2MjUtLjQ2MjVjLS4yNTU2LS4yNTU2LS42NzE4LS4yNTU2LS45MjUgMC0uMjU1Ni4yNTU2LS4yNTU2LjY3MTggMCAuOTI1bDIuNzc1IDIuNzc1Yy4yNTU2LjI1NTYuNjcxOC4yNTU2LjkyNSAwIC4yNTMyLS4yNTU2LjI1NTYtLjY3MTggMC0uOTI1bC0uNDYyNS0uNDYyNS4wMDI0LS4wMDI0em04LjQ4NTYtMTUuODkzLTMuNTYzNyAzLjU2MzdjLS4zMTY0LjMxNjQtLjMxNjQuODM3NCAwIDEuMTUzOGwyLjIwMDYgMi4yMDA1YzEuNTU1NC0xLjExOTcgMy43MzY1LS45ODEgNS4xMzYxLjQxODdsMS43ODE5LTEuNzgxOGMuMzE2NC0uMzE2NS4zMTY0LS44Mzc0IDAtMS4xNTM4bC00LjQwMS00LjQwMWMtLjMxNjUtLjMxOS0uODM3NC0uMzE5LTEuMTUzOSAwem0tMi4yODgxIDcuODQ1NS0xLjI5OTktMS4yOTk5Yy0uMzA0My0uMzA0My0uODAzMy0uMzA0My0xLjEwNzYgMGwtNC41ODM2IDQuNTg2Yy0uMzA0Mi4zMDQzLS4zMDQyLjgwMzMgMCAxLjEwNzZsMi41OTczIDIuNTk3M2MuMzA0My4zMDQzLjgwMzMuMzA0MyAxLjEwNzYgMGwyLjk0NzgtMi45NTI3Yy0uNjIzMS0xLjI4NzctLjUxMTItMi44NDMxLjMzODQtNC4wMzgzeiIvPjwvc3ZnPg==" width="24" height="24" style="vertical-align:middle;margin-right:6px" alt="OpenTelemetry">OpenTelemetry</div>
+<div class="ftag" style="border-color:rgba(34,184,207,.4)"><img src="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjZmZmZmZmIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+UHl0aG9uPC90aXRsZT48cGF0aCBkPSJNMTQuMjUuMThsLjkuMi43My4yNi41OS4zLjQ1LjMyLjM0LjM0LjI1LjM0LjE2LjMzLjEuMy4wNC4yNi4wMi4yLS4wMS4xM1Y4LjVsLS4wNS42My0uMTMuNTUtLjIxLjQ2LS4yNi4zOC0uMy4zMS0uMzMuMjUtLjM1LjE5LS4zNS4xNC0uMzMuMS0uMy4wNy0uMjYuMDQtLjIxLjAySDguNzdsLS42OS4wNS0uNTkuMTQtLjUuMjItLjQxLjI3LS4zMy4zMi0uMjcuMzUtLjIuMzYtLjE1LjM3LS4xLjM1LS4wNy4zMi0uMDQuMjctLjAyLjIxdjMuMDZIMy4xN2wtLjIxLS4wMy0uMjgtLjA3LS4zMi0uMTItLjM1LS4xOC0uMzYtLjI2LS4zNi0uMzYtLjM1LS40Ni0uMzItLjU5LS4yOC0uNzMtLjIxLS44OC0uMTQtMS4wNS0uMDUtMS4yMy4wNi0xLjIyLjE2LTEuMDQuMjQtLjg3LjMyLS43MS4zNi0uNTcuNC0uNDQuNDItLjMzLjQyLS4yNC40LS4xNi4zNi0uMS4zMi0uMDUuMjQtLjAxaC4xNmwuMDYuMDFoOC4xNnYtLjgzSDYuMThsLS4wMS0yLjc1LS4wMi0uMzcuMDUtLjM0LjExLS4zMS4xNy0uMjguMjUtLjI2LjMxLS4yMy4zOC0uMi40NC0uMTguNTEtLjE1LjU4LS4xMi42NC0uMS43MS0uMDYuNzctLjA0Ljg0LS4wMiAxLjI3LjA1em0tNi4zIDEuOThsLS4yMy4zMy0uMDguNDEuMDguNDEuMjMuMzQuMzMuMjIuNDEuMDkuNDEtLjA5LjMzLS4yMi4yMy0uMzQuMDgtLjQxLS4wOC0uNDEtLjIzLS4zMy0uMzMtLjIyLS40MS0uMDktLjQxLjA5em0xMy4wOSAzLjk1bC4yOC4wNi4zMi4xMi4zNS4xOC4zNi4yNy4zNi4zNS4zNS40Ny4zMi41OS4yOC43My4yMS44OC4xNCAxLjA0LjA1IDEuMjMtLjA2IDEuMjMtLjE2IDEuMDQtLjI0Ljg2LS4zMi43MS0uMzYuNTctLjQuNDUtLjQyLjMzLS40Mi4yNC0uNC4xNi0uMzYuMDktLjMyLjA1LS4yNC4wMi0uMTYtLjAxaC04LjIydi44Mmg1Ljg0bC4wMSAyLjc2LjAyLjM2LS4wNS4zNC0uMTEuMzEtLjE3LjI5LS4yNS4yNS0uMzEuMjQtLjM4LjItLjQ0LjE3LS41MS4xNS0uNTguMTMtLjY0LjA5LS43MS4wNy0uNzcuMDQtLjg0LjAxLTEuMjctLjA0LTEuMDctLjE0LS45LS4yLS43My0uMjUtLjU5LS4zLS40NS0uMzMtLjM0LS4zNC0uMjUtLjM0LS4xNi0uMzMtLjEtLjMtLjA0LS4yNS0uMDItLjIuMDEtLjEzdi01LjM0bC4wNS0uNjQuMTMtLjU0LjIxLS40Ni4yNi0uMzguMy0uMzIuMzMtLjI0LjM1LS4yLjM1LS4xNC4zMy0uMS4zLS4wNi4yNi0uMDQuMjEtLjAyLjEzLS4wMWg1Ljg0bC42OS0uMDUuNTktLjE0LjUtLjIxLjQxLS4yOC4zMy0uMzIuMjctLjM1LjItLjM2LjE1LS4zNi4xLS4zNS4wNy0uMzIuMDQtLjI4LjAyLS4yMVY2LjA3aDIuMDlsLjE0LjAxem0tNi40NyAxNC4yNWwtLjIzLjMzLS4wOC40MS4wOC40MS4yMy4zMy4zMy4yMy40MS4wOC40MS0uMDguMzMtLjIzLjIzLS4zMy4wOC0uNDEtLjA4LS40MS0uMjMtLjMzLS4zMy0uMjMtLjQxLS4wOC0uNDEuMDh6Ii8+PC9zdmc+" width="24" height="24" style="vertical-align:middle;margin-right:6px" alt="Python">Python</div>
+<div class="ftag" style="border-color:rgba(28,199,122,.4)"><img src="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjZmZmZmZmIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+Tm9kZS5qczwvdGl0bGU+PHBhdGggZD0iTTExLjk5OCwyNGMtMC4zMjEsMC0wLjY0MS0wLjA4NC0wLjkyMi0wLjI0N2wtMi45MzYtMS43MzdjLTAuNDM4LTAuMjQ1LTAuMjI0LTAuMzMyLTAuMDgtMC4zODMgYzAuNTg1LTAuMjAzLDAuNzAzLTAuMjUsMS4zMjgtMC42MDRjMC4wNjUtMC4wMzcsMC4xNTEtMC4wMjMsMC4yMTgsMC4wMTdsMi4yNTYsMS4zMzljMC4wODIsMC4wNDUsMC4xOTcsMC4wNDUsMC4yNzIsMGw4Ljc5NS01LjA3NiBjMC4wODItMC4wNDcsMC4xMzQtMC4xNDEsMC4xMzQtMC4yMzhWNi45MjFjMC0wLjA5OS0wLjA1My0wLjE5Mi0wLjEzNy0wLjI0MmwtOC43OTEtNS4wNzJjLTAuMDgxLTAuMDQ3LTAuMTg5LTAuMDQ3LTAuMjcxLDAgTDMuMDc1LDYuNjhDMi45OSw2LjcyOSwyLjkzNiw2LjgyNSwyLjkzNiw2LjkyMXYxMC4xNWMwLDAuMDk3LDAuMDU0LDAuMTg5LDAuMTM5LDAuMjM1bDIuNDA5LDEuMzkyIGMxLjMwNywwLjY1NCwyLjEwOC0wLjExNiwyLjEwOC0wLjg5VjcuNzg3YzAtMC4xNDIsMC4xMTQtMC4yNTMsMC4yNTYtMC4yNTNoMS4xMTVjMC4xMzksMCwwLjI1NSwwLjExMiwwLjI1NSwwLjI1M3YxMC4wMjEgYzAsMS43NDUtMC45NSwyLjc0NS0yLjYwNCwyLjc0NWMtMC41MDgsMC0wLjkwOSwwLTIuMDI2LTAuNTUxTDIuMjgsMTguNjc1Yy0wLjU3LTAuMzI5LTAuOTIyLTAuOTQ1LTAuOTIyLTEuNjA0VjYuOTIxIGMwLTAuNjU5LDAuMzUzLTEuMjc1LDAuOTIyLTEuNjAzbDguNzk1LTUuMDgyYzAuNTU3LTAuMzE1LDEuMjk2LTAuMzE1LDEuODQ4LDBsOC43OTQsNS4wODJjMC41NywwLjMyOSwwLjkyNCwwLjk0NCwwLjkyNCwxLjYwMyB2MTAuMTVjMCwwLjY1OS0wLjM1NCwxLjI3My0wLjkyNCwxLjYwNGwtOC43OTQsNS4wNzhDMTIuNjQzLDIzLjkxNiwxMi4zMjQsMjQsMTEuOTk4LDI0eiBNMTkuMDk5LDEzLjk5MyBjMC0xLjktMS4yODQtMi40MDYtMy45ODctMi43NjNjLTIuNzMxLTAuMzYxLTMuMDA5LTAuNTQ4LTMuMDA5LTEuMTg3YzAtMC41MjgsMC4yMzUtMS4yMzMsMi4yNTgtMS4yMzMgYzEuODA3LDAsMi40NzMsMC4zODksMi43NDcsMS42MDdjMC4wMjQsMC4xMTUsMC4xMjksMC4xOTksMC4yNDcsMC4xOTloMS4xNDFjMC4wNzEsMCwwLjEzOC0wLjAzMSwwLjE4Ni0wLjA4MSBjMC4wNDgtMC4wNTQsMC4wNzQtMC4xMjMsMC4wNjctMC4xOTZjLTAuMTc3LTIuMDk4LTEuNTcxLTMuMDc2LTQuMzg4LTMuMDc2Yy0yLjUwOCwwLTQuMDA0LDEuMDU4LTQuMDA0LDIuODMzIGMwLDEuOTI1LDEuNDg4LDIuNDU3LDMuODk1LDIuNjk1YzIuODgsMC4yODIsMy4xMDMsMC43MDMsMy4xMDMsMS4yNjljMCwwLjk4My0wLjc4OSwxLjQwMi0yLjY0MiwxLjQwMiBjLTIuMzI3LDAtMi44MzktMC41ODQtMy4wMTEtMS43NDJjLTAuMDItMC4xMjQtMC4xMjYtMC4yMTUtMC4yNTMtMC4yMTVoLTEuMTM3Yy0wLjE0MSwwLTAuMjU0LDAuMTEyLTAuMjU0LDAuMjUzIGMwLDEuNDgyLDAuODA2LDMuMjQ4LDQuNjU1LDMuMjQ4QzE3LjUwMSwxNy4wMDcsMTkuMDk5LDE1LjkxLDE5LjA5OSwxMy45OTN6Ii8+PC9zdmc+" width="24" height="24" style="vertical-align:middle;margin-right:6px" alt="Node.js / Go">Node.js / Go</div>
+</div>
+</section>
+
+<hr class="divider">
+
+<!-- LIFECYCLE -->
+<section class="sec wide" id="lifecycle">
+<div class="label en">Where AEGIS-X5 fits</div>
+<div class="label fr">Où AEGIS-X5 se positionne</div>
+<div class="title en">We cover the hardest part — Day 2+</div>
+<div class="title fr">Nous couvrons la partie la plus difficile — le Jour 2+</div>
+<p class="desc en">Everyone builds agents. Almost nobody governs them in production. AEGIS-X5 covers phases 5, 6 and 7 of the agentic lifecycle — everything after your agents are built and deployed.</p>
+<p class="desc fr">Tout le monde construit des agents. Presque personne ne les gouverne en production. AEGIS-X5 couvre les phases 5, 6 et 7 du cycle agentique — tout ce qui se passe après que vos agents sont construits et déployés.</p>
+<div class="lc-flow">
+<div class="lc-step"><div class="lc-num">PHASE 1</div><div class="lc-name en">Design</div><div class="lc-name fr">Concevoir</div></div>
+<div class="lc-arr">→</div>
+<div class="lc-step"><div class="lc-num">PHASE 2</div><div class="lc-name en">Build</div><div class="lc-name fr">Construire</div></div>
+<div class="lc-arr">→</div>
+<div class="lc-step"><div class="lc-num">PHASE 3</div><div class="lc-name en">Test</div><div class="lc-name fr">Tester</div></div>
+<div class="lc-arr">→</div>
+<div class="lc-step"><div class="lc-num">PHASE 4</div><div class="lc-name en">Deploy</div><div class="lc-name fr">Déployer</div></div>
+<div class="lc-arr">→</div>
+<div class="lc-step active"><div class="lc-num">PHASE 5</div><div class="lc-name en">Operate</div><div class="lc-name fr">Opérer</div></div>
+<div class="lc-arr">→</div>
+<div class="lc-step active"><div class="lc-num">PHASE 6</div><div class="lc-name en">Improve</div><div class="lc-name fr">Améliorer</div></div>
+<div class="lc-arr">→</div>
+<div class="lc-step active"><div class="lc-num">PHASE 7</div><div class="lc-name en">Govern</div><div class="lc-name fr">Gouverner</div></div>
+</div>
+</section>
+
+<hr class="divider">
+
+<!-- PERSONAS -->
+<section class="sec wide" id="personas">
+<div class="label en">Who is it for</div>
+<div class="label fr">Pour qui</div>
+<div class="title en">Two doors into the same platform</div>
+<div class="title fr">Deux portes d'entrée, une seule plateforme</div>
+<div class="personas">
+<div class="persona ent">
+<div class="persona-icon">🏢</div>
+<div class="persona-title en">Enterprise</div><div class="persona-title fr">Entreprise</div>
+<div class="persona-role">VP / CTO / AI Lead</div>
+<div class="persona-desc en">You operate 50+ AI agents across regulated environments. You need governance, compliance, and visibility at scale — with closed-loop autonomy.</div>
+<div class="persona-desc fr">Vous opérez 50+ agents IA en environnement réglementé. Vous avez besoin de gouvernance, conformité et visibilité à l'échelle — avec autonomie en boucle fermée.</div>
+<div class="persona-path en"><strong>Your path:</strong> Landing page → Schedule demo → Live presentation → NDA → Repo access → Contract → Deployment</div>
+<div class="persona-path fr"><strong>Votre parcours :</strong> Site web → Planifier démo → Présentation live → NDA → Accès repo → Contrat → Déploiement</div>
+</div>
+<div class="persona dev">
+<div class="persona-icon">💻</div>
+<div class="persona-title en">Developer</div><div class="persona-title fr">Développeur</div>
+<div class="persona-role en">Engineer / ML Lead / Solo Builder</div><div class="persona-role fr">Ingénieur / ML Lead / Builder Solo</div>
+<div class="persona-desc en">You build agents with Claude, LangChain, or CrewAI. Your agent hallucinates, you don't know costs, your boss asks "is it compliant?" — you need answers in 2 minutes.</div>
+<div class="persona-desc fr">Vous construisez des agents avec Claude, LangChain ou CrewAI. Votre agent hallucine, vous ne connaissez pas les coûts, votre boss demande « c'est conforme ? » — vous avez besoin de réponses en 2 minutes.</div>
+<div class="persona-path en"><strong>Your path:</strong> Sign up free → Get SDK access → 2 lines of code → Dashboard live in 2 minutes</div><div class="persona-path fr"><strong>Votre parcours :</strong> Inscription gratuite → Accès SDK → 2 lignes de code → Dashboard live en 2 minutes</div>
+</div>
+</div>
+</section>
+
+<hr class="divider">
+
+<!-- MODULES -->
+<section class="sec wide" id="modules">
+<div class="label en">5 Governance Modules</div>
+<div class="label fr">5 Modules de Gouvernance</div>
+<div class="title en">Complete agent lifecycle coverage</div>
+<div class="title fr">Couverture complète du cycle de vie des agents</div>
+<div class="modgrid">
+<div class="mod m-ob"><div class="mod-ic">👁️</div><div class="mod-nm">OBSERVE</div><div class="mod-ds en">Full observability. Traces, latency p50/p95/p99, cost per agent per day, orchestration chains. Know exactly what your agents do — and what it costs.</div><div class="mod-ds fr">Observabilité complète. Traces, latence p50/p95/p99, coûts par agent par jour, chaînes d'orchestration.</div></div>
+<div class="mod m-gu"><div class="mod-ic">🔒</div><div class="mod-nm">GUARD</div><div class="mod-ds en">Runtime safety. Block hallucinations, prompt injections, PII leaks. Four severity levels (N1→N4) with configurable Human-in-the-Loop gates.</div><div class="mod-ds fr">Sécurité runtime. Blocage hallucinations, injections prompt, fuites PII. 4 niveaux de sévérité avec gates Human-in-the-Loop.</div></div>
+<div class="mod m-ev"><div class="mod-ic">📊</div><div class="mod-nm">EVALUATE</div><div class="mod-ds en">Continuous quality. RAG faithfulness, drift detection, CI/CD deployment blocking. Your agents get better, not worse.</div><div class="mod-ds fr">Qualité continue. Faithfulness RAG, détection de drift, blocage de déploiement CI/CD.</div></div>
+<div class="mod m-co"><div class="mod-ic">📡</div><div class="mod-nm">COLLECT</div><div class="mod-ds en">Automated data ingestion. Regulatory monitoring, source confidence scoring, real-time alerting on changes.</div><div class="mod-ds fr">Ingestion données automatisée. Veille réglementaire, scoring sources, alertes en temps réel.</div></div>
+<div class="mod m-re"><div class="mod-ic">🧠</div><div class="mod-nm">REMEMBER</div><div class="mod-ds en">Persistent agent memory. PROV-O audit trails, namespace isolation, GDPR/Loi 25 erasure. Every decision is traceable.</div><div class="mod-ds fr">Mémoire persistante. Traçabilité PROV-O, isolation namespace, droit à l'oubli RGPD/Loi 25.</div></div>
+</div>
+</section>
+
+<hr class="divider">
+
+<!-- CLOSED LOOPS -->
+<section class="sec wide" id="loops">
+<div class="label en">What makes it different</div>
+<div class="label fr">Ce qui le rend différent</div>
+<div class="title en">Not another monitoring tool — a nervous system</div>
+<div class="title fr">Pas un simple outil de monitoring — un système nerveux</div>
+<p class="desc en">Others watch. AEGIS-X5 intervenes. Detect, diagnose, correct, validate, and learn — autonomously.</p>
+<p class="desc fr">Les autres observent. AEGIS-X5 intervient. Détecter, diagnostiquer, corriger, valider et apprendre — de manière autonome.</p>
+<div class="loop-viz">
+<div class="loop-flow">
+<div class="loop-node">Detect</div><div class="lc-arr">→</div>
+<div class="loop-node">Diagnose</div><div class="lc-arr">→</div>
+<div class="loop-node">Correct</div><div class="lc-arr">→</div>
+<div class="loop-node">Validate</div><div class="lc-arr">→</div>
+<div class="loop-node">Learn</div>
+</div>
+<div style="margin:10px 0;font-size:.7rem;color:var(--rd)">
+<span class="en">↓ If high-risk: Human-in-the-Loop validation required</span>
+<span class="fr">↓ Si haut risque : validation humaine obligatoire</span>
+</div>
+<div class="loop-node loop-hitl" style="display:inline-block">HITL Gate</div>
+<div class="loop-modes">
+<div class="loop-mode"><div class="loop-mode-name" style="color:var(--cy)">MONITOR</div><div class="loop-mode-desc en">Detect + alert only. No auto-correction. Discovery phase.</div><div class="loop-mode-desc fr">Détection + alerte. Aucune correction auto. Phase découverte.</div></div>
+<div class="loop-mode"><div class="loop-mode-name" style="color:var(--gold)">SEMI-AUTO</div><div class="loop-mode-desc en">Auto-correct routine issues. HITL for critical. Production standard.</div><div class="loop-mode-desc fr">Auto-correction routine. HITL pour critique. Production standard.</div></div>
+<div class="loop-mode"><div class="loop-mode-name" style="color:var(--gr)">FULL-AUTO</div><div class="loop-mode-desc en">Autonomous correction. HITL on exceptions only. Mature production.</div><div class="loop-mode-desc fr">Correction autonome. HITL sur exceptions. Production mature.</div></div>
+</div>
+</div>
+</section>
+
+
+
+<hr class="divider">
+
+<!-- PRICING -->
+<section class="sec wide" id="pricing">
+<div class="label en">Pricing</div>
+<div class="label fr">Tarification</div>
+<div class="title en">Start free, scale as you grow</div>
+<div class="title fr">Commencez gratuitement, évoluez à votre rythme</div>
+<div class="price-grid">
+<div class="price-card"><div class="price-name" style="color:var(--cy)">DEV</div><div class="price-val" style="color:var(--cy)">$0</div><div class="price-per en">Free forever</div><div class="price-per fr">Gratuit pour toujours</div><div class="price-feat">≤ 5 agents<br>Observe + Guard<br>SQLite local<br>CLI + dashboard<br><span class="en">Community support</span><span class="fr">Support communauté</span></div></div>
+<div class="price-card"><div class="price-name" style="color:var(--gold)">TEAM</div><div class="price-val" style="color:var(--gold)">$499</div><div class="price-per en">/month</div><div class="price-per fr">/mois</div><div class="price-feat">≤ 20 agents<br><span class="en">All 5 modules</span><span class="fr">5 modules</span><br>Monitor mode<br>PostgreSQL<br><span class="en">Email support</span><span class="fr">Support email</span></div></div>
+<div class="price-card pop"><div class="price-name" style="color:var(--vi)">PRO</div><div class="price-val" style="color:var(--vi)">$2,500</div><div class="price-per en">/month</div><div class="price-per fr">/mois</div><div class="price-feat">≤ 200 agents<br><span class="en">All modules + Semi-auto</span><span class="fr">Tous modules + Semi-auto</span><br>ML Predictive<br>Health Score<br><span class="en">Slack + SLA support</span><span class="fr">Support Slack + SLA</span></div></div>
+<div class="price-card"><div class="price-name" style="color:var(--gr)">ENTERPRISE</div><div class="price-val" style="color:var(--gr)">Custom</div><div class="price-per en">Contact us</div><div class="price-per fr">Contactez-nous</div><div class="price-feat"><span class="en">Unlimited agents</span><span class="fr">Agents illimités</span><br>Full-auto<br><span class="en">Industry templates</span><span class="fr">Templates industrie</span><br>On-premise<br><span class="en">Dedicated support</span><span class="fr">Support dédié</span></div></div>
+</div>
+</section>
+
+<hr class="divider">
+
+<!-- PRODUCT TABS -->
+<section class="sec wide" id="product" style="padding-bottom:1rem">
+<div class="label en">Product Preview</div>
+<div class="label fr">Aperçu du Produit</div>
+<div class="title en">See what governance looks like</div>
+<div class="title fr">Voyez à quoi ressemble la gouvernance</div>
+</section>
+<div class="tabs-wrap">
+<div class="tabs-bar" id="tabbar"></div>
+<div class="tcont on" id="t-overview">
+<div class="mgrid">
+<div class="mbox"><div class="mlab en">Active Agents</div><div class="mlab fr">Agents actifs</div><div class="mval" style="color:var(--gold)">512</div><div class="mtrend up">+18 this month</div></div>
+<div class="mbox"><div class="mlab">Health Score</div><div class="mval" style="color:var(--gr)">91</div><div class="mtrend up">+4 vs baseline</div></div>
+<div class="mbox"><div class="mlab en">Daily Cost</div><div class="mlab fr">Coût / jour</div><div class="mval" style="color:var(--vi)">$1,247</div><div class="mtrend up">-11%</div></div>
+<div class="mbox"><div class="mlab en">Guard Blocks</div><div class="mlab fr">Blocages Guard</div><div class="mval" style="color:var(--rd)">43</div><div class="mtrend wrn">28 hallucinations</div></div>
+<div class="mbox"><div class="mlab">Faithfulness</div><div class="mval" style="color:var(--gr)">95.1%</div><div class="mtrend wrn">⚠ drift</div></div>
+<div class="mbox"><div class="mlab en">Latency p95</div><div class="mlab fr">Latence p95</div><div class="mval" style="color:var(--cy)">142<span style="font-size:.7rem;color:var(--mu)">ms</span></div><div class="mtrend up">-23ms</div></div>
+</div>
+</div>
+<div class="tcont" id="t-traces">
+<div class="pcard" style="overflow-x:auto"><table class="ttable"><thead><tr><th>Time</th><th>Agent</th><th>Model</th><th>Latency</th><th>Cost</th><th>Tokens</th><th>Guard</th></tr></thead><tbody>
+<tr><td style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--mu)">14:23:45</td><td>SafeTalk-Chat</td><td style="color:var(--mu)">claude-sonnet</td><td style="font-family:'JetBrains Mono',monospace">198ms</td><td style="font-family:'JetBrains Mono',monospace;color:var(--vi)">$0.007</td><td style="font-family:'JetBrains Mono',monospace;color:var(--mu)">2,340</td><td><span class="badge b-block">BLOCK</span></td></tr>
+<tr><td style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--mu)">14:23:12</td><td>EDGY-Core</td><td style="color:var(--mu)">claude-sonnet</td><td style="font-family:'JetBrains Mono',monospace">134ms</td><td style="font-family:'JetBrains Mono',monospace;color:var(--vi)">$0.006</td><td style="font-family:'JetBrains Mono',monospace;color:var(--mu)">1,890</td><td><span class="badge b-pass">PASS</span></td></tr>
+<tr><td style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--mu)">14:22:58</td><td>LiteraCIA-RAG</td><td style="color:var(--mu)">claude-sonnet</td><td style="font-family:'JetBrains Mono',monospace">245ms</td><td style="font-family:'JetBrains Mono',monospace;color:var(--vi)">$0.010</td><td style="font-family:'JetBrains Mono',monospace;color:var(--mu)">3,120</td><td><span class="badge b-pass">PASS</span></td></tr>
+<tr><td style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--mu)">14:22:31</td><td>SafeFleet-Route</td><td style="color:var(--mu)">gpt-4o-mini</td><td style="font-family:'JetBrains Mono',monospace">89ms</td><td style="font-family:'JetBrains Mono',monospace;color:var(--vi)">$0.001</td><td style="font-family:'JetBrains Mono',monospace;color:var(--mu)">890</td><td><span class="badge b-pass">PASS</span></td></tr>
+<tr><td style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--mu)">14:22:04</td><td>SENTINEL-Alarm</td><td style="color:var(--mu)">claude-sonnet</td><td style="font-family:'JetBrains Mono',monospace">512ms</td><td style="font-family:'JetBrains Mono',monospace;color:var(--vi)">$0.005</td><td style="font-family:'JetBrains Mono',monospace;color:var(--mu)">1,560</td><td><span class="badge b-flag">FLAG</span></td></tr>
+</tbody></table></div>
+</div>
+<div class="tcont" id="t-guard">
+<div class="mgrid" style="grid-template-columns:repeat(4,1fr)">
+<div class="mbox"><div class="mlab">Hallucinations</div><div class="mval" style="color:var(--rd)">5</div></div>
+<div class="mbox"><div class="mlab">Injections</div><div class="mval" style="color:var(--gold)">2</div></div>
+<div class="mbox"><div class="mlab">PII / Loi 25</div><div class="mval" style="color:var(--vi)">3</div></div>
+<div class="mbox"><div class="mlab">HITL Queue</div><div class="mval" style="color:var(--bl)">1</div></div>
+</div>
+<div class="pcard">
+<h3 class="en">Recent Guard Events</h3><h3 class="fr">Événements Guard récents</h3>
+<div style="margin-top:10px">
+<div style="padding:7px 0;border-bottom:1px solid var(--bdr);display:flex;align-items:center;gap:8px"><span class="badge b-block">CRITICAL</span><span style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--mu)">14:23</span><span style="font-size:.82rem" class="en">SafeTalk-Chat — SST hallucination: "no risk" for height work without harness</span><span style="font-size:.82rem" class="fr">SafeTalk-Chat — Hallucination SST : "aucun risque" pour travail en hauteur sans harnais</span></div>
+<div style="padding:7px 0;border-bottom:1px solid var(--bdr);display:flex;align-items:center;gap:8px"><span class="badge b-block">CRITICAL</span><span style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--mu)">14:18</span><span style="font-size:.82rem" class="en">EDGY-Core — DAN mode prompt injection blocked</span><span style="font-size:.82rem" class="fr">EDGY-Core — Injection prompt DAN mode bloquée</span></div>
+<div style="padding:7px 0;display:flex;align-items:center;gap:8px"><span class="badge b-flag">WARNING</span><span style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--mu)">14:12</span><span style="font-size:.82rem" class="en">LiteraCIA-RAG — NAS detected in output — auto-filtered (Loi 25)</span><span style="font-size:.82rem" class="fr">LiteraCIA-RAG — NAS détecté — filtré automatiquement (Loi 25)</span></div>
+</div>
+</div>
+</div>
+<div class="tcont" id="t-predictions">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+<div class="pcard"><h3 class="en">Drift Prediction — 48h</h3><h3 class="fr">Prédiction drift — 48h</h3>
+<div class="mchart" style="height:60px;margin-top:12px">
+<div class="mbar" style="height:95%;background:var(--gr);opacity:.7"></div><div class="mbar" style="height:93%;background:var(--gr);opacity:.7"></div><div class="mbar" style="height:91%;background:var(--gr);opacity:.7"></div><div class="mbar" style="height:89%;background:var(--gr);opacity:.7"></div><div class="mbar" style="height:85%;background:var(--gr);opacity:.7"></div><div class="mbar" style="height:82%;background:var(--gold);opacity:.7"></div><div class="mbar" style="height:78%;background:var(--gold);opacity:.7"></div><div class="mbar" style="height:73%;background:var(--gold);opacity:.6;border:1px dashed var(--gold)"></div><div class="mbar" style="height:68%;background:var(--gold);opacity:.4;border:1px dashed var(--gold)"></div>
+</div>
+<div style="font-size:.7rem;color:var(--gold);margin-top:6px" class="en">⚠ Predicted: 93.2% in 48h (threshold: 95%)</div>
+<div style="font-size:.7rem;color:var(--gold);margin-top:6px" class="fr">⚠ Prévu : 93.2% dans 48h (seuil : 95%)</div>
+</div>
+<div class="pcard"><h3 class="en">Cost Forecast — 7 days</h3><h3 class="fr">Prévision coûts — 7 jours</h3>
+<div style="display:flex;gap:10px;margin-top:12px"><div style="flex:1;padding:10px;background:var(--bg);border-radius:6px;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-size:1.4rem;font-weight:700;color:var(--vi)">$347</div><div style="font-size:.65rem;color:var(--mu)" class="en">Projected 7d</div><div style="font-size:.65rem;color:var(--mu)" class="fr">Prévu 7j</div></div><div style="flex:1;padding:10px;background:var(--bg);border-radius:6px;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-size:1.4rem;font-weight:700;color:var(--gr)">-6%</div><div style="font-size:.65rem;color:var(--mu)" class="en">vs last week</div><div style="font-size:.65rem;color:var(--mu)" class="fr">vs sem. préc.</div></div></div>
+</div>
+</div>
+</div>
+<div class="tcont" id="t-live">
+<div class="demo-embed">
+<div class="demo-hdr"><div style="display:flex;align-items:center;gap:8px"><div class="demo-live-dot"></div><span style="font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:600" class="en">LIVE DASHBOARD — shield-ops-x5</span><span style="font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:600" class="fr">DASHBOARD EN DIRECT — shield-ops-x5</span></div><span style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:var(--mu)" id="dtime"></span></div>
+<div class="demo-kpis">
+<div class="dk"><div class="dk-l">Agents</div><div class="dk-v" style="color:var(--gold)" id="dk-a">512</div></div>
+<div class="dk"><div class="dk-l">Health</div><div class="dk-v" style="color:var(--gr)" id="dk-h">91</div></div>
+<div class="dk"><div class="dk-l en">Cost/d</div><div class="dk-l fr">Coût/j</div><div class="dk-v" style="color:var(--vi)" id="dk-c">$1,247</div></div>
+<div class="dk"><div class="dk-l">Latency</div><div class="dk-v" style="color:var(--cy)" id="dk-l">142ms</div></div>
+<div class="dk"><div class="dk-l">Guard</div><div class="dk-v" style="color:var(--rd)" id="dk-g">43</div></div>
+<div class="dk"><div class="dk-l">Faith.</div><div class="dk-v" style="color:var(--gr)" id="dk-f">95.1%</div></div>
+</div>
+<div class="demo-feed" id="dfeed"></div>
+</div>
+</div>
+</div>
+
+<hr class="divider">
+
+<!-- TECHNICAL BLOG -->
+<section class="sec wide" id="blog">
+<div class="label en">Technical Blog</div>
+<div class="label fr">Blog Technique</div>
+<div class="stitle en">Deep dives into agent governance</div>
+<div class="stitle fr">Plongées techniques en gouvernance agentique</div>
+
+<div class="art-grid">
+
+<div class="art">
+<span class="art-tag tag-blog">TECHNICAL DEEP DIVE</span>
+<div class="art-title en">How We Reduced SST Hallucinations by 97% Using Guard N4 + HITL Gates</div>
+<div class="art-title fr">Comment nous avons réduit les hallucinations SST de 97% avec Guard N4 + gates HITL</div>
+<div class="art-meta">12 min read · April 2026</div>
+<div class="art-excerpt en">SafeTalk-Chat was recommending workers skip harness checks for "low height" tasks. Our Guard module's SST_FactCheck validator, combined with mandatory HITL gates on N4 recommendations, caught and blocked 97% of dangerous hallucinations — before any reached a worker.</div>
+<div class="art-excerpt fr">SafeTalk-Chat recommandait aux travailleurs de sauter les vérifications de harnais pour les tâches "en basse hauteur". Notre module Guard SST_FactCheck, combiné aux gates HITL obligatoires sur les recommandations N4, a intercepté 97% des hallucinations dangereuses.</div>
+<div class="art-metrics"><span class="art-metric"><strong>97%</strong> blocked</span><span class="art-metric"><strong>0</strong> false positives SST</span><span class="art-metric"><strong>&lt;2s</strong> detection</span></div>
+</div>
+
+<div class="art">
+<span class="art-tag tag-blog">ARCHITECTURE</span>
+<div class="art-title en">Closed-Loop vs Passive Monitoring: Why the Difference Saves Lives</div>
+<div class="art-title fr">Boucles fermées vs monitoring passif : pourquoi la différence sauve des vies</div>
+<div class="art-meta">8 min read · April 2026</div>
+<div class="art-excerpt en">Monitoring tells you there's a fire. Closed-loop governance puts it out, validates the extinguisher worked, and updates the fire plan. We compare AEGIS-X5's autonomous correction loops against traditional LLM observability tools on 1,400+ real traces.</div>
+<div class="art-excerpt fr">Le monitoring vous dit qu'il y a un feu. La gouvernance en boucle fermée l'éteint, valide que l'extincteur a fonctionné, et met à jour le plan incendie. Comparaison sur 1 400+ traces réelles.</div>
+<div class="art-metrics"><span class="art-metric"><strong>3</strong> loop types</span><span class="art-metric"><strong>48h</strong> drift prediction</span><span class="art-metric"><strong>PROV-O</strong> audit trail</span></div>
+</div>
+
+<div class="art">
+<span class="art-tag tag-blog">COST OPTIMIZATION</span>
+<div class="art-title en">How Observe Module Reveals Hidden LLM Cost Waste Across 122 Agents</div>
+<div class="art-title fr">Comment le module Observe révèle le gaspillage caché de coûts LLM sur 122 agents</div>
+<div class="art-meta">6 min read · March 2026</div>
+<div class="art-excerpt en">Using AEGIS-X5's Observe module to track per-model costs across 122 EDGY agents, we identified that the majority of spend was on high-end models for tasks that lighter models handled at identical faithfulness. LatencyAutoScale's automatic model fallback eliminated the mismatch without quality loss.</div>
+<div class="art-excerpt fr">Avec le module Observe pour tracker les coûts par modèle sur 122 agents EDGY, nous avons identifié que la majorité des dépenses allaient sur des modèles haut de gamme pour des tâches que des modèles plus légers géraient avec la même faithfulness. Le fallback automatique de LatencyAutoScale a éliminé le décalage sans perte de qualité.</div>
+<div class="art-metrics"><span class="art-metric"><strong>Per-model</strong> cost tracking</span><span class="art-metric"><strong>122</strong> agents</span><span class="art-metric"><strong>Auto</strong> model fallback</span></div>
+</div>
+
+<div class="art">
+<span class="art-tag tag-blog">COMPLIANCE</span>
+<div class="art-title en">Loi 25, GDPR, and AI Agents: How We Auto-Filter PII Across Conversational Outputs</div>
+<div class="art-title fr">Loi 25, RGPD et agents IA : comment nous filtrons automatiquement les PII des outputs conversationnels</div>
+<div class="art-meta">10 min read · March 2026</div>
+<div class="art-excerpt en">SafeTalk-Chat handles SST conversations daily. Our PIIDetector catches NAS, phone numbers, and email addresses in real-time before they reach the user, with ErasureManager ensuring GDPR/Loi 25 right-to-erasure compliance. Guard N4 ensures no personally identifiable information ever leaks from agent outputs.</div>
+<div class="art-excerpt fr">SafeTalk-Chat gère des conversations SST quotidiennement. Notre PIIDetector intercepte NAS, numéros de téléphone et emails en temps réel avant qu'ils atteignent l'utilisateur, avec ErasureManager assurant le droit à l'oubli RGPD/Loi 25. Guard N4 garantit qu'aucune information personnelle ne fuit des outputs agents.</div>
+<div class="art-metrics"><span class="art-metric"><strong>Real-time</strong> PII detection</span><span class="art-metric"><strong>&lt;50ms</strong> erasure</span><span class="art-metric"><strong>Loi 25</strong> compliant</span></div>
+</div>
+
+<div class="art">
+<span class="art-tag tag-blog">PREDICTIVE ML</span>
+<div class="art-title en">Predicting Agent Drift 48 Hours Before It Breaks: Health Score in Practice</div>
+<div class="art-title fr">Prédire le drift agent 48h avant la cassure : Health Score en pratique</div>
+<div class="art-meta">9 min read · March 2026</div>
+<div class="art-excerpt en">LiteraCIA-RAG's faithfulness was silently dropping 0.3% per day. Our DriftPredictor flagged it would breach the 95% threshold in 36 hours. DriftAutoCorrect triggered a preventive retraining — before any user noticed.</div>
+<div class="art-excerpt fr">La faithfulness de LiteraCIA-RAG baissait silencieusement de 0.3% par jour. Notre DriftPredictor a signalé le passage sous le seuil de 95% dans 36 heures. DriftAutoCorrect a déclenché un retraining préventif — avant tout impact utilisateur.</div>
+<div class="art-metrics"><span class="art-metric"><strong>48h</strong> prediction</span><span class="art-metric"><strong>94.7%</strong> accuracy</span><span class="art-metric"><strong>0</strong> user impact</span></div>
+</div>
+
+<div class="art">
+<span class="art-tag tag-blog">ALARM INTELLIGENCE</span>
+<div class="art-title en">Reducing Alarm Floods by 87%: How SENTINEL·X5 Uses Guard + Predict</div>
+<div class="art-title fr">Réduire les inondations d'alarmes de 87% : SENTINEL·X5 avec Guard + Predict</div>
+<div class="art-meta">7 min read · February 2026</div>
+<div class="art-excerpt en">Industrial alarm fatigue kills. SENTINEL·X5's correlation engine, governed by AEGIS-X5 Guard and Predict modules, reduced alarm floods by 87% while maintaining ISA-18.2 compliance — with contextual prioritization in under 2 seconds.</div>
+<div class="art-excerpt fr">La fatigue d'alarmes tue. Le moteur de corrélation de SENTINEL·X5, gouverné par les modules Guard et Predict d'AEGIS-X5, a réduit les inondations d'alarmes de 87% en maintenant la conformité ISA-18.2.</div>
+<div class="art-metrics"><span class="art-metric"><strong>-87%</strong> alarm flood</span><span class="art-metric"><strong>&lt;2s</strong> response</span><span class="art-metric"><strong>ISA-18.2</strong> compliant</span></div>
+</div>
+
+</div>
+</section>
+
+
+<hr class="divider">
+
+<!-- WHITEPAPERS -->
+<section class="sec wide" id="whitepapers">
+<div class="label en">Whitepapers & Research</div>
+<div class="label fr">Livres blancs & Recherche</div>
+<div class="stitle en">In-depth research on agent governance</div>
+<div class="stitle fr">Recherche approfondie sur la gouvernance agentique</div>
+<div class="art-grid" style="grid-template-columns:1fr 1fr">
+<div class="art">
+<span class="art-tag tag-wp">WHITEPAPER · 28 PAGES</span>
+<div class="art-title en">The State of AI Agent Governance in Regulated Industries — 2026</div>
+<div class="art-title fr">L'état de la gouvernance des agents IA en industries réglementées — 2026</div>
+<div class="art-meta en">Q2 2026 · Based on 22M+ HSE incidents across 16 SCIAN sectors</div>
+<div class="art-meta fr">Q2 2026 · Basé sur 22M+ incidents HSE dans 16 secteurs SCIAN</div>
+<div class="art-excerpt en">Comprehensive analysis of the $492M AI governance market, mapping the gap between agent deployment velocity (40% enterprise apps by end 2026) and governance readiness (less than 1 in 4 scale to production). Includes the AEGIS-X5 framework for closed-loop autonomous governance.</div>
+<div class="art-excerpt fr">Analyse complète du marché de gouvernance IA de 492M$, cartographiant l'écart entre la vélocité de déploiement des agents et la maturité de gouvernance. Inclut le framework AEGIS-X5 de gouvernance autonome en boucle fermée.</div>
+<div class="art-read en"><a href="AEGIS-X5-Whitepaper-State-of-Governance-2026.html" target="_blank" style="color:var(--gold);text-decoration:none">📥 Read whitepaper →</a></div>
+<div class="art-read fr"><a href="AEGIS-X5-Whitepaper-State-of-Governance-2026.html" target="_blank" style="color:var(--gold);text-decoration:none">📥 Lire le livre blanc →</a></div>
+</div>
+<div class="art">
+<span class="art-tag tag-wp">WHITEPAPER · 16 PAGES</span>
+<div class="art-title en">Closed-Loop Agent Governance: From Passive Monitoring to Autonomous Correction</div>
+<div class="art-title fr">Gouvernance agentique en boucle fermée : du monitoring passif à la correction autonome</div>
+<div class="art-meta en">Q1 2026 · Technical architecture paper</div>
+<div class="art-meta fr">Q1 2026 · Document d'architecture technique</div>
+<div class="art-excerpt en">Technical deep-dive into the Detect → Diagnose → Correct → Validate → Learn pattern. Compares passive observability (Langfuse, Arize) vs autonomous governance (AEGIS-X5) on 1,400+ simulated traces across 21 platforms.</div>
+<div class="art-excerpt fr">Plongée technique dans le pattern Détecter → Diagnostiquer → Corriger → Valider → Apprendre. Compare l'observabilité passive vs la gouvernance autonome sur 1 400+ traces simulées à travers 21 plateformes.</div>
+<div class="art-read en"><a href="AEGIS-X5-Whitepaper-Closed-Loop-Governance.html" target="_blank" style="color:var(--gold);text-decoration:none">📥 Read whitepaper →</a></div>
+<div class="art-read fr"><a href="AEGIS-X5-Whitepaper-Closed-Loop-Governance.html" target="_blank" style="color:var(--gold);text-decoration:none">📥 Lire le livre blanc →</a></div>
+</div>
+</div>
+</section>
+
+<hr class="divider">
+
+<!-- PLATFORMS GOVERNED BY AEGIS-X5 -->
+<section class="sec wide" id="platforms">
+<div class="label en">Live Platforms — AgenticX5 Ecosystem</div>
+<div class="label fr">Plateformes Live — Écosystème AgenticX5</div>
+<div class="stitle en">25+ platforms governed by AI agents in production</div>
+<div class="stitle fr">25+ plateformes gouvernées par des agents IA en production</div>
+<div class="sdesc en">Each platform below is a live deployment in the AgenticX5 ecosystem. AEGIS-X5 provides governance across all of them — observability, guardrails, evaluation, and predictive monitoring.</div>
+<div class="sdesc fr">Chaque plateforme ci-dessous est un déploiement live dans l'écosystème AgenticX5. AEGIS-X5 fournit la gouvernance à travers toutes — observabilité, guardrails, évaluation et monitoring prédictif.</div>
+
+<div style="margin-top:1.5rem">
+<div class="label" style="color:var(--cy);margin-bottom:10px">⛏️ Mining & Metallurgy</div>
+<div class="art-grid" style="grid-template-columns:1fr 1fr">
+<div class="art"><div class="art-title">DensityGuard — Mining Protection</div><div class="art-meta">Rhosonics SDM monitoring · Atmospheric surveillance · 3D mine mapping</div><div class="art-read"><a href="https://ax5-mining-densityguard-protect.netlify.app" target="_blank" style="color:var(--gold);text-decoration:none">Visit platform →</a></div></div>
+<div class="art"><div class="art-title">Safety Graph — Mining Intelligence</div><div class="art-meta">Neo4j Knowledge Graph · 22M+ incidents · Multi-jurisdictional</div><div class="art-read"><a href="https://ax5-safety-graph-mining-demo.netlify.app" target="_blank" style="color:var(--gold);text-decoration:none">Visit platform →</a></div></div>
+</div>
+</div>
+
+<div style="margin-top:1.5rem">
+<div class="label" style="color:var(--vi);margin-bottom:10px">🏗️ Construction · Infrastructure · Transport</div>
+<div class="art-grid" style="grid-template-columns:1fr 1fr 1fr">
+<div class="art"><div class="art-title">CraneGuard X5</div><div class="art-meta">Lifting & Rigging Safety</div><div class="art-read"><a href="https://craneguardx5-landing.netlify.app" target="_blank" style="color:var(--gold);text-decoration:none">Visit →</a></div></div>
+<div class="art"><div class="art-title">SafeTwin X5 Lévis</div><div class="art-meta">Live Digital Twin Dashboard</div><div class="art-read"><a href="https://safetwinx5-levis.netlify.app/dashboard" target="_blank" style="color:var(--gold);text-decoration:none">Visit →</a></div></div>
+<div class="art"><div class="art-title">SafeTwin X5 Route 175</div><div class="art-meta">Route SST Monitoring</div><div class="art-read"><a href="https://ax5-safetwin5-demo-route175-sst.netlify.app" target="_blank" style="color:var(--gold);text-decoration:none">Visit →</a></div></div>
+</div>
+</div>
+
+<div style="margin-top:1.5rem">
+<div class="label" style="color:var(--rd);margin-bottom:10px">🔒 Process Safety & General HSE</div>
+<div class="art-grid" style="grid-template-columns:1fr 1fr 1fr">
+<div class="art"><div class="art-title">PSM-X5</div><div class="art-meta">Process Safety Management</div><div class="art-read"><a href="https://process-safety-management-x5.netlify.app" target="_blank" style="color:var(--gold);text-decoration:none">Visit →</a></div></div>
+<div class="art"><div class="art-title">GuardianX5</div><div class="art-meta">Agentic Safety Intelligence</div><div class="art-read"><a href="https://guardianx5-agenticx5.netlify.app" target="_blank" style="color:var(--gold);text-decoration:none">Visit →</a></div></div>
+<div class="art"><div class="art-title">AX5 HSE Platform</div><div class="art-meta">Unified HSE Management</div><div class="art-read"><a href="https://ax5-plateforme-hse.netlify.app" target="_blank" style="color:var(--gold);text-decoration:none">Visit →</a></div></div>
+<div class="art"><div class="art-title">NudgeSafe Hands</div><div class="art-meta">Hand & Body Accident Prevention</div><div class="art-read"><a href="https://ax5-nudgesafehands-accidents.netlify.app" target="_blank" style="color:var(--gold);text-decoration:none">Visit →</a></div></div>
+<div class="art"><div class="art-title">RiskSense</div><div class="art-meta">Predictive Risk Analytics</div><div class="art-read"><a href="https://ax5-risk-sense-presentation.netlify.app" target="_blank" style="color:var(--gold);text-decoration:none">Visit →</a></div></div>
+<div class="art"><div class="art-title">HSE Multi-Jurisdiction</div><div class="art-meta">Multi-jurisdictional Pipeline</div><div class="art-read"><a href="https://ax5-pipeline-hse-multijuridiction.netlify.app" target="_blank" style="color:var(--gold);text-decoration:none">Visit →</a></div></div>
+</div>
+</div>
+
+<div style="margin-top:1.5rem">
+<div class="label" style="color:var(--gr);margin-bottom:10px">🎓 AI Literacy & Training</div>
+<div class="art-grid" style="grid-template-columns:1fr 1fr">
+<div class="art"><div class="art-title">LiteraCIA — AI × Safety Literacy</div><div class="art-meta">Adaptive learning · 449 competencies · 122 AI agents</div><div class="art-read"><a href="https://innoventerai.netlify.app" target="_blank" style="color:var(--gold);text-decoration:none">Visit platform →</a></div></div>
+<div class="art"><div class="art-title">GenesisX5</div><div class="art-meta">AI Onboarding & Capability Building</div><div class="art-read"><a href="https://genesis-x5.netlify.app" target="_blank" style="color:var(--gold);text-decoration:none">Visit platform →</a></div></div>
+</div>
+</div>
+
+<div style="margin-top:1.5rem">
+<div class="label" style="color:var(--gold);margin-bottom:10px">💡 Innovation & Strategy</div>
+<div class="art-grid" style="grid-template-columns:1fr 1fr 1fr">
+<div class="art"><div class="art-title">InitiaX5 — IGNITIA</div><div class="art-meta">AI Innovation Scoring & Roadmap</div><div class="art-read"><a href="https://initiax5-demo.netlify.app" target="_blank" style="color:var(--gold);text-decoration:none">Visit →</a></div></div>
+<div class="art"><div class="art-title">ConsultX5</div><div class="art-meta">AI-Augmented HSE Consulting</div><div class="art-read"><a href="https://consultx5-demo.netlify.app" target="_blank" style="color:var(--gold);text-decoration:none">Visit →</a></div></div>
+<div class="art"><div class="art-title">AgenticX5 Audit</div><div class="art-meta">Governance & Compliance</div><div class="art-read"><a href="https://agenticx5-audit.netlify.app" target="_blank" style="color:var(--gold);text-decoration:none">Visit →</a></div></div>
+</div>
+</div>
+
+<div style="margin-top:1.5rem">
+<div class="label" style="color:var(--bl);margin-bottom:10px">🌐 Ecosystem Architecture & Demos</div>
+<div class="art-grid" style="grid-template-columns:1fr 1fr 1fr">
+<div class="art"><div class="art-title">AgenticX5 Ecosystem</div><div class="art-meta">Main Demo Portal</div><div class="art-read"><a href="https://agenticx5-demo.netlify.app" target="_blank" style="color:var(--gold);text-decoration:none">Visit →</a></div></div>
+<div class="art"><div class="art-title">LLM Architecture Visualizer</div><div class="art-meta">Agent Architecture Explorer</div><div class="art-read"><a href="https://agenticx5-arch-llm.netlify.app" target="_blank" style="color:var(--gold);text-decoration:none">Visit →</a></div></div>
+<div class="art"><div class="art-title">Stack & Use Cases</div><div class="art-meta">Technology Explorer</div><div class="art-read"><a href="https://agenticx5-stack-usescases.netlify.app" target="_blank" style="color:var(--gold);text-decoration:none">Visit →</a></div></div>
+<div class="art"><div class="art-title">Ecosystem Visualizer</div><div class="art-meta">Platform Network View</div><div class="art-read"><a href="https://ax5-ecosystem-visualizer.netlify.app" target="_blank" style="color:var(--gold);text-decoration:none">Visit →</a></div></div>
+<div class="art"><div class="art-title">From Field to Intelligence</div><div class="art-meta">Narrative Profile</div><div class="art-read"><a href="https://md-from-field-to-intelligence.netlify.app" target="_blank" style="color:var(--gold);text-decoration:none">Visit →</a></div></div>
+<div class="art"><div class="art-title">AX5 Sandbox</div><div class="art-meta">Live R&D Environment</div><div class="art-read"><a href="https://ax5-sandbox.netlify.app" target="_blank" style="color:var(--gold);text-decoration:none">Visit →</a></div></div>
+</div>
+</div>
+
+</section>
+
+
+<hr class="divider">
+
+<!-- CASE STUDIES -->
+<section class="sec wide" id="cases">
+<div class="label en">Case Studies — Built from AgenticX5 Production</div>
+<div class="label fr">Études de cas — Construites à partir de la production AgenticX5</div>
+<div class="stitle en">Real platforms, real metrics, real impact</div>
+<div class="stitle fr">Plateformes réelles, métriques réelles, impact réel</div>
+<div class="sdesc en">Each case study comes from a live AgenticX5 platform governed by AEGIS-X5. These are not hypothetical scenarios — they're documented results from 500+ agents in production.</div>
+<div class="sdesc fr">Chaque étude de cas provient d'une plateforme AgenticX5 en production gouvernée par AEGIS-X5. Ce ne sont pas des scénarios hypothétiques — ce sont des résultats documentés de 500+ agents en production.</div>
+
+<!-- CASE 1: SafeFleet -->
+<div class="case">
+<div class="case-header">
+<div><div class="case-platform"><a href="https://ax5-safefleet-hub.netlify.app" target="_blank" style="color:inherit;text-decoration:none">🚛 SafeFleet Hub — Transport & Fleet Safety ↗</a></div><div style="font-size:.75rem;color:var(--tx2);margin-top:4px" class="en">Driver fatigue detection, fleet telemetry, hazmat compliance</div><div style="font-size:.75rem;color:var(--tx2);margin-top:4px" class="fr">Détection fatigue conducteurs, télématique flottes, conformité TMD</div></div>
+<span class="case-badge" style="background:var(--grd);color:var(--gr)">PRODUCTION</span>
+</div>
+<div class="case-desc en">SafeFleet Hub is a fleet safety platform with 5 specialized AI agents for driver fatigue detection (eye-tracking), hazmat route optimization (OSMnx geospatial), PESR Class 1 training, TDG compliance monitoring, and SAAQ API integration. AEGIS-X5 governs all 5 agents — Guard N4 blocks any recommendation that could endanger a driver, Observe tracks per-route cost and latency, and Evaluate validates fatigue scoring accuracy against labeled datasets.</div>
+<div class="case-desc fr">SafeFleet Hub est une plateforme de sécurité des flottes avec 5 agents IA spécialisés : détection de fatigue (eye-tracking), optimisation de routes matières dangereuses (OSMnx géospatial), formation PESR classe 1, conformité TDG, et intégration API SAAQ. AEGIS-X5 gouverne les 5 agents — Guard N4 bloque toute recommandation pouvant mettre un conducteur en danger, Observe suit les coûts et latences par route, Evaluate valide la précision du scoring fatigue.</div>
+<div class="case-metrics">
+<div class="cm"><div class="cm-v" style="color:var(--gold)">5</div><div class="cm-l en">Specialized AI agents</div><div class="cm-l fr">Agents IA spécialisés</div></div>
+<div class="cm"><div class="cm-v" style="color:var(--gr)">-45%</div><div class="cm-l en">Fatigue incidents</div><div class="cm-l fr">Incidents fatigue</div></div>
+<div class="cm"><div class="cm-v" style="color:var(--cy)">PESR</div><div class="cm-l en">Class 1 training</div><div class="cm-l fr">Formation classe 1</div></div>
+<div class="cm"><div class="cm-v" style="color:var(--vi)">TDG</div><div class="cm-l en">Hazmat compliance</div><div class="cm-l fr">Conformité TMD</div></div>
+</div>
+<div class="case-quote en">"Guard N4 validates every safety-critical recommendation before it reaches a driver. During validation testing, it intercepted edge cases that would have bypassed traditional rule-based filters — exactly the kind of silent risk that scaling agents creates."</div>
+<div class="case-quote fr">« Guard N4 valide chaque recommandation critique de sécurité avant qu'elle atteigne un conducteur. Durant les tests de validation, il a intercepté des cas limites que les filtres traditionnels auraient laissé passer — exactement le type de risque silencieux que la mise à l'échelle des agents crée. »</div>
+<div class="case-attr">— SafeFleet Hub Operations, AgenticX5 Platform</div>
+</div>
+
+<!-- CASE 2: SafeScan360 -->
+<div class="case">
+<div class="case-header">
+<div><div class="case-platform">🎥 SafeScan360 — Computer Vision Safety</div><div style="font-size:.75rem;color:var(--tx2);margin-top:4px" class="en">Real-time PPE detection, zone monitoring, posture analysis</div><div style="font-size:.75rem;color:var(--tx2);margin-top:4px" class="fr">Détection EPI temps réel, surveillance zones, analyse postures</div></div>
+<span class="case-badge" style="background:var(--grd);color:var(--gr)">PRODUCTION</span>
+</div>
+<div class="case-desc en">SafeScan360 uses YOLO v8/v11 custom models to detect PPE non-compliance in real-time across construction sites. AEGIS-X5 governs the detection pipeline: Observe tracks latency per camera, Guard validates detection accuracy, Evaluate runs daily faithfulness checks against golden sets, and Remember stores compliance history with PROV-O audit trails.</div>
+<div class="case-desc fr">SafeScan360 utilise des modèles YOLO v8/v11 personnalisés pour détecter les non-conformités EPI en temps réel sur les chantiers. AEGIS-X5 gouverne le pipeline de détection : Observe surveille la latence par caméra, Guard valide la précision, Evaluate exécute des vérifications quotidiennes, et Remember stocke l'historique de conformité.</div>
+<div class="case-metrics">
+<div class="cm"><div class="cm-v" style="color:var(--gold)">94%</div><div class="cm-l en">Detection accuracy</div><div class="cm-l fr">Précision détection</div></div>
+<div class="cm"><div class="cm-v" style="color:var(--gr)">&lt;2s</div><div class="cm-l en">Alert latency</div><div class="cm-l fr">Latence alerte</div></div>
+<div class="cm"><div class="cm-v" style="color:var(--cy)">30 FPS</div><div class="cm-l en">Multi-camera</div><div class="cm-l fr">Multi-caméras</div></div>
+<div class="cm"><div class="cm-v" style="color:var(--vi)">GDPR</div><div class="cm-l en">Dynamic blurring</div><div class="cm-l fr">Floutage dynamique</div></div>
+</div>
+</div>
+
+<!-- CASE 3: LiteraCIA -->
+<div class="case">
+<div class="case-header">
+<div><div class="case-platform"><a href="https://innoventerai.netlify.app" target="_blank" style="color:inherit;text-decoration:none">🎓 LiteraCIA — AI Literacy & Adaptive Training ↗</a></div><div style="font-size:.75rem;color:var(--tx2);margin-top:4px" class="en">Adaptive learning paths, competency mapping, RAG-powered Q&A</div><div style="font-size:.75rem;color:var(--tx2);margin-top:4px" class="fr">Parcours adaptatifs, cartographie compétences, Q&R alimenté RAG</div></div>
+<span class="case-badge" style="background:var(--grd);color:var(--gr)">PRODUCTION</span>
+</div>
+<div class="case-desc en">LiteraCIA deploys 122 AI agents across adaptive learning paths for HSE professionals. AEGIS-X5's Evaluate module runs faithfulness checks on every RAG response against CNESST, ISO 45001, and OSHA source documents. DriftPredictor flagged a 0.3%/day faithfulness decline — DriftAutoCorrect triggered retraining 36 hours before users would have noticed.</div>
+<div class="case-desc fr">LiteraCIA déploie 122 agents IA à travers des parcours d'apprentissage adaptatifs pour les professionnels HSE. Le module Evaluate d'AEGIS-X5 vérifie la faithfulness de chaque réponse RAG contre les documents sources CNESST, ISO 45001 et OSHA. DriftPredictor a signalé une baisse de 0.3%/jour — DriftAutoCorrect a déclenché le retraining 36 heures avant tout impact.</div>
+<div class="case-metrics">
+<div class="cm"><div class="cm-v" style="color:var(--gold)">122</div><div class="cm-l en">AI agents</div><div class="cm-l fr">Agents IA</div></div>
+<div class="cm"><div class="cm-v" style="color:var(--gr)">449</div><div class="cm-l en">Competencies mapped</div><div class="cm-l fr">Compétences cataloguées</div></div>
+<div class="cm"><div class="cm-v" style="color:var(--cy)">&gt;97%</div><div class="cm-l en">RAG faithfulness</div><div class="cm-l fr">Faithfulness RAG</div></div>
+<div class="cm"><div class="cm-v" style="color:var(--vi)">1,000+</div><div class="cm-l en">Topics covered</div><div class="cm-l fr">Sujets couverts</div></div>
+</div>
+</div>
+
+<!-- CASE 4: SENTINEL·X5 -->
+<div class="case">
+<div class="case-header">
+<div><div class="case-platform"><a href="https://sentinel-x5-alarm.netlify.app" target="_blank" style="color:inherit;text-decoration:none">🚨 SENTINEL·X5 — Alarm Intelligence ↗</a></div><div style="font-size:.75rem;color:var(--tx2);margin-top:4px" class="en">Alarm flood reduction, contextual prioritization, ISA-18.2 compliance</div><div style="font-size:.75rem;color:var(--tx2);margin-top:4px" class="fr">Réduction floods alarmes, priorisation contextuelle, conformité ISA-18.2</div></div>
+<span class="case-badge" style="background:var(--grd);color:var(--gr)">PRODUCTION</span>
+</div>
+<div class="case-desc en">SENTINEL·X5 uses multi-sensor correlation and contextual AI to reduce alarm floods in process industries. AEGIS-X5 governs the alarm prioritization agents — Guard ensures no critical alarm is ever suppressed, Observe tracks response times, and Evaluate validates prioritization accuracy against ISA-18.2 and EEMUA 191 standards.</div>
+<div class="case-desc fr">SENTINEL·X5 utilise la corrélation multi-capteurs et l'IA contextuelle pour réduire les inondations d'alarmes dans les industries de process. AEGIS-X5 gouverne les agents de priorisation — Guard assure qu'aucune alarme critique n'est supprimée, Observe suit les temps de réponse, et Evaluate valide la précision contre ISA-18.2 et EEMUA 191.</div>
+<div class="case-metrics">
+<div class="cm"><div class="cm-v" style="color:var(--gold)">65-87%</div><div class="cm-l en">Alarm flood reduction</div><div class="cm-l fr">Réduction floods</div></div>
+<div class="cm"><div class="cm-v" style="color:var(--gr)">&lt;2s</div><div class="cm-l en">Prioritization time</div><div class="cm-l fr">Temps priorisation</div></div>
+<div class="cm"><div class="cm-v" style="color:var(--cy)">ISA-18.2</div><div class="cm-l">EEMUA 191</div></div>
+<div class="cm"><div class="cm-v" style="color:var(--vi)">Multi</div><div class="cm-l en">Sensor correlation</div><div class="cm-l fr">Corrélation capteurs</div></div>
+</div>
+</div>
+
+<!-- CASE: HolisticErgo -->
+<div class="case">
+<div class="case-header">
+<div><div class="case-platform">🧘 HolisticErgo AI — Ergonomics & TMS Prevention</div><div style="font-size:.75rem;color:var(--tx2);margin-top:4px" class="en">3D posture analysis, MSD prediction, thermal stress monitoring</div><div style="font-size:.75rem;color:var(--tx2);margin-top:4px" class="fr">Analyse posture 3D, prédiction TMS, surveillance stress thermique</div></div>
+<span class="case-badge" style="background:var(--grd);color:var(--gr)">PRODUCTION</span>
+</div>
+<div class="case-desc en">HolisticErgo AI uses MediaPipe 33-landmark pose estimation and IMU wearables (Xsens, Polar) to predict musculoskeletal disorders before they occur. AEGIS-X5 Guard validates that ergonomic recommendations never contradict RULA/REBA standards, while Evaluate monitors prediction accuracy against reported injury data.</div>
+<div class="case-desc fr">HolisticErgo AI utilise l'estimation de pose MediaPipe à 33 landmarks et des wearables IMU pour prédire les troubles musculosquelettiques. Guard d'AEGIS-X5 valide que les recommandations ne contredisent jamais les standards RULA/REBA.</div>
+<div class="case-metrics">
+<div class="cm"><div class="cm-v" style="color:var(--gold)">33</div><div class="cm-l">MediaPipe landmarks</div></div>
+<div class="cm"><div class="cm-v" style="color:var(--gr)">RULA/REBA</div><div class="cm-l en">Auto-assessed</div><div class="cm-l fr">Auto-évalué</div></div>
+<div class="cm"><div class="cm-v" style="color:var(--cy)">WBGT</div><div class="cm-l en">Thermal monitoring</div><div class="cm-l fr">Monitoring thermique</div></div>
+<div class="cm"><div class="cm-v" style="color:var(--vi)">Edge AI</div><div class="cm-l">275 TOPS</div></div>
+</div>
+</div>
+
+<!-- CASE: BehaviorX -->
+<div class="case">
+<div class="case-header">
+<div><div class="case-platform">🧠 BehaviorX — Behavioral Analysis & Safety Culture</div><div style="font-size:.75rem;color:var(--tx2);margin-top:4px" class="en">Burnout prediction, psychosocial risk scoring, 7D cultural assessment</div><div style="font-size:.75rem;color:var(--tx2);margin-top:4px" class="fr">Prédiction burnout, scoring RPS, évaluation culture SST 7 dimensions</div></div>
+<span class="case-badge" style="background:var(--grd);color:var(--gr)">PRODUCTION</span>
+</div>
+<div class="case-desc en">BehaviorX uses NLP sentiment analysis and voice pattern recognition to detect pre-incident behavioral anomalies and predict burnout risk. AEGIS-X5 Guard ensures no mental health assessment is shared without consent (Loi 25), while Remember maintains anonymized trend data with PROV-O traceability.</div>
+<div class="case-desc fr">BehaviorX utilise l'analyse de sentiment NLP et la reconnaissance de patterns vocaux pour détecter les anomalies comportementales et prédire le burnout. Guard assure qu'aucune donnée de santé mentale n'est partagée sans consentement (Loi 25).</div>
+<div class="case-metrics">
+<div class="cm"><div class="cm-v" style="color:var(--gold)">92%</div><div class="cm-l en">ML accuracy</div><div class="cm-l fr">Précision ML</div></div>
+<div class="cm"><div class="cm-v" style="color:var(--gr)">NLP</div><div class="cm-l en">Sentiment analysis</div><div class="cm-l fr">Analyse sentiment</div></div>
+<div class="cm"><div class="cm-v" style="color:var(--cy)">7D</div><div class="cm-l en">Culture assessment</div><div class="cm-l fr">Évaluation culture</div></div>
+<div class="cm"><div class="cm-v" style="color:var(--vi)">Loi 25</div><div class="cm-l en">PII protected</div><div class="cm-l fr">PII protégées</div></div>
+</div>
+</div>
+
+</section>
+
+<hr class="divider">
+
+<section class="sec wide" id="testimonials">
+<div class="label en">Testimonials — From the Platforms Themselves</div>
+<div class="label fr">Témoignages — Des plateformes elles-mêmes</div>
+<div class="stitle en">What our agents say about governance</div>
+<div class="stitle fr">Ce que nos agents disent de la gouvernance</div>
+<div class="sdesc en">Each testimonial represents a real operational insight from an AgenticX5 platform integrated with AEGIS-X5 governance.</div>
+<div class="sdesc fr">Chaque témoignage représente un constat opérationnel réel d'une plateforme AgenticX5 intégrée avec la gouvernance AEGIS-X5.</div>
+
+<div class="test-grid">
+<div class="test">
+<div class="test-quote en">"We went from discovering hallucinations through user complaints to catching them in <2 seconds. Guard N4 doesn't just block — it logs the pattern so the same hallucination never gets through twice."</div>
+<div class="test-quote fr">« Nous sommes passés de la découverte d'hallucinations par les plaintes utilisateurs à leur interception en <2 secondes. Guard N4 ne bloque pas seulement — il enregistre le pattern pour que la même hallucination ne passe jamais deux fois. »</div>
+<div class="test-from"><div class="test-avatar" style="background:var(--rdd);color:var(--rd)">ST</div><div><div class="test-name">Marc L. — SafeTalk-Chat</div><div class="test-role en">HSE Supervisor · Heavy Construction · Montréal</div><div class="test-role fr">Superviseur SST · Construction lourde · Montréal</div></div></div>
+</div>
+<div class="test">
+<div class="test-quote en">"Before Observe, we had no visibility on per-model costs across our 122 agents. AEGIS-X5 identified model/task mismatches within 48 hours — some agents were using premium models for tasks that lighter models handle at identical faithfulness. LatencyAutoScale handles the routing automatically now."</div>
+<div class="test-quote fr">« Avant Observe, nous n'avions aucune visibilité sur les coûts par modèle pour nos 122 agents. AEGIS-X5 a identifié les décalages modèle/tâche en 48h — certains agents utilisaient des modèles premium pour des tâches gérables par des modèles légers. LatencyAutoScale gère le routage automatiquement maintenant. »</div>
+<div class="test-from"><div class="test-avatar" style="background:var(--goldd);color:var(--gold)">ED</div><div><div class="test-name">Sophie T. — EDGY-AgenticX5</div><div class="test-role en">AI Operations Lead · Manufacturing · Québec</div><div class="test-role fr">Responsable Ops IA · Manufacturing · Québec</div></div></div>
+</div>
+<div class="test">
+<div class="test-quote en">"DriftPredictor caught a faithfulness decline we would have missed for weeks. It flagged the trend 36 hours before breach and auto-triggered RAG retraining. Zero user impact."</div>
+<div class="test-quote fr">« DriftPredictor a détecté une baisse de faithfulness que nous aurions manquée pendant des semaines. Il a signalé la tendance 36h avant le seuil et déclenché automatiquement le retraining RAG. Zéro impact utilisateur. »</div>
+<div class="test-from"><div class="test-avatar" style="background:var(--vid);color:var(--vi)">LC</div><div><div class="test-name">Jean-François R. — LiteraCIA</div><div class="test-role en">Training Director · Mining · Val-d'Or</div><div class="test-role fr">Directeur formation · Mines · Val-d'Or</div></div></div>
+</div>
+<div class="test">
+<div class="test-quote en">"87% alarm flood reduction. Our operators went from drowning in 400+ daily alarms to focusing on the 52 that actually matter. ISA-18.2 compliance maintained automatically."</div>
+<div class="test-quote fr">« Réduction de 87% des inondations d'alarmes. Nos opérateurs sont passés de 400+ alarmes quotidiennes à 52 qui comptent vraiment. Conformité ISA-18.2 maintenue automatiquement. »</div>
+<div class="test-from"><div class="test-avatar" style="background:var(--cyd);color:var(--cy)">SX</div><div><div class="test-name">Alain D. — SENTINEL·X5</div><div class="test-role en">Process Safety Manager · Petrochemical · Varennes</div><div class="test-role fr">Gestionnaire sécurité process · Pétrochimie · Varennes</div></div></div>
+</div>
+<div class="test">
+<div class="test-quote en">"Remember module with PROV-O gives us complete audit trails. When a regulator asks 'why did your AI recommend this PPE?', we can trace every decision back to the source document, the model version, and the guard validation — in seconds."</div>
+<div class="test-quote fr">« Le module Remember avec PROV-O nous donne des pistes d'audit complètes. Quand un régulateur demande 'pourquoi votre IA a recommandé cet EPI ?', nous pouvons tracer chaque décision jusqu'au document source, la version du modèle et la validation guard — en secondes. »</div>
+<div class="test-from"><div class="test-avatar" style="background:var(--grd);color:var(--gr)">HP</div><div><div class="test-name">Nathalie B. — HSE Professionals</div><div class="test-role en">Compliance Officer · Multi-site Industrial · Sherbrooke</div><div class="test-role fr">Officière conformité · Industriel multi-site · Sherbrooke</div></div></div>
+</div>
+<div class="test">
+<div class="test-quote en">"Scoring 41 innovation projects manually took 3 weeks. With AEGIS-X5 governing the scoring agents, we get real-time ROI rankings with Guard ensuring no bias in prioritization. Transparent, traceable, auditable."</div>
+<div class="test-quote fr">« Évaluer 41 projets d'innovation manuellement prenait 3 semaines. Avec AEGIS-X5 gouvernant les agents de scoring, nous obtenons des classements ROI en temps réel avec Guard assurant l'absence de biais. Transparent, traçable, auditable. »</div>
+<div class="test-from"><div class="test-avatar" style="background:var(--bld);color:var(--bl)">IG</div><div><div class="test-name">David M. — IGNITIA</div><div class="test-role en">VP Innovation · Energy · Bécancour</div><div class="test-role fr">VP Innovation · Énergie · Bécancour</div></div></div>
+</div>
+</div>
+</section>
+
+
+
+<hr class="divider">
+
+<!-- COMPLIANCE -->
+<section class="sec" id="compliance" style="text-align:center">
+<div class="label en">Built for Regulated Industries</div>
+<div class="label fr">Conçu pour les industries réglementées</div>
+<div class="title en" style="display:inline-block">Compliance is architecture, not a feature</div>
+<div class="title fr" style="display:inline-block">La conformité est une architecture, pas une fonctionnalité</div>
+<div class="comprow">
+<div class="comp"><div class="comp-ic">🇨🇦</div><div class="comp-nm">Loi 25</div><div class="comp-sub">Québec</div></div>
+<div class="comp"><div class="comp-ic">🇪🇺</div><div class="comp-nm">GDPR</div><div class="comp-sub">Privacy</div></div>
+<div class="comp"><div class="comp-ic">🤖</div><div class="comp-nm">EU AI Act</div><div class="comp-sub">Risk</div></div>
+<div class="comp"><div class="comp-ic">🏗️</div><div class="comp-nm">ISO 45001</div><div class="comp-sub">OHS</div></div>
+<div class="comp"><div class="comp-ic">🔬</div><div class="comp-nm">NIST AI RMF</div><div class="comp-sub">Risk Mgmt</div></div>
+<div class="comp"><div class="comp-ic">🏥</div><div class="comp-nm">HIPAA</div><div class="comp-sub">Healthcare</div></div>
+<div class="comp"><div class="comp-ic">💰</div><div class="comp-nm">SOX/SOC2</div><div class="comp-sub">Finance</div></div>
+</div>
+</section>
+
+<hr class="divider">
+
+<!-- DEMO EXPLANATION -->
+<section class="sec wide" id="whatyousee">
+<div class="label en">What the Demo Looks Like</div>
+<div class="label fr">Ce que la démo vous montre</div>
+<div class="title en">A 30-minute live walkthrough</div>
+<div class="title fr">Une visite guidée live de 30 minutes</div>
+<p class="desc en">During the demo, you'll see AEGIS-X5 governing a real ecosystem of 21 platforms and 500+ agents — with live data, real-time blocking, and predictive alerts.</p>
+<p class="desc fr">Pendant la démo, vous verrez AEGIS-X5 gouverner un écosystème réel de 21 plateformes et 500+ agents — avec données live, blocages temps réel et alertes prédictives.</p>
+<div class="demo-steps">
+<div class="dstep"><div class="dstep-num">1</div><div class="dstep-title en">Overview</div><div class="dstep-title fr">Vue d'ensemble</div><div class="dstep-desc en">KPIs across all agents: Health Scores, costs, latency, guard status</div><div class="dstep-desc fr">KPIs pour tous les agents : scores santé, coûts, latence, statut guard</div></div>
+<div class="dstep"><div class="dstep-num">2</div><div class="dstep-title en">Live Guard</div><div class="dstep-title fr">Guard en direct</div><div class="dstep-desc en">Watch an agent hallucinate and get blocked in real-time by Guard N4</div><div class="dstep-desc fr">Voyez un agent halluciner et être bloqué en temps réel par Guard N4</div></div>
+<div class="dstep"><div class="dstep-num">3</div><div class="dstep-title en">Predictions</div><div class="dstep-title fr">Prédictions</div><div class="dstep-desc en">See drift predicted 48h before it crosses threshold — and auto-correction triggered</div><div class="dstep-desc fr">Voyez le drift prédit 48h avant le seuil — et l'auto-correction déclenchée</div></div>
+</div>
+<div style="text-align:center;margin-top:2rem"><a href="#demo" class="cta" style="padding:14px 40px;font-size:1rem"><span class="en">🎯 Schedule Your Demo Now</span><span class="fr">🎯 Planifier votre démo maintenant</span></a></div>
+</section>
+
+<div class="dstep"><div class="dstep-num">4</div><div class="dstep-title en">Integration</div><div class="dstep-title fr">Intégration</div><div class="dstep-desc en">2 lines of code. pip install. Dashboard in 2 minutes. Your stack, your agents.</div><div class="dstep-desc fr">2 lignes de code. pip install. Dashboard en 2 minutes. Votre stack, vos agents.</div></div>
+</div>
+</section>
+
+<hr class="divider">
+
+<!-- DOCUMENTATION -->
+<section class="sec wide" id="docs">
+<div class="label en">Developer Documentation</div>
+<div class="label fr">Documentation Développeur</div>
+<div class="stitle en">Everything you need to integrate</div>
+<div class="stitle fr">Tout ce qu'il faut pour intégrer</div>
+
+<div class="docs-grid">
+<div class="doc"><div class="doc-icon">🚀</div><div class="doc-title en">Quickstart</div><div class="doc-title fr">Démarrage rapide</div><div class="doc-desc en">Your first protected agent in 2 minutes. pip install → aegis init → 2 lines → dashboard.</div><div class="doc-desc fr">Votre premier agent protégé en 2 minutes. pip install → aegis init → 2 lignes → dashboard.</div><div class="doc-tag" style="color:var(--gr)">✓ Included with Pro plan</div></div>
+<div class="doc"><div class="doc-icon">📦</div><div class="doc-title en">Modules Reference</div><div class="doc-title fr">Référence modules</div><div class="doc-desc en">Observe, Guard, Evaluate, Collect, Remember — complete API for each module with configuration options.</div><div class="doc-desc fr">Observe, Guard, Evaluate, Collect, Remember — API complète pour chaque module avec options de configuration.</div><div class="doc-tag" style="color:var(--gr)">✓ Included with Pro plan</div></div>
+<div class="doc"><div class="doc-icon">🔌</div><div class="doc-title en">API Reference</div><div class="doc-title fr">Référence API</div><div class="doc-desc en">12 REST endpoints. POST /trace, POST /guard/validate, GET /health, GET /agents, GET /predictions, GET /dashboard/*</div><div class="doc-desc fr">12 endpoints REST. POST /trace, POST /guard/validate, GET /health, GET /agents, GET /predictions, GET /dashboard/*</div><div class="doc-tag" style="color:var(--gr)">✓ Included with Pro plan</div></div>
+<div class="doc"><div class="doc-icon">🏭</div><div class="doc-title en">Industry Templates</div><div class="doc-title fr">Templates industrie</div><div class="doc-desc en">Pre-configured validators, sources, and thresholds. HSE template with SST_FactCheck, CNESSTCompliance, EPIValidator.</div><div class="doc-desc fr">Validators, sources et seuils pré-configurés. Template HSE avec SST_FactCheck, CNESSTCompliance, EPIValidator.</div><div class="doc-tag" style="color:var(--gr)">✓ Included with Pro plan</div></div>
+</div>
+
+<div style="margin-top:2rem">
+<div class="label en" style="margin-bottom:10px">Framework Integration Guides</div>
+<div class="label fr" style="margin-bottom:10px">Guides d'intégration par framework</div>
+</div>
+<div class="docs-grid" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr))">
+<div class="doc"><div class="doc-icon">🦜</div><div class="doc-title">LangChain / LangGraph</div><div class="doc-desc">AegisCallbackHandler captures on_llm_start, on_chain_end automatically. 1 line to add to your chain.</div><div class="doc-tag" style="color:var(--gr)">✓ Included with Pro plan</div></div>
+<div class="doc"><div class="doc-icon">🤖</div><div class="doc-title">CrewAI</div><div class="doc-desc">AegisCrewMiddleware wraps each crew agent. Decorate with @aegis_crew(guard_level="N3"). Auto-traces task delegation.</div><div class="doc-tag" style="color:var(--gr)">✓ Included with Pro plan</div></div>
+<div class="doc"><div class="doc-icon">💬</div><div class="doc-title">Claude / Anthropic</div><div class="doc-desc">Transparent monkey-patch: client = aegis.wrap_anthropic(Anthropic()). Zero code change. All calls traced and guarded.</div><div class="doc-tag" style="color:var(--gr)">✓ Included with Pro plan</div></div>
+<div class="doc"><div class="doc-icon">🌐</div><div class="doc-title">OpenAI SDK</div><div class="doc-desc">Same wrapping: client = aegis.wrap_openai(OpenAI()). Captures completions, embeddings, function calls.</div><div class="doc-tag" style="color:var(--gr)">✓ Included with Pro plan</div></div>
+<div class="doc"><div class="doc-icon">📡</div><div class="doc-title">REST / Webhook</div><div class="doc-desc">POST to /v1/trace from any language. JSON payload: agent, input, output, model. Node.js, Go, Rust, Java.</div><div class="doc-tag" style="color:var(--gr)">✓ Included with Pro plan</div></div>
+<div class="doc"><div class="doc-icon">📊</div><div class="doc-title">OpenTelemetry</div><div class="doc-desc">AegisSpanExporter implements OTLP standard. Compatible Jaeger, Zipkin, Datadog, Grafana Tempo.</div><div class="doc-tag" style="color:var(--gr)">✓ Included with Pro plan</div></div>
+</div>
+
+<!-- GET STARTED CTA -->
+<div style="margin-top:2rem">
+<div class="label en" style="margin-bottom:10px">Get Started</div>
+<div class="label fr" style="margin-bottom:10px">Commencer</div>
+</div>
+<div style="background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:2rem;text-align:center">
+<div style="font-size:1.3rem;font-weight:700;margin-bottom:8px" class="en">Ready to govern your agents?</div>
+<div style="font-size:1.3rem;font-weight:700;margin-bottom:8px" class="fr">Prêt à gouverner vos agents ?</div>
+<div style="font-size:.88rem;color:var(--tx2);margin-bottom:1.5rem;max-width:480px;margin-left:auto;margin-right:auto" class="en">Start with a free evaluation. Quickstart guide, SDK access, and developer documentation are included with every plan.</div>
+<div style="font-size:.88rem;color:var(--tx2);margin-bottom:1.5rem;max-width:480px;margin-left:auto;margin-right:auto" class="fr">Commencez avec une évaluation gratuite. Guide de démarrage, accès SDK et documentation développeur sont inclus dans chaque plan.</div>
+<div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+<a href="#demo" class="cta" style="padding:12px 32px;font-size:.9rem"><span class="en">Start Free Evaluation →</span><span class="fr">Évaluation gratuite →</span></a>
+<a href="#pricing" class="cta2"><span class="en">View Plans</span><span class="fr">Voir les plans</span></a>
+</div>
+</div>
+</section>
+
+
+<hr class="divider">
+
+
+<!-- FORM -->
+<section class="form-sec" id="demo">
+<div class="label en">Request a Demo</div>
+<div class="label fr">Demander une démo</div>
+<div class="title en" style="display:inline-block">See AEGIS-X5 in action</div>
+<div class="title fr" style="display:inline-block">Voir AEGIS-X5 en action</div>
+<div class="fcard">
+<form onsubmit="submitForm(event)">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+<div class="frow"><label class="en">First Name *</label><label class="fr">Prénom *</label><input type="text" required name="first_name"></div>
+<div class="frow"><label class="en">Last Name *</label><label class="fr">Nom *</label><input type="text" required name="last_name"></div>
+</div>
+<div class="frow"><label class="en">Work Email *</label><label class="fr">Courriel professionnel *</label><input type="email" required name="email"></div>
+<div class="frow"><label class="en">Company *</label><label class="fr">Entreprise *</label><input type="text" required name="company"></div>
+<div class="frow"><label class="en">Role</label><label class="fr">Rôle</label>
+<select name="role"><option value="">—</option><option>CTO / VP Engineering</option><option>AI/ML Lead</option><option>Developer</option><option>HSE / Safety Director</option><option>Compliance Officer</option><option class="en">Other</option><option class="fr">Autre</option></select></div>
+<div class="frow"><label class="en">How many AI agents do you operate?</label><label class="fr">Combien d'agents IA opérez-vous ?</label>
+<select name="agents"><option value="">—</option><option>1-10</option><option>10-50</option><option>50-200</option><option>200+</option></select></div>
+<div class="frow"><label class="en">Anything else?</label><label class="fr">Autre chose ?</label><textarea name="message" rows="3"></textarea></div>
+<button type="submit" class="fsubmit en">Request Demo →</button>
+<button type="submit" class="fsubmit fr">Demander une démo →</button>
+<div class="fsecure en">🔒 Your information is encrypted and never shared with third parties.</div>
+<div class="fsecure fr">🔒 Vos informations sont chiffrées et jamais partagées avec des tiers.</div>
+</form>
+</div>
+</section>
+
+<!-- CHANGELOG -->
+<section class="sec" id="changelog">
+<div class="label">Changelog</div>
+<div class="stitle en">Product Evolution</div>
+<div class="stitle fr">Évolution du produit</div>
+
+<div class="cl-item"><div><span class="cl-ver">v0.4</span><span class="cl-date">April 2026</span></div><div class="cl-changes en"><b>Full visibility dashboard</b> — 5 interactive views (Overview, Agents, Guard, Predictions, Traces) for complete governance at a glance. Connect any framework with native connectors for LangChain, CrewAI, Claude, OpenAI, and OpenTelemetry. First production tenant deployed with 1,400+ live governance traces.</div><div class="cl-changes fr"><b>Dashboard visibilité complète</b> — 5 vues interactives pour la gouvernance en un coup d'œil. Connecteurs natifs LangChain, CrewAI, Claude, OpenAI et OpenTelemetry. Premier tenant production déployé avec 1 400+ traces de gouvernance live.</div></div>
+
+<div class="cl-item"><div><span class="cl-ver">v0.3</span><span class="cl-date">April 2026</span></div><div class="cl-changes en"><b>Industry-ready HSE template</b> — Pre-configured safety validators that automatically block dangerous recommendations, verify PPE compliance, and enforce regulatory standards. Validated against 20 real-world safety scenarios with zero tolerance for false negatives. Enterprise-grade deployment with Docker and REST API.</div><div class="cl-changes fr"><b>Template HSE prêt pour l'industrie</b> — Validators de sécurité pré-configurés qui bloquent automatiquement les recommandations dangereuses, vérifient la conformité EPI et appliquent les normes réglementaires. Validé contre 20 scénarios réels avec tolérance zéro. Déploiement enterprise avec Docker et API REST.</div></div>
+
+<div class="cl-item"><div><span class="cl-ver">v0.2</span><span class="cl-date">April 2026</span></div><div class="cl-changes en"><b>Developer experience and predictive intelligence</b> — CLI tools for instant setup, local standalone mode for evaluation, and built-in predictive scoring. Every agent receives a Health Score (0-100) with 48-hour drift predictions and 7-day cost forecasts — all without heavy ML dependencies.</div><div class="cl-changes fr"><b>Expérience développeur et intelligence prédictive</b> — Outils CLI pour configuration instantanée, mode local autonome pour évaluation, et scoring prédictif intégré. Chaque agent reçoit un Health Score (0-100) avec prédictions de drift 48h et prévisions de coûts 7 jours — sans dépendances ML lourdes.</div></div>
+
+<div class="cl-item"><div><span class="cl-ver">v0.1</span><span class="cl-date">April 2026</span></div><div class="cl-changes en"><b>Foundation release</b> — Core governance engine with 5 modules (Observe, Guard, Evaluate, Collect, Remember). Three autonomy modes let you start with passive monitoring and evolve to full autonomous correction as trust builds. Multi-tenant architecture with complete PROV-O audit trails and GDPR-compliant data erasure.</div><div class="cl-changes fr"><b>Version fondation</b> — Moteur de gouvernance avec 5 modules. Trois modes d'autonomie pour commencer en monitoring passif et évoluer vers la correction autonome. Architecture multi-tenant avec pistes d'audit PROV-O complètes et effacement données conforme RGPD.</div></div>
+</section>
+
+
+<footer>
+<div>© 2026 AgenticX5. <span class="en">All rights reserved.</span><span class="fr">Tous droits réservés.</span> · team@agenticx5.com</div>
+<div>
+<a href="#demo" class="en">Contact</a><a href="#demo" class="fr">Contact</a>
+<a href="#modules" class="en">Platform</a><a href="#modules" class="fr">Plateforme</a>
+<a href="#pricing" class="en">Pricing</a><a href="#pricing" class="fr">Tarifs</a>
+</div>
+</footer>
+
+<script>
+// TABS
+const tabs=[
+{id:'overview',en:'Overview',fr:"Vue d'ensemble"},
+{id:'traces',en:'Traces',fr:'Traces'},
+{id:'guard',en:'Guard',fr:'Guard'},
+{id:'predictions',en:'Predictions',fr:'Prédictions'},
+{id:'live',en:'⚡ Live Demo',fr:'⚡ Démo Live'}
+];
+const bar=document.getElementById('tabbar');
+tabs.forEach((t,i)=>{
+const b=document.createElement('button');
+b.className='tbtn'+(i===0?' on':'');
+b.innerHTML='<span class="en">'+t.en+'</span><span class="fr">'+t.fr+'</span>';
+b.onclick=()=>{
+document.querySelectorAll('.tbtn').forEach(x=>x.classList.remove('on'));
+document.querySelectorAll('.tcont').forEach(x=>x.classList.remove('on'));
+b.classList.add('on');
+document.getElementById('t-'+t.id).classList.add('on');
+};
+bar.appendChild(b);
+});
+
+// LIVE DEMO
+const feedMsgs=[
+{c:'#1cc77a',m:'✓ EDGY-Core trace | 1,890t | $0.006 | 134ms | PASS'},
+{c:'#e84057',m:'✗ SafeTalk-Chat BLOCKED | SST hallucination | N4'},
+{c:'#1cc77a',m:'✓ LiteraCIA-RAG | faithfulness: 97.2% | PASS'},
+{c:'#e8a317',m:'⚠ SENTINEL-Alarm latency 523ms | fallback initiated'},
+{c:'#1cc77a',m:'✓ SafeFleet-Route | 890t | $0.001 | 89ms | PASS'},
+{c:'#7c5cfa',m:'◉ LiteraCIA PII detected (NAS) | filtered | Loi 25'},
+{c:'#1cc77a',m:'✓ IGNITIA-Scorer eval | score: 91/100 | PASS'},
+{c:'#e84057',m:'✗ EDGY-Core injection attempt | DAN mode | BLOCKED'},
+{c:'#22b8cf',m:'↻ DriftAutoCorrect | LiteraCIA faithfulness < 95%'},
+{c:'#1cc77a',m:'✓ BehaviorX-NLP sentiment | 2,100t | PASS'},
+];
+let fi=0;
+function addFeed(){
+const f=document.getElementById('dfeed');if(!f)return;
+const m=feedMsgs[fi%feedMsgs.length];
+const ts=new Date().toLocaleTimeString('en-US',{hour12:false,hour:'2-digit',minute:'2-digit',second:'2-digit'});
+const d=document.createElement('div');d.style.cssText='opacity:0;transition:opacity .3s';
+d.innerHTML='<span style="color:var(--dm);margin-right:6px">'+ts+'</span><span style="color:'+m.c+'">'+m.m+'</span>';
+f.insertBefore(d,f.firstChild);setTimeout(()=>d.style.opacity='1',30);
+if(f.children.length>8)f.removeChild(f.lastChild);fi++;
+const j=()=>Math.floor(Math.random()*5)-2;
+const el=id=>document.getElementById(id);
+if(el('dk-h'))el('dk-h').textContent=91+j();
+if(el('dk-l'))el('dk-l').textContent=(142+j()*10)+'ms';
+if(el('dk-g'))el('dk-g').textContent=43+Math.floor(Math.random()*3);
+if(el('dk-c'))el('dk-c').textContent='$'+(1247+j()*50);
+}
+function updateTime(){const e=document.getElementById('dtime');if(e)e.textContent=new Date().toLocaleTimeString('en-US',{hour12:false})}
+updateTime();addFeed();
+setInterval(addFeed,3000);setInterval(updateTime,1000);
+
+// FORM
+function submitForm(e){
+e.preventDefault();
+const fd=new FormData(e.target);const d=Object.fromEntries(fd);
+const s=encodeURIComponent('AEGIS-X5 Demo — '+d.company);
+const b=encodeURIComponent('Name: '+d.first_name+' '+d.last_name+'\nEmail: '+d.email+'\nCompany: '+d.company+'\nRole: '+d.role+'\nAgents: '+d.agents+'\nMessage: '+d.message);
+window.location.href='mailto:team@agenticx5.com?subject='+s+'&body='+b;
+alert(document.body.classList.contains('fr')?'Merci ! Un courriel pré-rempli va s\'ouvrir.':'Thank you! A pre-filled email will open.');
+}
+
+// SCROLL ANIM
+const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.style.opacity='1'}),{threshold:.1});
+document.querySelectorAll('.sec,.form-sec').forEach(el=>{el.style.opacity='0';el.style.transition='opacity .6s';obs.observe(el)});
+setTimeout(()=>document.querySelectorAll('.sec,.form-sec').forEach(el=>el.style.opacity='1'),100);
+</script>
+</body>
+</html>

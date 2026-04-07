@@ -154,10 +154,33 @@ nav{position:fixed;top:0;width:100%;z-index:100;padding:.65rem 2.5rem;display:fl
 .mchart{display:flex;align-items:flex-end;gap:2px;height:50px;margin:10px 0}
 .mbar{flex:1;border-radius:2px 2px 0 0;transition:height .3s}
 
-/* FRAMEWORKS */
-.fwrap{display:flex;flex-wrap:wrap;gap:8px;margin-top:1.5rem;justify-content:center}
-.ftag{font-family:'JetBrains Mono',monospace;font-size:.82rem;padding:10px 20px;border:1px solid var(--bdr);border-radius:6px;color:var(--tx2);transition:all .2s}
-.ftag:hover{border-color:var(--gold);color:var(--gold)}
+/* INTEGRATIONS */
+.int-tabs{display:flex;gap:0;margin-top:1.5rem;border-bottom:1px solid var(--bdr);justify-content:center}
+.int-tab{font-family:'JetBrains Mono',monospace;font-size:.8rem;padding:10px 24px;color:var(--tx2);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;background:none;border-top:none;border-left:none;border-right:none}
+.int-tab:hover{color:var(--gold)}
+.int-tab.active{color:var(--gold);border-bottom-color:var(--gold);font-weight:600}
+.int-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-top:1.5rem}
+.int-card{background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:1.2rem 1.4rem;transition:all .3s;cursor:default;display:flex;flex-direction:column;gap:6px}
+.int-card:hover{border-color:var(--gold);transform:translateY(-2px)}
+.int-card-head{display:flex;align-items:center;gap:10px}
+.int-card-head img,.int-card-head .int-emoji{width:32px;height:32px;flex-shrink:0}
+.int-card-head .int-emoji{font-size:1.4rem;display:flex;align-items:center;justify-content:center}
+.int-card-name{font-size:.95rem;font-weight:700}
+.int-card-tag{font-family:'JetBrains Mono',monospace;font-size:.55rem;padding:2px 8px;border-radius:3px;font-weight:600;display:inline-block;background:var(--goldd);color:var(--gold)}
+.int-card-tag.cy{background:var(--cyd);color:var(--cy)}
+.int-card-tag.vi{background:var(--vid);color:var(--vi)}
+.int-card-tag.gr{background:var(--grd);color:var(--gr)}
+.int-card-tag.bl{background:var(--bld);color:var(--bl)}
+.int-card-tag.rd{background:var(--rdd);color:var(--rd)}
+.int-card-desc{font-size:.78rem;color:var(--tx2);line-height:1.5}
+.int-badge{font-family:'JetBrains Mono',monospace;font-size:.5rem;padding:2px 7px;border-radius:3px;font-weight:700;display:inline-block;margin-left:auto}
+.int-badge.prod{background:var(--grd);color:var(--gr)}
+.int-badge.poc{background:#f5c04218;color:#f5c042}
+.int-panel{display:none}
+.int-panel.active{display:block}
+.int-cta{margin-top:2rem;font-size:.85rem;color:var(--tx2)}
+.int-cta a{color:var(--gold);text-decoration:none;font-weight:600}
+.int-cta a:hover{text-decoration:underline}
 
 /* COMPLIANCE */
 .comprow{display:flex;flex-wrap:wrap;gap:10px;margin-top:1.5rem;justify-content:center}
@@ -1125,5 +1148,140 @@ setTimeout(()=>document.querySelectorAll('.sec,.form-sec').forEach(el=>el.style.
 
 
 <!-- FRAMEWORKS -->
+<section class="sec" id="frameworks" style="text-align:center">
+<div class="label en">Integrations & Ecosystem</div>
+<div class="label fr">Intégrations & Écosystème</div>
+<div class="title en" style="display:inline-block">Works with your stack. Any stack.</div>
+<div class="title fr" style="display:inline-block">Compatible avec votre stack. N'importe laquelle.</div>
+<p style="color:var(--tx2);font-size:.85rem;margin:.75rem auto 0;max-width:560px" class="en">Connect AEGIS-X5 to your existing agents in minutes — no rearchitecting required.</p>
+<p style="color:var(--tx2);font-size:.85rem;margin:.75rem auto 0;max-width:560px" class="fr">Connectez AEGIS-X5 à vos agents existants en quelques minutes — sans refactoring.</p>
 
+<div style="max-width:920px;margin:0 auto">
 
+<div class="int-section-label en">🔗 Orchestration Frameworks</div>
+<div class="int-section-label fr">🔗 Frameworks d'Orchestration</div>
+<div class="int-grid">
+  <div class="int-card">
+    <div class="int-card-head"><div class="int-emoji">🦜</div><span class="int-card-name">LangChain</span></div>
+    <div class="int-card-tag cy en">Orchestration</div>
+    <div class="int-card-desc en">Full chain observability. Wrap any LangChain agent with @observe in one line.</div>
+    <div class="int-card-desc fr">Observabilité complète. Wrappez n'importe quel agent en une ligne.</div>
+    <div class="int-badge prod">Production</div>
+  </div>
+  <div class="int-card">
+    <div class="int-card-head"><div class="int-emoji">👥</div><span class="int-card-name">CrewAI</span></div>
+    <div class="int-card-tag vi en">Multi-Agent</div>
+    <div class="int-card-desc en">Guard each role, trace crew coordination, audit decisions across agents.</div>
+    <div class="int-card-desc fr">Guard par rôle, trace de coordination, audit des décisions inter-agents.</div>
+    <div class="int-badge prod">Production</div>
+  </div>
+  <div class="int-card">
+    <div class="int-card-head"><div class="int-emoji">🕸️</div><span class="int-card-name">LangGraph</span></div>
+    <div class="int-card-tag cy en">State Machine</div>
+    <div class="int-card-desc en">Monitor graph transitions, detect loop anomalies, guard node outputs.</div>
+    <div class="int-card-desc fr">Transitions, boucles, outputs de nœuds — surveillés en temps réel.</div>
+    <div class="int-badge prod">Production</div>
+  </div>
+  <div class="int-card">
+    <div class="int-card-head"><div class="int-emoji">🤖</div><span class="int-card-name">AutoGen</span></div>
+    <div class="int-card-tag bl en">Conversational</div>
+    <div class="int-card-desc en">Trace agent-to-agent messages, guard multi-turn outputs, audit decisions.</div>
+    <div class="int-card-desc fr">Traces agent-à-agent, guard sur les tours de dialogue.</div>
+    <div class="int-badge prod">Production</div>
+  </div>
+  <div class="int-card">
+    <div class="int-card-head"><div class="int-emoji">🦙</div><span class="int-card-name">LlamaIndex</span></div>
+    <div class="int-card-tag gr en">RAG Pipeline</div>
+    <div class="int-card-desc en">DriftPredictor on faithfulness, automatic reindex triggers, RAG governance.</div>
+    <div class="int-card-desc fr">DriftPredictor sur faithfulness, reindex automatique.</div>
+    <div class="int-badge prod">Production</div>
+  </div>
+  <div class="int-card">
+    <div class="int-card-head"><div class="int-emoji">🌾</div><span class="int-card-name">Haystack</span></div>
+    <div class="int-card-tag gr en">Pipeline</div>
+    <div class="int-card-desc en">Observe each component, guard final outputs, evaluate answers per stage.</div>
+    <div class="int-card-desc fr">Observe, guard et évalue chaque étape du pipeline.</div>
+    <div class="int-badge prod">Production</div>
+  </div>
+</div>
+
+<div class="int-section-label en">🤖 LLM Providers</div>
+<div class="int-section-label fr">🤖 Fournisseurs LLM</div>
+<div class="int-grid">
+  <div class="int-card">
+    <div class="int-card-head"><div class="int-emoji">⚡</div><span class="int-card-name">OpenAI</span></div>
+    <div class="int-card-tag cy en">GPT-4o · o3</div>
+    <div class="int-card-desc en">Token cost tracking per model, latency p95, Guard on completions.</div>
+    <div class="int-card-desc fr">Coûts par modèle, latence p95, Guard sur les completions.</div>
+    <div class="int-badge prod">Production</div>
+  </div>
+  <div class="int-card">
+    <div class="int-card-head"><div class="int-emoji">🧠</div><span class="int-card-name">Anthropic</span></div>
+    <div class="int-card-tag vi en">Claude 4.6</div>
+    <div class="int-card-desc en">Native SDK integration. Observe thinking chains, guard outputs, evaluate faithfulness.</div>
+    <div class="int-card-desc fr">Intégration native SDK. Observe, guard, évalue les outputs Claude.</div>
+    <div class="int-badge prod">Production</div>
+  </div>
+  <div class="int-card">
+    <div class="int-card-head"><div class="int-emoji">🔥</div><span class="int-card-name">Open Models</span></div>
+    <div class="int-card-tag gr en">Llama · Mistral</div>
+    <div class="int-card-desc en">Llama 3.3, Mistral Large, local models via Ollama — same governance layer.</div>
+    <div class="int-card-desc fr">Llama, Mistral, modèles locaux Ollama — même couche de gouvernance.</div>
+    <div class="int-badge prod">Production</div>
+  </div>
+</div>
+
+<div class="int-section-label en">📡 Observability & DevOps</div>
+<div class="int-section-label fr">📡 Observabilité & DevOps</div>
+<div class="int-grid">
+  <div class="int-card">
+    <div class="int-card-head"><div class="int-emoji">📊</div><span class="int-card-name">OpenTelemetry</span></div>
+    <div class="int-card-tag cy en">Telemetry</div>
+    <div class="int-card-desc en">Export AEGIS-X5 traces to any OTel-compatible backend. Grafana, Datadog, Jaeger.</div>
+    <div class="int-card-desc fr">Exportez les traces vers tout backend OTel. Grafana, Datadog, Jaeger.</div>
+    <div class="int-badge prod">Production</div>
+  </div>
+  <div class="int-card">
+    <div class="int-card-head"><div class="int-emoji">🪝</div><span class="int-card-name">Webhook / REST</span></div>
+    <div class="int-card-tag bl en">Universal</div>
+    <div class="int-card-desc en">Connect any agent via REST or webhook. No SDK required for basic governance.</div>
+    <div class="int-card-desc fr">Connectez n'importe quel agent via REST ou webhook. Sans SDK.</div>
+    <div class="int-badge prod">Production</div>
+  </div>
+  <div class="int-card">
+    <div class="int-card-head"><div class="int-emoji">🚀</div><span class="int-card-name">Vercel AI SDK</span></div>
+    <div class="int-card-tag gr en">JS / TS</div>
+    <div class="int-card-desc en">Govern Next.js AI apps. Observe streaming completions, guard edge outputs.</div>
+    <div class="int-card-desc fr">Gouvernez vos apps Next.js IA. Observe streaming, guard edge outputs.</div>
+    <div class="int-badge poc">Beta</div>
+  </div>
+</div>
+
+<div class="int-section-label en">🏭 Industry Templates</div>
+<div class="int-section-label fr">🏭 Templates Industrie</div>
+<div class="int-grid">
+  <div class="int-card">
+    <div class="int-card-head"><div class="int-emoji">🦺</div><span class="int-card-name">HSE / SST</span></div>
+    <div class="int-card-tag rd en">Regulated</div>
+    <div class="int-card-desc en">SST_FactCheck, EPIValidator, CNESSTCompliance, HazardMinimizer. 20 golden test cases.</div>
+    <div class="int-card-desc fr">SST_FactCheck, EPIValidator, CNESSTCompliance. 20 cas de test golden.</div>
+    <div class="int-badge prod">Production</div>
+  </div>
+  <div class="int-card">
+    <div class="int-card-head"><div class="int-emoji">🏥</div><span class="int-card-name">Healthcare</span></div>
+    <div class="int-card-tag vi en">HIPAA</div>
+    <div class="int-card-desc en">PII guard, HIPAA compliance layer, clinical decision support governance.</div>
+    <div class="int-card-desc fr">Guard PII, conformité HIPAA, gouvernance aide à la décision clinique.</div>
+    <div class="int-badge poc">Roadmap</div>
+  </div>
+  <div class="int-card">
+    <div class="int-card-head"><div class="int-emoji">🏦</div><span class="int-card-name">Finance / Legal</span></div>
+    <div class="int-card-tag bl en">SOC2 · GDPR</div>
+    <div class="int-card-desc en">Audit trail for financial agents. SOC2, GDPR, regulatory output validation.</div>
+    <div class="int-card-desc fr">Audit trail agents financiers. SOC2, RGPD, validation outputs réglementaires.</div>
+    <div class="int-badge poc">Roadmap</div>
+  </div>
+</div>
+
+</div>
+</section>

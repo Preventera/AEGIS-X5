@@ -1,101 +1,158 @@
 const fs = require('fs');
+
+const newSection = `<!-- FRAMEWORKS -->
+<section class="sec" id="frameworks" style="text-align:center">
+<div class="label en">Integrations & Ecosystem</div>
+<div class="label fr">Intégrations & Écosystème</div>
+<div class="title en" style="display:inline-block">Works with your stack. Any stack.</div>
+<div class="title fr" style="display:inline-block">Compatible avec votre stack. N'importe laquelle.</div>
+<p style="color:var(--tx2);font-size:.85rem;margin:.75rem auto 0;max-width:560px" class="en">Connect AEGIS-X5 to your existing agents in minutes — no rearchitecting required.</p>
+<p style="color:var(--tx2);font-size:.85rem;margin:.75rem auto 0;max-width:560px" class="fr">Connectez AEGIS-X5 à vos agents existants en quelques minutes — sans refactoring.</p>
+
+<style>
+.int-card-link{text-decoration:none;color:inherit;display:block}
+.int-card-link .int-card{cursor:pointer;position:relative}
+.int-card-link .int-card:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.int-card-link .int-card::after{content:'↗';position:absolute;top:10px;right:12px;font-size:.7rem;color:var(--tx3);opacity:0;transition:opacity .2s}
+.int-card-link .int-card:hover::after{opacity:1}
+</style>
+
+<div style="max-width:920px;margin:0 auto">
+
+<div class="int-section-label en">🔗 Orchestration Frameworks</div>
+<div class="int-section-label fr">🔗 Frameworks d'Orchestration</div>
+<div class="int-grid">
+  <a href="https://langchain.com" target="_blank" rel="noopener" class="int-card-link"><div class="int-card">
+    <div class="int-card-head"><div class="int-emoji">🦜</div><span class="int-card-name">LangChain</span></div>
+    <div class="int-card-tag cy en">Orchestration</div>
+    <div class="int-card-desc en">Full chain observability. Wrap any LangChain agent with @observe in one line.</div>
+    <div class="int-card-desc fr">Observabilité complète. Wrappez n'importe quel agent en une ligne.</div>
+    <div class="int-badge prod">Production</div>
+  </div></a>
+  <a href="https://crewai.com" target="_blank" rel="noopener" class="int-card-link"><div class="int-card">
+    <div class="int-card-head"><div class="int-emoji">👥</div><span class="int-card-name">CrewAI</span></div>
+    <div class="int-card-tag vi en">Multi-Agent</div>
+    <div class="int-card-desc en">Guard each role, trace crew coordination, audit decisions across agents.</div>
+    <div class="int-card-desc fr">Guard par rôle, trace de coordination, audit des décisions inter-agents.</div>
+    <div class="int-badge prod">Production</div>
+  </div></a>
+  <a href="https://langchain-ai.github.io/langgraph" target="_blank" rel="noopener" class="int-card-link"><div class="int-card">
+    <div class="int-card-head"><div class="int-emoji">🕸️</div><span class="int-card-name">LangGraph</span></div>
+    <div class="int-card-tag cy en">State Machine</div>
+    <div class="int-card-desc en">Monitor graph transitions, detect loop anomalies, guard node outputs.</div>
+    <div class="int-card-desc fr">Transitions, boucles, outputs de nœuds — surveillés en temps réel.</div>
+    <div class="int-badge prod">Production</div>
+  </div></a>
+  <a href="https://microsoft.github.io/autogen" target="_blank" rel="noopener" class="int-card-link"><div class="int-card">
+    <div class="int-card-head"><div class="int-emoji">🤖</div><span class="int-card-name">AutoGen</span></div>
+    <div class="int-card-tag bl en">Conversational</div>
+    <div class="int-card-desc en">Trace agent-to-agent messages, guard multi-turn outputs, audit decisions.</div>
+    <div class="int-card-desc fr">Traces agent-à-agent, guard sur les tours de dialogue.</div>
+    <div class="int-badge prod">Production</div>
+  </div></a>
+  <a href="https://llamaindex.ai" target="_blank" rel="noopener" class="int-card-link"><div class="int-card">
+    <div class="int-card-head"><div class="int-emoji">🦙</div><span class="int-card-name">LlamaIndex</span></div>
+    <div class="int-card-tag gr en">RAG Pipeline</div>
+    <div class="int-card-desc en">DriftPredictor on faithfulness, automatic reindex triggers, RAG governance.</div>
+    <div class="int-card-desc fr">DriftPredictor sur faithfulness, reindex automatique.</div>
+    <div class="int-badge prod">Production</div>
+  </div></a>
+  <a href="https://haystack.deepset.ai" target="_blank" rel="noopener" class="int-card-link"><div class="int-card">
+    <div class="int-card-head"><div class="int-emoji">🌾</div><span class="int-card-name">Haystack</span></div>
+    <div class="int-card-tag gr en">Pipeline</div>
+    <div class="int-card-desc en">Observe each component, guard final outputs, evaluate answers per stage.</div>
+    <div class="int-card-desc fr">Observe, guard et évalue chaque étape du pipeline.</div>
+    <div class="int-badge prod">Production</div>
+  </div></a>
+</div>
+
+<div class="int-section-label en">🤖 LLM Providers</div>
+<div class="int-section-label fr">🤖 Fournisseurs LLM</div>
+<div class="int-grid">
+  <div class="int-card">
+    <div class="int-card-head"><div class="int-emoji">⚡</div><span class="int-card-name">OpenAI</span></div>
+    <div class="int-card-tag cy en">GPT-4o · o3</div>
+    <div class="int-card-desc en">Token cost tracking per model, latency p95, Guard on completions.</div>
+    <div class="int-card-desc fr">Coûts par modèle, latence p95, Guard sur les completions.</div>
+    <div class="int-badge prod">Production</div>
+  </div>
+  <div class="int-card">
+    <div class="int-card-head"><div class="int-emoji">🧠</div><span class="int-card-name">Anthropic</span></div>
+    <div class="int-card-tag vi en">Claude 4.6</div>
+    <div class="int-card-desc en">Native SDK. Observe thinking chains, guard outputs, evaluate faithfulness.</div>
+    <div class="int-card-desc fr">SDK natif. Observe, guard, évalue les outputs Claude.</div>
+    <div class="int-badge prod">Production</div>
+  </div>
+  <div class="int-card">
+    <div class="int-card-head"><div class="int-emoji">🔥</div><span class="int-card-name">Open Models</span></div>
+    <div class="int-card-tag gr en">Llama · Mistral</div>
+    <div class="int-card-desc en">Llama 3.3, Mistral Large, local models via Ollama — same governance layer.</div>
+    <div class="int-card-desc fr">Llama, Mistral, modèles locaux Ollama — même couche de gouvernance.</div>
+    <div class="int-badge prod">Production</div>
+  </div>
+</div>
+
+<div class="int-section-label en">📡 Observability & DevOps</div>
+<div class="int-section-label fr">📡 Observabilité & DevOps</div>
+<div class="int-grid">
+  <a href="https://opentelemetry.io" target="_blank" rel="noopener" class="int-card-link"><div class="int-card">
+    <div class="int-card-head"><div class="int-emoji">📊</div><span class="int-card-name">OpenTelemetry</span></div>
+    <div class="int-card-tag cy en">Telemetry</div>
+    <div class="int-card-desc en">Export traces to any OTel backend — Grafana, Datadog, Jaeger.</div>
+    <div class="int-card-desc fr">Exportez les traces vers tout backend OTel. Grafana, Datadog, Jaeger.</div>
+    <div class="int-badge prod">Production</div>
+  </div></a>
+  <a href="#docs" class="int-card-link"><div class="int-card">
+    <div class="int-card-head"><div class="int-emoji">🪝</div><span class="int-card-name">Webhook / REST</span></div>
+    <div class="int-card-tag bl en">Universal</div>
+    <div class="int-card-desc en">Connect any agent via REST or webhook. No SDK required for basic governance.</div>
+    <div class="int-card-desc fr">Connectez n'importe quel agent via REST ou webhook. Sans SDK.</div>
+    <div class="int-badge prod">Production</div>
+  </div></a>
+  <a href="https://sdk.vercel.ai" target="_blank" rel="noopener" class="int-card-link"><div class="int-card">
+    <div class="int-card-head"><div class="int-emoji">🚀</div><span class="int-card-name">Vercel AI SDK</span></div>
+    <div class="int-card-tag gr en">JS / TS</div>
+    <div class="int-card-desc en">Govern Next.js AI apps. Observe streaming completions, guard edge outputs.</div>
+    <div class="int-card-desc fr">Gouvernez vos apps Next.js IA. Observe streaming, guard edge outputs.</div>
+    <div class="int-badge poc">Beta</div>
+  </div></a>
+</div>
+
+<div class="int-section-label en">🏭 Industry Templates</div>
+<div class="int-section-label fr">🏭 Templates Industrie</div>
+<div class="int-grid">
+  <a href="#docs" class="int-card-link"><div class="int-card">
+    <div class="int-card-head"><div class="int-emoji">🦺</div><span class="int-card-name">HSE / SST</span></div>
+    <div class="int-card-tag rd en">Regulated</div>
+    <div class="int-card-desc en">SST_FactCheck, EPIValidator, CNESSTCompliance, HazardMinimizer. 20 golden test cases.</div>
+    <div class="int-card-desc fr">SST_FactCheck, EPIValidator, CNESSTCompliance. 20 cas de test golden.</div>
+    <div class="int-badge prod">Production</div>
+  </div></a>
+  <a href="#contact" class="int-card-link"><div class="int-card">
+    <div class="int-card-head"><div class="int-emoji">🏥</div><span class="int-card-name">Healthcare</span></div>
+    <div class="int-card-tag vi en">HIPAA</div>
+    <div class="int-card-desc en">PII guard, HIPAA compliance layer, clinical decision support governance.</div>
+    <div class="int-card-desc fr">Guard PII, conformité HIPAA, gouvernance aide à la décision clinique.</div>
+    <div class="int-badge poc">Roadmap</div>
+  </div></a>
+  <a href="#contact" class="int-card-link"><div class="int-card">
+    <div class="int-card-head"><div class="int-emoji">🏦</div><span class="int-card-name">Finance / Legal</span></div>
+    <div class="int-card-tag bl en">SOC2 · GDPR</div>
+    <div class="int-card-desc en">Audit trail for financial agents. SOC2, GDPR, regulatory output validation.</div>
+    <div class="int-card-desc fr">Audit trail agents financiers. SOC2, RGPD, validation outputs réglementaires.</div>
+    <div class="int-badge poc">Roadmap</div>
+  </div></a>
+</div>
+
+</div>
+</section>
+`;
+
 const file = 'aegis-x5-deploy/index.html';
-let c = fs.readFileSync(file, 'utf8');
-
-// 1. Inject video section BEFORE <!-- DEMO EXPLANATION -->
-const demoMarker = '<!-- DEMO EXPLANATION -->';
-const videoSection = `<!-- VIDEO -->
-<section class="sec" id="video" style="text-align:center">
-<div class="label en">Watch AEGIS-X5 in Action</div>
-<div class="label fr">AEGIS-X5 en Action</div>
-<div class="title en" style="display:inline-block">Gouvernance Autonome — Demo</div>
-<div class="title fr" style="display:inline-block">Gouvernance Autonome — Démo</div>
-<p style="color:var(--tx2);font-size:.85rem;margin:.75rem auto 1.5rem;max-width:560px" class="en">See how AEGIS-X5 governs 500+ agents in real time — hallucination blocking, drift prediction, autonomous correction.</p>
-<p style="color:var(--tx2);font-size:.85rem;margin:.75rem auto 1.5rem;max-width:560px" class="fr">Voyez comment AEGIS-X5 gouverne 500+ agents en temps réel — blocage d'hallucinations, prédiction de drift, correction autonome.</p>
-<div style="max-width:860px;margin:0 auto;border-radius:12px;overflow:hidden;border:1px solid var(--bdr);background:#000;box-shadow:0 24px 64px rgba(0,0,0,.5)">
-  <video controls preload="metadata" style="width:100%;display:block;max-height:500px" poster="">
-    <source src="gouvernance-autonome.mp4" type="video/mp4">
-    <p style="padding:2rem;color:var(--tx2)">Your browser does not support HTML5 video. <a href="gouvernance-autonome.mp4" style="color:var(--gold)">Download the video</a>.</p>
-  </video>
-</div>
-<p style="color:var(--tx3);font-size:.72rem;margin-top:1rem;font-family:'JetBrains Mono',monospace" class="en">🎬 AEGIS-X5 · Gouvernance Autonome · AgenticX5 Research</p>
-<p style="color:var(--tx3);font-size:.72rem;margin-top:1rem;font-family:'JetBrains Mono',monospace" class="fr">🎬 AEGIS-X5 · Gouvernance Autonome · AgenticX5 Research</p>
-</section>
-
-`;
-
-if (!c.includes(demoMarker)) {
-  console.log('ERROR: <!-- DEMO EXPLANATION --> not found');
-  process.exit(1);
-}
-c = c.replace(demoMarker, videoSection + demoMarker);
-console.log('✅ Video section injected before DEMO EXPLANATION');
-
-// 2. Inject deck cards BEFORE <!-- COMPLIANCE -->
-const complianceMarker = '<!-- COMPLIANCE -->';
-const deckSection = `<!-- DECKS -->
-<section class="sec" id="decks" style="text-align:center">
-<div class="label en">Presentation Decks</div>
-<div class="label fr">Decks de Présentation</div>
-<div class="title en" style="display:inline-block">Strategy & Architecture Decks</div>
-<div class="title fr" style="display:inline-block">Decks Stratégie & Architecture</div>
-<p style="color:var(--tx2);font-size:.85rem;margin:.75rem auto 2rem;max-width:560px" class="en">Download our research presentations — built from real deployments, not slides-as-fiction.</p>
-<p style="color:var(--tx2);font-size:.85rem;margin:.75rem auto 2rem;max-width:560px" class="fr">Téléchargez nos présentations de recherche — issues de déploiements réels, pas de slides théoriques.</p>
-<div style="max-width:860px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:16px;text-align:left">
-
-  <div style="background:var(--s2);border:1px solid var(--bdr);border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:12px">
-    <div style="display:flex;align-items:center;gap:10px">
-      <div style="width:40px;height:40px;background:rgba(232,163,23,.12);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.3rem">🎯</div>
-      <div>
-        <div style="font-weight:700;font-size:.95rem" class="en">Vibe Coding Agents in the Enterprise</div>
-        <div style="font-weight:700;font-size:.95rem" class="fr">Vibe Coding Agents en Entreprise</div>
-        <div style="font-size:.65rem;color:var(--tx3);font-family:'JetBrains Mono',monospace;margin-top:2px">12 slides · NotebookLM Research</div>
-      </div>
-    </div>
-    <p style="font-size:.78rem;color:var(--tx2);line-height:1.6" class="en">Why governance is non-negotiable when building AI agents by natural prompts. Shadow AI, the 5 failure modes, AEGIS-X5 intervention, runtime governance.</p>
-    <p style="font-size:.78rem;color:var(--tx2);line-height:1.6" class="fr">Pourquoi la gouvernance est non-négociable quand on construit des agents IA par prompts naturels. Shadow AI, 5 failles, intervention AEGIS-X5.</p>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <span style="font-size:.6rem;padding:2px 8px;border-radius:4px;background:rgba(232,163,23,.12);color:var(--gold);border:1px solid rgba(232,163,23,.3);font-family:'JetBrains Mono',monospace">Vibe Coding</span>
-      <span style="font-size:.6rem;padding:2px 8px;border-radius:4px;background:rgba(28,199,122,.12);color:#1cc77a;border:1px solid rgba(28,199,122,.3);font-family:'JetBrains Mono',monospace">HSE Case</span>
-      <span style="font-size:.6rem;padding:2px 8px;border-radius:4px;background:rgba(124,92,250,.12);color:#7c5cfa;border:1px solid rgba(124,92,250,.3);font-family:'JetBrains Mono',monospace">Enterprise</span>
-    </div>
-    <a href="deck-vibe-coding.pdf" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#000;font-weight:700;font-size:.8rem;padding:10px 20px;border-radius:8px;text-decoration:none;transition:opacity .2s;margin-top:4px" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
-      ⬇ <span class="en">Download PDF</span><span class="fr">Télécharger PDF</span>
-    </a>
-  </div>
-
-  <div style="background:var(--s2);border:1px solid var(--bdr);border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:12px">
-    <div style="display:flex;align-items:center;gap:10px">
-      <div style="width:40px;height:40px;background:rgba(34,184,207,.12);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.3rem">⚔️</div>
-      <div>
-        <div style="font-weight:700;font-size:.95rem" class="en">AEGIS-X5 vs The Market</div>
-        <div style="font-weight:700;font-size:.95rem" class="fr">AEGIS-X5 vs Le Marché</div>
-        <div style="font-size:.65rem;color:var(--tx3);font-family:'JetBrains Mono',monospace;margin-top:2px">8 slides · AgenticX5 Research</div>
-      </div>
-    </div>
-    <p style="font-size:.78rem;color:var(--tx2);line-height:1.6" class="en">Why agentic governance requires a new category. Fragmented market analysis, functional coverage matrix, autonomous correction vs passive monitoring.</p>
-    <p style="font-size:.78rem;color:var(--tx2);line-height:1.6" class="fr">Pourquoi la gouvernance agentique nécessite une nouvelle catégorie. Analyse marché, matrice de couverture fonctionnelle, correction autonome.</p>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <span style="font-size:.6rem;padding:2px 8px;border-radius:4px;background:rgba(34,184,207,.12);color:#22b8cf;border:1px solid rgba(34,184,207,.3);font-family:'JetBrains Mono',monospace">Competitive</span>
-      <span style="font-size:.6rem;padding:2px 8px;border-radius:4px;background:rgba(232,163,23,.12);color:var(--gold);border:1px solid rgba(232,163,23,.3);font-family:'JetBrains Mono',monospace">Strategy</span>
-      <span style="font-size:.6rem;padding:2px 8px;border-radius:4px;background:rgba(28,199,122,.12);color:#1cc77a;border:1px solid rgba(28,199,122,.3);font-family:'JetBrains Mono',monospace">Architecture</span>
-    </div>
-    <a href="deck-vs-market.pdf.pdf" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#000;font-weight:700;font-size:.8rem;padding:10px 20px;border-radius:8px;text-decoration:none;transition:opacity .2s;margin-top:4px" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
-      ⬇ <span class="en">Download PDF</span><span class="fr">Télécharger PDF</span>
-    </a>
-  </div>
-
-</div>
-</section>
-
-`;
-
-if (!c.includes(complianceMarker)) {
-  console.log('ERROR: <!-- COMPLIANCE --> not found');
-  process.exit(1);
-}
-c = c.replace(complianceMarker, deckSection + complianceMarker);
-console.log('✅ Deck cards injected before COMPLIANCE');
-
-fs.writeFileSync(file, c, 'utf8');
-console.log('✅ All done. Deploy aegis-x5-deploy/ to Netlify.');
+let content = fs.readFileSync(file, 'utf8');
+const start = content.indexOf('<!-- FRAMEWORKS -->');
+const end = content.indexOf('</section>', start) + 10;
+if (start === -1) { console.log('ERROR: marker not found'); process.exit(1); }
+const updated = content.substring(0, start) + newSection + content.substring(end);
+fs.writeFileSync(file, updated, 'utf8');
+console.log('✅ Done. Clickable cards deployed. Start:', start, '| End:', end);

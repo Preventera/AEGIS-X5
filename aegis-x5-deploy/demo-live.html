@@ -416,6 +416,40 @@ function render() {
     if(REG_COMPLIANCE[r] && allCompliance.indexOf(REG_COMPLIANCE[r]) === -1) allCompliance.push(REG_COMPLIANCE[r]);
   });
 
+  // ---- JURISDICTION-BASED LOGIC ----
+  var jur = (jurisdiction || '').toLowerCase();
+  var jurisdictionAlertSuffix = '';
+
+  function addJurQC() {
+    ['Loi 25 QC','CNESST','Bill C-27'].forEach(function(c){ if(allCompliance.indexOf(c)===-1) allCompliance.push(c); });
+    allGuardEvents.push({level:'INFO', badge:'b-info', msg:'PIIDetector: Loi 25 Art. 12 — PII auto-redaction active. ErasureManager ready for right-to-erasure requests.'});
+    allGuardEvents.push({level:'WARNING', badge:'b-warn', msg:'CNESST compliance check: All safety recommendations validated against QC regulations.'});
+    jurisdictionAlertSuffix += '\n\n🇨🇦 Loi 25 QC: Right-to-erasure executable on demand. 6-year decision retention compliant.';
+  }
+  function addJurUSA() {
+    ['OSHA 29 CFR','CCPA','FedRAMP'].forEach(function(c){ if(allCompliance.indexOf(c)===-1) allCompliance.push(c); });
+    allGuardEvents.push({level:'INFO', badge:'b-info', msg:'OSHA 29 CFR compliance: All safety agent outputs validated against federal standards.'});
+    allGuardEvents.push({level:'WARNING', badge:'b-warn', msg:'CCPA: Consumer data rights active — opt-out signals monitored across agent outputs.'});
+  }
+  function addJurEU() {
+    ['EU AI Act','RGPD','NIS2'].forEach(function(c){ if(allCompliance.indexOf(c)===-1) allCompliance.push(c); });
+    allGuardEvents.push({level:'CRITICAL', badge:'b-crit', msg:'EU AI Act Art. 13: Transparency documentation required — auto-generation triggered for 3 high-risk agents.'});
+    allGuardEvents.push({level:'WARNING', badge:'b-warn', msg:'RGPD Art. 17: Right-to-erasure request queue — 0 pending. ErasureManager compliant.'});
+    jurisdictionAlertSuffix += '\n\n🇪🇺 EU AI Act compliance gap: Art. 9 risk assessment due in 14 days.';
+  }
+
+  if(jur.includes('multi')) {
+    addJurQC(); addJurUSA(); addJurEU();
+    allGuardEvents.push({level:'INFO', badge:'b-info', msg:'Multi-jurisdictional governance: PROV-O audit trails mapped to 4 regulatory frameworks simultaneously.'});
+  } else {
+    if(jur.includes('qu') || jur.includes('canada')) addJurQC();
+    if(jur.includes('usa') || jur.includes('us') || jur.includes('united')) addJurUSA();
+    if(jur.includes('european') || jur.includes('eu')) addJurEU();
+  }
+
+  // Deduplicate compliance and cap at 6
+  allCompliance = allCompliance.filter(function(v, i, a){ return a.indexOf(v) === i; }).slice(0, 6);
+
   // Adjust KPIs based on maturity + cyber complexity
   var healthBonus = 0;
   var blockBonus = 0;
@@ -440,6 +474,7 @@ function render() {
   if(pain) descParts.push('Configured for: ' + pain + '.');
   if(phase && PHASE_MSG[phase]) descParts.push(PHASE_MSG[phase]);
   if(frameworks.length) descParts.push('Stack: ' + frameworks.join(', ') + '.');
+  if(jurisdiction) descParts.push('Jurisdiction: ' + jurisdiction + '.');
   document.getElementById('hero-desc').textContent = descParts.join(' ') || 'Real-time governance across your agent fleet.';
 
   // KPIs
@@ -505,6 +540,7 @@ function render() {
   if(pain && PAIN_EXTRA[pain]) alertMsg = PAIN_EXTRA[pain] + '\n\n' + alertMsg;
   if(cyberConcerns.length >= 3) alertMsg += '\n\n🔐 Enhanced cyber posture: ' + cyberConcerns.length + ' threat vectors actively monitored.';
   if(regs.length >= 2) alertMsg += '\n\n⚖️ Multi-regulatory mode: ' + regs.map(function(r){return REG_COMPLIANCE[r]||r;}).join(', ') + ' — all governed.';
+  if(jurisdictionAlertSuffix) alertMsg += jurisdictionAlertSuffix;
   document.getElementById('pred-alert').style.whiteSpace = 'pre-line';
   document.getElementById('pred-alert').textContent = alertMsg;
 

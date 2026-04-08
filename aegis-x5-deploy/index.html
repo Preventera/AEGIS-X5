@@ -1284,18 +1284,18 @@ nav{padding:.5rem 1rem}.nr a:not(.cta){display:none}
 </div>
 
 <div class="frow">
-<label class="en">Framework / Stack</label><label class="fr">Framework / Stack</label>
-<select name="framework">
-<option value="">—</option>
-<option>LangChain / LangGraph</option>
-<option>CrewAI</option>
-<option>OpenAI SDK</option>
-<option>Anthropic / Claude</option>
-<option>AutoGen</option>
-<option>Custom Python / Node</option>
-<option>Multiple frameworks</option>
-<option>None yet</option>
-</select>
+<label class="en">Framework / Stack (select all that apply)</label>
+<label class="fr">Framework / Stack (sélectionnez tout ce qui s'applique)</label>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px" id="fw-grid">
+<label style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg);border:1px solid var(--bdr);border-radius:6px;cursor:pointer;font-size:.78rem"><input type="checkbox" name="framework" value="LangChain"> LangChain / LangGraph</label>
+<label style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg);border:1px solid var(--bdr);border-radius:6px;cursor:pointer;font-size:.78rem"><input type="checkbox" name="framework" value="CrewAI"> CrewAI</label>
+<label style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg);border:1px solid var(--bdr);border-radius:6px;cursor:pointer;font-size:.78rem"><input type="checkbox" name="framework" value="OpenAI"> OpenAI SDK</label>
+<label style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg);border:1px solid var(--bdr);border-radius:6px;cursor:pointer;font-size:.78rem"><input type="checkbox" name="framework" value="Anthropic"> Anthropic / Claude</label>
+<label style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg);border:1px solid var(--bdr);border-radius:6px;cursor:pointer;font-size:.78rem"><input type="checkbox" name="framework" value="AutoGen"> AutoGen</label>
+<label style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg);border:1px solid var(--bdr);border-radius:6px;cursor:pointer;font-size:.78rem"><input type="checkbox" name="framework" value="Custom"> Custom Python / Node</label>
+<label style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg);border:1px solid var(--bdr);border-radius:6px;cursor:pointer;font-size:.78rem"><input type="checkbox" name="framework" value="LlamaIndex"> LlamaIndex</label>
+<label style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg);border:1px solid var(--bdr);border-radius:6px;cursor:pointer;font-size:.78rem"><input type="checkbox" name="framework" value="None"> None yet</label>
+</div>
 </div>
 
 <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:var(--gold);letter-spacing:1px;margin:1rem 0 .5rem">— PAIN POINTS —</div>
@@ -1342,34 +1342,31 @@ nav{padding:.5rem 1rem}.nr a:not(.cta){display:none}
 </div>
 
 <div class="frow">
-<label class="en">Regulatory frameworks that apply</label><label class="fr">Cadres réglementaires applicables</label>
-<select name="regulatory_framework">
-<option value="">—</option>
-<option>Loi 25 / PIPEDA (Canada)</option>
-<option>EU AI Act / RGPD</option>
-<option>NIST AI RMF</option>
-<option>ISO 42001 (AI Management)</option>
-<option>ISO 45001 (OHS)</option>
-<option>OSHA / CNESST</option>
-<option>HIPAA (Healthcare)</option>
-<option>SOX / SOC2 (Finance)</option>
-<option>Multiple frameworks</option>
-<option>None identified yet</option>
-</select>
+<label class="en">Regulatory frameworks (select all that apply)</label>
+<label class="fr">Cadres réglementaires (sélectionnez tout ce qui s'applique)</label>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px">
+<label style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg);border:1px solid var(--bdr);border-radius:6px;cursor:pointer;font-size:.78rem"><input type="checkbox" name="regulatory_framework" value="Loi25"> 🇨🇦 Loi 25 / PIPEDA</label>
+<label style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg);border:1px solid var(--bdr);border-radius:6px;cursor:pointer;font-size:.78rem"><input type="checkbox" name="regulatory_framework" value="EUAI"> 🇪🇺 EU AI Act / RGPD</label>
+<label style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg);border:1px solid var(--bdr);border-radius:6px;cursor:pointer;font-size:.78rem"><input type="checkbox" name="regulatory_framework" value="NIST"> NIST AI RMF</label>
+<label style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg);border:1px solid var(--bdr);border-radius:6px;cursor:pointer;font-size:.78rem"><input type="checkbox" name="regulatory_framework" value="ISO42001"> ISO 42001 (AI Mgmt)</label>
+<label style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg);border:1px solid var(--bdr);border-radius:6px;cursor:pointer;font-size:.78rem"><input type="checkbox" name="regulatory_framework" value="ISO45001"> ISO 45001 (OHS)</label>
+<label style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg);border:1px solid var(--bdr);border-radius:6px;cursor:pointer;font-size:.78rem"><input type="checkbox" name="regulatory_framework" value="CNESST"> OSHA / CNESST</label>
+<label style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg);border:1px solid var(--bdr);border-radius:6px;cursor:pointer;font-size:.78rem"><input type="checkbox" name="regulatory_framework" value="HIPAA"> HIPAA (Healthcare)</label>
+<label style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg);border:1px solid var(--bdr);border-radius:6px;cursor:pointer;font-size:.78rem"><input type="checkbox" name="regulatory_framework" value="SOX"> SOX / SOC2 (Finance)</label>
+</div>
 </div>
 
 <div class="frow">
-<label class="en">Cybersecurity concerns</label><label class="fr">Préoccupations cybersécurité</label>
-<select name="cybersecurity">
-<option value="">—</option>
-<option>Prompt injection / Jailbreaks</option>
-<option>Agent-to-agent trust</option>
-<option>Data exfiltration via outputs</option>
-<option>OWASP LLM Top 10 compliance</option>
-<option>Supply chain LLM risks</option>
-<option>All of the above</option>
-<option>Not a current concern</option>
-</select>
+<label class="en">Cybersecurity concerns (select all that apply)</label>
+<label class="fr">Cybersécurité (sélectionnez tout ce qui s'applique)</label>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px">
+<label style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg);border:1px solid var(--bdr);border-radius:6px;cursor:pointer;font-size:.78rem"><input type="checkbox" name="cybersecurity" value="injection"> Prompt injection / Jailbreaks</label>
+<label style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg);border:1px solid var(--bdr);border-radius:6px;cursor:pointer;font-size:.78rem"><input type="checkbox" name="cybersecurity" value="agent-trust"> Agent-to-agent trust</label>
+<label style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg);border:1px solid var(--bdr);border-radius:6px;cursor:pointer;font-size:.78rem"><input type="checkbox" name="cybersecurity" value="exfiltration"> Data exfiltration</label>
+<label style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg);border:1px solid var(--bdr);border-radius:6px;cursor:pointer;font-size:.78rem"><input type="checkbox" name="cybersecurity" value="owasp"> OWASP LLM Top 10</label>
+<label style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg);border:1px solid var(--bdr);border-radius:6px;cursor:pointer;font-size:.78rem"><input type="checkbox" name="cybersecurity" value="supply-chain"> Supply chain LLM</label>
+<label style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg);border:1px solid var(--bdr);border-radius:6px;cursor:pointer;font-size:.78rem"><input type="checkbox" name="cybersecurity" value="pii"> PII / Data sovereignty</label>
+</div>
 </div>
 
 <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:var(--gold);letter-spacing:1px;margin:1rem 0 .5rem">— BUSINESS CONTEXT —</div>

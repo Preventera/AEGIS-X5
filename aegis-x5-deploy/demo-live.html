@@ -364,18 +364,70 @@ function render() {
   const sc = SCENARIOS[sectorKey];
 
   const persona = p.get('persona') || '';
-  const pain = p.get('pain') || '';
-  const phase = p.get('phase') || '';
-  const framework = p.get('framework') || '';
+  const pain = p.get('main_pain') || p.get('pain') || '';
+  const phase = p.get('lifecycle_phase') || p.get('phase') || '';
+  const frameworks = p.getAll('framework');
+  const regs = p.getAll('regulatory_framework');
+  const cyberConcerns = p.getAll('cybersecurity');
   const jurisdiction = p.get('jurisdiction') || '';
-  const maturity = p.get('maturity') || '';
-  const agents = p.get('agents') || '';
+  const maturity = p.get('ai_maturity') || p.get('maturity') || '';
+  const agentsProd = p.get('agents_prod') || p.get('agents') || '';
+
+  // ---- COMPOSITE GUARD EVENTS from checkboxes ----
+  const CYBER_EVENTS = {
+    'injection': {level:'BLOCK', badge:'b-crit', msg:'Guard: Prompt injection detected — DAN mode pattern blocked at input layer'},
+    'agent-trust': {level:'WARNING', badge:'b-warn', msg:'Guard: Agent-to-agent trust violation — unsigned payload rejected (mTLS required)'},
+    'exfiltration': {level:'BLOCK', badge:'b-crit', msg:'Guard: Data exfiltration attempt — sensitive output intercepted before delivery'},
+    'owasp': {level:'INFO', badge:'b-info', msg:'OWASP LLM Top 10: All 10 categories actively monitored — 0 violations in 24h'},
+    'supply-chain': {level:'WARNING', badge:'b-warn', msg:'Guard: Supply chain model fingerprint mismatch — fallback model activated'},
+    'pii': {level:'BLOCK', badge:'b-crit', msg:'PIIDetector: NAS/SSN pattern detected in output — auto-redacted (Loi 25 Art. 12)'},
+  };
+
+  const REG_COMPLIANCE = {
+    'Loi25': 'Loi 25 / PIPEDA',
+    'EUAI': 'EU AI Act / RGPD',
+    'NIST': 'NIST AI RMF',
+    'ISO42001': 'ISO 42001',
+    'ISO45001': 'ISO 45001',
+    'CNESST': 'OSHA / CNESST',
+    'HIPAA': 'HIPAA',
+    'SOX': 'SOX / SOC2',
+  };
+
+  const FW_EVENTS = {
+    'LangChain': {level:'PASS', badge:'b-pass', msg:'LangChain callback: trace captured — 1,247 tokens, faithfulness 96.2%'},
+    'CrewAI': {level:'PASS', badge:'b-pass', msg:'CrewAI middleware: crew execution governed — 4 agents, 0 violations'},
+    'OpenAI': {level:'INFO', badge:'b-info', msg:'OpenAI wrapper: gpt-4o call intercepted — cost $0.0034, latency 891ms'},
+    'Anthropic': {level:'INFO', badge:'b-info', msg:'Anthropic wrapper: Claude call governed — 0 hallucinations, PROV-O logged'},
+    'AutoGen': {level:'PASS', badge:'b-pass', msg:'AutoGen plugin: multi-agent session governed — 12 turns, all compliant'},
+    'Custom': {level:'INFO', badge:'b-info', msg:'REST/SDK: Custom agent trace ingested — OpenTelemetry span linked'},
+    'LlamaIndex': {level:'PASS', badge:'b-pass', msg:'LlamaIndex callback: RAG pipeline governed — retrieval faithfulness 94.8%'},
+    'None': {level:'INFO', badge:'b-info', msg:'AEGIS-X5: Ready to integrate — pip install aegis-x5 — 2 lines of code'},
+  };
+
+  // Build composite guard events: sector base + cyber + framework extras
+  var allGuardEvents = sc.guardEvents.slice();
+  cyberConcerns.forEach(function(c) { if(CYBER_EVENTS[c]) allGuardEvents.push(CYBER_EVENTS[c]); });
+  frameworks.forEach(function(f) { if(FW_EVENTS[f]) allGuardEvents.push(FW_EVENTS[f]); });
+
+  // Build composite compliance: sector base + regulatory checkboxes
+  var allCompliance = sc.compliance.slice();
+  regs.forEach(function(r) {
+    if(REG_COMPLIANCE[r] && allCompliance.indexOf(REG_COMPLIANCE[r]) === -1) allCompliance.push(REG_COMPLIANCE[r]);
+  });
+
+  // Adjust KPIs based on maturity + cyber complexity
+  var healthBonus = 0;
+  var blockBonus = 0;
+  if(parseInt(maturity) >= 4) healthBonus = 3;
+  if(cyberConcerns.length >= 3) blockBonus = Math.floor(cyberConcerns.length * 4);
+  if(regs.length >= 3) healthBonus -= 2; // more regs = more governance pressure
 
   // BADGE
   const parts = [sc.label];
   if(persona) parts.push(persona.includes('Enterprise') ? '🏢 Enterprise' : '⚡ Developer');
   if(phase) parts.push('Phase '+phase);
-  if(framework) parts.push(framework.split('/')[0]);
+  if(frameworks.length) parts.push(frameworks.slice(0,2).join('+'));
   document.getElementById('scenario-badge').textContent = parts.join(' · ');
 
   // HERO
@@ -387,46 +439,41 @@ function render() {
   const descParts = [];
   if(pain) descParts.push('Configured for: ' + pain + '.');
   if(phase && PHASE_MSG[phase]) descParts.push(PHASE_MSG[phase]);
+  if(frameworks.length) descParts.push('Stack: ' + frameworks.join(', ') + '.');
   document.getElementById('hero-desc').textContent = descParts.join(' ') || 'Real-time governance across your agent fleet.';
 
   // KPIs
-  document.getElementById('k-agents').textContent = sc.agents.length;
-  document.getElementById('k-health').textContent = sc.health;
+  document.getElementById('k-agents').textContent = sc.agents.length + (frameworks.length > 1 ? frameworks.length : 0);
+  document.getElementById('k-health').textContent = Math.min(99, sc.health + healthBonus);
   document.getElementById('k-health-trend').textContent = sc.healthTrend;
-  document.getElementById('k-blocks').textContent = sc.blocks;
-  document.getElementById('k-blocks-trend').textContent = sc.blocksTrend;
+  document.getElementById('k-blocks').textContent = sc.blocks + blockBonus;
+  document.getElementById('k-blocks-trend').textContent = sc.blocksTrend + (blockBonus ? ' + ' + blockBonus + ' cyber' : '');
   document.getElementById('k-cost').textContent = sc.cost;
   document.getElementById('k-drift').textContent = sc.drift;
   document.getElementById('k-drift-trend').textContent = sc.driftTrend;
   document.getElementById('k-lat').textContent = sc.lat;
 
-  // GUARD FEED
-  const feed = document.getElementById('guard-feed');
-  feed.innerHTML = '';
-  sc.guardEvents.forEach(function(ev) {
-    const now = new Date();
-    const mins = Math.floor(Math.random()*12);
-    const ts = new Date(now - mins*60000).toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
-    const d = document.createElement('div');
-    d.className = 'guard-event';
-    d.innerHTML = '<span class="badge '+ev.badge+'">'+ev.level+'</span><span style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:var(--mu);white-space:nowrap">'+ts+'</span><span style="color:var(--tx2)">'+ev.msg+'</span>';
-    feed.appendChild(d);
-  });
+  // GUARD FEED — initial render (show first 6)
+  window._allGuardEvents = allGuardEvents;
+  window._guardIndex = 0;
+  renderGuardFeed(allGuardEvents.slice(0, 6));
 
   // COMPLIANCE
   const compGrid = document.getElementById('comp-grid');
   compGrid.innerHTML = '';
-  sc.compliance.forEach(function(c) {
+  allCompliance.forEach(function(c) {
     const d = document.createElement('div');
     d.className = 'comp-item';
     d.innerHTML = '<div class="comp-name">'+c+'</div><div class="comp-status">✅ Governed</div>';
     compGrid.appendChild(d);
   });
 
-  // TRACES
+  // TRACES — include framework-specific agents
+  const traceAgents = sc.agents.slice();
+  frameworks.forEach(function(f) { if(f !== 'None') traceAgents.push(f+'-Connector'); });
   const traceList = document.getElementById('trace-list');
   traceList.innerHTML = '';
-  sc.agents.forEach(function(ag, i) {
+  traceAgents.slice(0, 6).forEach(function(ag, i) {
     const ms = (80 + Math.floor(Math.random()*300));
     const cost = '$0.00'+(4+Math.floor(Math.random()*8));
     const tok = (800 + Math.floor(Math.random()*2000));
@@ -454,30 +501,88 @@ function render() {
   });
 
   // PRED ALERT
-  let alert = sc.predAlert;
-  if(pain && PAIN_EXTRA[pain]) alert = PAIN_EXTRA[pain] + '\n\n' + alert;
+  var alertMsg = sc.predAlert;
+  if(pain && PAIN_EXTRA[pain]) alertMsg = PAIN_EXTRA[pain] + '\n\n' + alertMsg;
+  if(cyberConcerns.length >= 3) alertMsg += '\n\n🔐 Enhanced cyber posture: ' + cyberConcerns.length + ' threat vectors actively monitored.';
+  if(regs.length >= 2) alertMsg += '\n\n⚖️ Multi-regulatory mode: ' + regs.map(function(r){return REG_COMPLIANCE[r]||r;}).join(', ') + ' — all governed.';
   document.getElementById('pred-alert').style.whiteSpace = 'pre-line';
-  document.getElementById('pred-alert').textContent = alert;
+  document.getElementById('pred-alert').textContent = alertMsg;
 
   // CTA
   const ctaTitle = isEnterprise
     ? 'Schedule your 30-min executive briefing'
     : 'Start your free developer integration';
   const ctaDesc = 'We\'ll configure a live session with your real agents and stack'
-    + (framework ? ' — including ' + framework : '')
+    + (frameworks.length ? ' — including ' + frameworks.join(', ') : '')
     + (jurisdiction ? ' — ' + jurisdiction + ' compliance context included.' : '.');
   document.getElementById('cta-title').textContent = ctaTitle;
   document.getElementById('cta-desc').textContent = ctaDesc;
 }
 
+// ============================================================
+// GUARD FEED RENDERER + LIVE CYCLING
+// ============================================================
+function renderGuardFeed(events) {
+  const feed = document.getElementById('guard-feed');
+  feed.innerHTML = '';
+  events.forEach(function(ev) {
+    const now = new Date();
+    const mins = Math.floor(Math.random()*12);
+    const ts = new Date(now - mins*60000).toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
+    const d = document.createElement('div');
+    d.className = 'guard-event';
+    d.style.opacity = '0';
+    d.style.transition = 'opacity 0.5s ease';
+    d.innerHTML = '<span class="badge '+ev.badge+'">'+ev.level+'</span><span style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:var(--mu);white-space:nowrap">'+ts+'</span><span style="color:var(--tx2)">'+ev.msg+'</span>';
+    feed.appendChild(d);
+    setTimeout(function(){ d.style.opacity = '1'; }, 50);
+  });
+}
+
+function cycleGuardEvent() {
+  var events = window._allGuardEvents;
+  if(!events || events.length < 2) return;
+  var feed = document.getElementById('guard-feed');
+  var children = feed.children;
+
+  // Fade out oldest
+  if(children.length > 0) {
+    children[children.length - 1].style.opacity = '0';
+    setTimeout(function(){
+      if(feed.lastChild) feed.removeChild(feed.lastChild);
+    }, 400);
+  }
+
+  // Pick next event (cycle through all)
+  window._guardIndex = (window._guardIndex + 1) % events.length;
+  var ev = events[window._guardIndex];
+  var now = new Date();
+  var ts = now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
+  var d = document.createElement('div');
+  d.className = 'guard-event';
+  d.style.opacity = '0';
+  d.style.transition = 'opacity 0.5s ease';
+  d.innerHTML = '<span class="badge '+ev.badge+'">'+ev.level+'</span><span style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:var(--mu);white-space:nowrap">'+ts+'</span><span style="color:var(--tx2)">'+ev.msg+'</span>';
+
+  // Insert at top
+  feed.insertBefore(d, feed.firstChild);
+  setTimeout(function(){ d.style.opacity = '1'; }, 50);
+
+  // Keep max 6 visible
+  while(feed.children.length > 6) feed.removeChild(feed.lastChild);
+}
+
 render();
 
-// LIVE UPDATE every 4s
+// LIVE GUARD CYCLING every 8s
+setInterval(cycleGuardEvent, 8000);
+
+// LIVE KPI UPDATE every 4s
 setInterval(function() {
   const j = function() { return Math.floor(Math.random()*5)-2; };
   const h = document.getElementById('k-health');
   const b = document.getElementById('k-blocks');
-  if(h) h.textContent = parseInt(h.textContent) + j();
+  if(h) { var v = parseInt(h.textContent) + j(); h.textContent = Math.max(70, Math.min(99, v)); }
   if(b) b.textContent = parseInt(b.textContent) + Math.floor(Math.random()*2);
 }, 4000);
 </script>

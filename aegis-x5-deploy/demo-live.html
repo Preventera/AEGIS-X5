@@ -349,6 +349,7 @@ const PHASE_MSG = {
 function getSector(p) {
   const s = (p.get('sector') || '').toLowerCase();
   if(s.includes('mining') || s.includes('metallurgy')) return 'mining';
+  if(s.includes('energy') || s.includes('oil') || s.includes('gas')) return 'mining';
   if(s.includes('construction')) return 'construction';
   if(s.includes('transport') || s.includes('logistic')) return 'transport';
   if(s.includes('manufacturing')) return 'manufacturing';

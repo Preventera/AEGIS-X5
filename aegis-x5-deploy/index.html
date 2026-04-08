@@ -1517,7 +1517,7 @@ document.getElementById("demo-form").addEventListener("submit",function(e){
 e.preventDefault();
 const fd=new FormData(e.target);
 fetch("/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:new URLSearchParams(fd).toString()})
-.then(()=>{document.querySelector(".form-sec").innerHTML="<div style=\"text-align:center;padding:3rem\"><div style=\"font-size:3rem\">✅</div><h2 style=\"color:var(--gold);margin:.5rem 0\">Request received!</h2><p style=\"color:var(--tx2)\">We will be in touch within 24h.</p></div>";})
+.then(()=>{document.querySelector(".form-sec").innerHTML="<div style=\"text-align:center;padding:3rem\"><div style=\"font-size:3rem\">✅</div><h2 style=\"color:var(--gold);margin:.5rem 0\">Request received!</h2><p style=\"color:var(--tx2)\">Redirecting to your personalized demo...</p></div>";var params=new URLSearchParams(fd);setTimeout(function(){window.location.href="/demo-live.html?"+params.toString();},1500);})
 .catch(()=>alert("Error — please email team@agenticx5.com"));
 });
 // FORM SUCCESS

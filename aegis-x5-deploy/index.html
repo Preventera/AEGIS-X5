@@ -1196,21 +1196,220 @@ nav{padding:.5rem 1rem}.nr a:not(.cta){display:none}
 <div class="fcard">
 <form name="demo-request" id="demo-form" data-netlify="true">
 <input type="hidden" name="form-name" value="demo-request">
+
+<!-- SOMMAIRE -->
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
 <div class="frow"><label class="en">First Name *</label><label class="fr">Prénom *</label><input type="text" required name="first_name"></div>
 <div class="frow"><label class="en">Last Name *</label><label class="fr">Nom *</label><input type="text" required name="last_name"></div>
 </div>
 <div class="frow"><label class="en">Work Email *</label><label class="fr">Courriel professionnel *</label><input type="email" required name="email"></div>
 <div class="frow"><label class="en">Company *</label><label class="fr">Entreprise *</label><input type="text" required name="company"></div>
-<div class="frow"><label class="en">Role</label><label class="fr">Rôle</label>
-<select name="role"><option value="">—</option><option>CTO / VP Engineering</option><option>AI/ML Lead</option><option>Developer</option><option>HSE / Safety Director</option><option>Compliance Officer</option><option class="en">Other</option><option class="fr">Autre</option></select></div>
-<div class="frow"><label class="en">How many AI agents do you operate?</label><label class="fr">Combien d'agents IA opérez-vous ?</label>
-<select name="agents"><option value="">—</option><option>1-10</option><option>10-50</option><option>50-200</option><option>200+</option></select></div>
-<div class="frow"><label class="en">Anything else?</label><label class="fr">Autre chose ?</label><textarea name="message" rows="3"></textarea></div>
+
+<div class="frow">
+<label class="en">I am a... *</label><label class="fr">Je suis... *</label>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px">
+<label style="display:flex;align-items:center;gap:8px;padding:10px;background:var(--bg);border:1px solid var(--bdr);border-radius:6px;cursor:pointer;font-size:.82rem;transition:border-color .2s" id="lbl-ent">
+<input type="radio" name="persona" value="Enterprise VP/CTO" required onchange="document.getElementById('lbl-ent').style.borderColor='var(--vi)';document.getElementById('lbl-dev').style.borderColor='var(--bdr)'"> 🏢 <span class="en">Enterprise VP/CTO</span><span class="fr">Entreprise VP/CTO</span></label>
+<label style="display:flex;align-items:center;gap:8px;padding:10px;background:var(--bg);border:1px solid var(--bdr);border-radius:6px;cursor:pointer;font-size:.82rem;transition:border-color .2s" id="lbl-dev">
+<input type="radio" name="persona" value="Developer/Engineer" onchange="document.getElementById('lbl-dev').style.borderColor='var(--cy)';document.getElementById('lbl-ent').style.borderColor='var(--bdr)'"> ⚡ <span class="en">Developer/Engineer</span><span class="fr">Développeur/Ingénieur</span></label>
+</div>
+</div>
+
+<div class="frow">
+<label class="en">Industry Sector *</label><label class="fr">Secteur industriel *</label>
+<select name="sector" required>
+<option value="">—</option>
+<option>Construction</option>
+<option>Mining / Metallurgy</option>
+<option>Manufacturing</option>
+<option>Transport / Logistics</option>
+<option>Energy / Oil & Gas</option>
+<option>Healthcare</option>
+<option>Finance / Legal</option>
+<option>Technology / SaaS</option>
+<option>Government / Public Sector</option>
+<option class="en">Other</option><option class="fr">Autre</option>
+</select>
+</div>
+
+<!-- TOGGLE APPROFONDI -->
+<div style="margin:1rem 0;padding:12px;background:var(--goldd);border:1px solid rgba(232,163,23,.3);border-radius:8px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleAdvanced()">
+<div>
+<div style="font-weight:700;font-size:.82rem;color:var(--gold)" class="en">🔍 Advanced Qualification — Get a fully personalized demo</div>
+<div style="font-weight:700;font-size:.82rem;color:var(--gold)" class="fr">🔍 Qualification approfondie — Obtenez une démo 100% personnalisée</div>
+<div style="font-size:.7rem;color:var(--tx2);margin-top:2px" class="en">+5 min · We tailor everything to your stack, sector and regulatory context</div>
+<div style="font-size:.7rem;color:var(--tx2);margin-top:2px" class="fr">+5 min · Nous adaptons tout à votre stack, secteur et contexte réglementaire</div>
+</div>
+<span id="adv-arrow" style="color:var(--gold);font-size:1.2rem;transition:transform .3s">▼</span>
+</div>
+
+<!-- SECTION APPROFONDIE -->
+<div id="advanced-section" style="display:none;border:1px solid var(--bdr);border-radius:8px;padding:1rem;margin-bottom:1rem;background:var(--s2)">
+
+<div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:var(--gold);letter-spacing:1px;margin-bottom:1rem">— AGENTIC MATURITY —</div>
+
+<div class="frow">
+<label class="en">Lifecycle Phase</label><label class="fr">Phase du cycle de vie</label>
+<select name="lifecycle_phase">
+<option value="">—</option>
+<option value="1-4">Phase 1-4 — Design / Build / Test / Deploy (not in prod yet)</option>
+<option value="5">Phase 5 — Operate (agents in prod, no governance)</option>
+<option value="6">Phase 6 — Improve (optimizing agents in prod)</option>
+<option value="7">Phase 7 — Govern (regulators asking questions)</option>
+</select>
+</div>
+
+<div class="frow">
+<label class="en">AI Maturity Level</label><label class="fr">Niveau de maturité IA</label>
+<select name="ai_maturity">
+<option value="">—</option>
+<option value="1">Level 1 — Experimentation (POCs, sandbox)</option>
+<option value="2">Level 2 — Pilot (1-5 agents in prod)</option>
+<option value="3">Level 3 — Scale (10-50 agents in prod)</option>
+<option value="4">Level 4 — Enterprise (50-500 agents in prod)</option>
+<option value="5">Level 5 — Autonomous (500+ agents, self-governing)</option>
+</select>
+</div>
+
+<div class="frow">
+<label class="en">Agents currently in production</label><label class="fr">Agents actuellement en production</label>
+<select name="agents_prod">
+<option value="">—</option>
+<option>0 — not yet</option>
+<option>1-10</option>
+<option>10-50</option>
+<option>50-200</option>
+<option>200+</option>
+</select>
+</div>
+
+<div class="frow">
+<label class="en">Framework / Stack</label><label class="fr">Framework / Stack</label>
+<select name="framework">
+<option value="">—</option>
+<option>LangChain / LangGraph</option>
+<option>CrewAI</option>
+<option>OpenAI SDK</option>
+<option>Anthropic / Claude</option>
+<option>AutoGen</option>
+<option>Custom Python / Node</option>
+<option>Multiple frameworks</option>
+<option>None yet</option>
+</select>
+</div>
+
+<div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:var(--gold);letter-spacing:1px;margin:1rem 0 .5rem">— PAIN POINTS —</div>
+
+<div class="frow">
+<label class="en">Main pain point</label><label class="fr">Principale douleur</label>
+<select name="main_pain">
+<option value="">—</option>
+<option>Hallucinations reaching end-users</option>
+<option>Uncontrolled LLM costs</option>
+<option>Compliance / Audit pressure</option>
+<option>Prompt injection / Cybersecurity</option>
+<option>No visibility on agent behavior</option>
+<option>Agent drift / quality degradation</option>
+<option>PII / Data sovereignty concerns</option>
+</select>
+</div>
+
+<div class="frow">
+<label class="en">Had a production incident? (hallucination, cost spike, data leak...)</label>
+<label class="fr">Avez-vous eu un incident en production ? (hallucination, pic de coûts, fuite...)</label>
+<select name="had_incident">
+<option value="">—</option>
+<option>Yes — already happened</option>
+<option>Near miss — caught before impact</option>
+<option>Not yet — but worried</option>
+<option>No incidents so far</option>
+</select>
+</div>
+
+<div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:var(--gold);letter-spacing:1px;margin:1rem 0 .5rem">— REGULATORY CONTEXT —</div>
+
+<div class="frow">
+<label class="en">Primary jurisdiction</label><label class="fr">Juridiction principale</label>
+<select name="jurisdiction">
+<option value="">—</option>
+<option>Québec / Canada</option>
+<option>USA</option>
+<option>European Union</option>
+<option>UK</option>
+<option>Multi-jurisdictional</option>
+<option>Other</option>
+</select>
+</div>
+
+<div class="frow">
+<label class="en">Regulatory frameworks that apply</label><label class="fr">Cadres réglementaires applicables</label>
+<select name="regulatory_framework">
+<option value="">—</option>
+<option>Loi 25 / PIPEDA (Canada)</option>
+<option>EU AI Act / RGPD</option>
+<option>NIST AI RMF</option>
+<option>ISO 42001 (AI Management)</option>
+<option>ISO 45001 (OHS)</option>
+<option>OSHA / CNESST</option>
+<option>HIPAA (Healthcare)</option>
+<option>SOX / SOC2 (Finance)</option>
+<option>Multiple frameworks</option>
+<option>None identified yet</option>
+</select>
+</div>
+
+<div class="frow">
+<label class="en">Cybersecurity concerns</label><label class="fr">Préoccupations cybersécurité</label>
+<select name="cybersecurity">
+<option value="">—</option>
+<option>Prompt injection / Jailbreaks</option>
+<option>Agent-to-agent trust</option>
+<option>Data exfiltration via outputs</option>
+<option>OWASP LLM Top 10 compliance</option>
+<option>Supply chain LLM risks</option>
+<option>All of the above</option>
+<option>Not a current concern</option>
+</select>
+</div>
+
+<div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:var(--gold);letter-spacing:1px;margin:1rem 0 .5rem">— BUSINESS CONTEXT —</div>
+
+<div class="frow">
+<label class="en">Estimated monthly LLM cost</label><label class="fr">Coût LLM mensuel estimé</label>
+<select name="llm_cost">
+<option value="">—</option>
+<option>Under $500/month</option>
+<option>$500 - $2,000/month</option>
+<option>$2,000 - $10,000/month</option>
+<option>$10,000 - $50,000/month</option>
+<option>$50,000+/month</option>
+<option>Unknown</option>
+</select>
+</div>
+
+<div class="frow">
+<label class="en">Deployment timeline</label><label class="fr">Timeline de déploiement</label>
+<select name="timeline">
+<option value="">—</option>
+<option>Immediate — already in crisis</option>
+<option>1-3 months</option>
+<option>3-6 months</option>
+<option>6-12 months</option>
+<option>Exploring / No timeline yet</option>
+</select>
+</div>
+
+<div class="frow">
+<label class="en">Additional context</label><label class="fr">Contexte additionnel</label>
+<textarea name="message" rows="3" placeholder="Describe your current setup, specific challenges, or what you want to see in the demo..."></textarea>
+</div>
+
+</div>
+
 <button type="submit" class="fsubmit en">Request Demo →</button>
 <button type="submit" class="fsubmit fr">Demander une démo →</button>
-<div class="fsecure en">🔒 Your information is encrypted and never shared with third parties.</div>
-<div class="fsecure fr">🔒 Vos informations sont chiffrées et jamais partagées avec des tiers.</div>
+<div class="fsecure en">🔒 Encrypted · Never shared · NDA available for Enterprise path</div>
+<div class="fsecure fr">🔒 Chiffré · Jamais partagé · NDA disponible pour le parcours Entreprise</div>
 </form>
 </div>
 </section>
@@ -1306,6 +1505,13 @@ window.location.href='mailto:team@agenticx5.com?subject='+s+'&body='+b;
 alert(document.body.classList.contains('fr')?'Merci ! Un courriel pré-rempli va s\'ouvrir.':'Thank you! A pre-filled email will open.');
 }
 
+function toggleAdvanced(){
+var s=document.getElementById("advanced-section");
+var a=document.getElementById("adv-arrow");
+var open=s.style.display==="block";
+s.style.display=open?"none":"block";
+a.style.transform=open?"":"rotate(180deg)";
+}
 // FORM SUBMIT
 document.getElementById("demo-form").addEventListener("submit",function(e){
 e.preventDefault();

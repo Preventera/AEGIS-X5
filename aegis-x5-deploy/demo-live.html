@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AEGIS-X5 — Live Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#08090c;--s1:#0e1017;--s2:#13151e;--card:#171a24;--bdr:#222640;--bdr2:#2d3352;--tx:#eef0f6;--tx2:#9499ad;--mu:#6b7089;--gold:#e8a317;--cy:#22b8cf;--rd:#e84057;--vi:#7c5cfa;--gr:#1cc77a}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh}
+.top-bar{background:linear-gradient(90deg,var(--gold),#f5c042);padding:8px 20px;text-align:center;font-size:.78rem;font-weight:700;color:#000}
+nav{padding:.6rem 2rem;display:flex;align-items:center;justify-content:space-between;background:rgba(8,9,12,.9);border-bottom:1px solid var(--bdr)}
+.brand{font-weight:800;font-size:.9rem}.brand em{font-style:normal;color:var(--gold)}
+.back{color:var(--tx2);text-decoration:none;font-size:.8rem;border:1px solid var(--bdr);padding:5px 14px;border-radius:6px}
+.back:hover{border-color:var(--gold);color:var(--gold)}
+
+.hero{padding:2rem 2rem 1rem;text-align:center;max-width:900px;margin:0 auto}
+.scenario-badge{display:inline-flex;align-items:center;gap:8px;background:var(--s2);border:1px solid var(--bdr2);border-radius:20px;padding:6px 16px;font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--gold);margin-bottom:1rem;flex-wrap:wrap;justify-content:center}
+.hero h1{font-size:clamp(1.4rem,3vw,2rem);font-weight:800;margin-bottom:.5rem}
+.hero p{color:var(--tx2);font-size:.9rem;max-width:600px;margin:0 auto}
+
+.dash{max-width:1100px;margin:0 auto;padding:1rem 2rem 3rem;display:grid;gap:12px}
+
+/* KPI ROW */
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.kpi{background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:1rem;text-align:center}
+.kpi-label{font-size:.55rem;color:var(--mu);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.kpi-val{font-family:'JetBrains Mono',monospace;font-size:1.6rem;font-weight:700}
+.kpi-trend{font-size:.65rem;margin-top:2px}
+
+/* PANELS */
+.panels{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.panel{background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:1.2rem}
+.panel-title{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--gold);letter-spacing:1px;margin-bottom:1rem;text-transform:uppercase}
+
+/* GUARD FEED */
+.guard-feed{max-height:220px;overflow-y:auto}
+.guard-event{padding:8px 0;border-bottom:1px solid rgba(34,38,64,.4);display:flex;align-items:flex-start;gap:8px;font-size:.78rem}
+.guard-event:last-child{border-bottom:none}
+.badge{font-family:'JetBrains Mono',monospace;font-size:.55rem;padding:2px 7px;border-radius:3px;font-weight:700;white-space:nowrap}
+.b-crit{background:rgba(232,64,87,.15);color:var(--rd)}
+.b-warn{background:rgba(232,163,23,.15);color:var(--gold)}
+.b-pass{background:rgba(28,199,122,.15);color:var(--gr)}
+.b-info{background:rgba(34,184,207,.15);color:var(--cy)}
+
+/* TRACE */
+.trace-row{padding:6px 0;border-bottom:1px solid rgba(34,38,64,.3);display:grid;grid-template-columns:auto 1fr auto auto auto;gap:8px;align-items:center;font-size:.75rem}
+.trace-row:last-child{border-bottom:none}
+
+/* COMPLIANCE */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.comp-item{background:var(--s2);border:1px solid var(--bdr);border-radius:8px;padding:.8rem;text-align:center}
+.comp-name{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--gold);font-weight:700}
+.comp-status{font-size:.7rem;color:var(--gr);margin-top:4px}
+
+/* PREDICTION */
+.pred-bar{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.pred-label{font-size:.75rem;color:var(--tx2);width:140px;flex-shrink:0}
+.pred-track{flex:1;background:var(--s2);border-radius:4px;height:8px;overflow:hidden}
+.pred-fill{height:100%;border-radius:4px;transition:width 1s ease}
+.pred-val{font-family:'JetBrains Mono',monospace;font-size:.7rem;width:40px;text-align:right}
+
+/* LIVE DOT */
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--gr);box-shadow:0 0 8px rgba(28,199,122,.5);animation:blink 2s infinite;display:inline-block}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* CTA */
+.cta-bar{background:var(--s2);border:1px solid var(--bdr2);border-radius:12px;padding:1.5rem 2rem;text-align:center;margin:0 2rem 3rem;max-width:1100px;margin-left:auto;margin-right:auto}
+.cta-bar h3{font-size:1.1rem;font-weight:700;margin-bottom:.4rem}
+.cta-bar p{color:var(--tx2);font-size:.85rem;margin-bottom:1rem}
+.btn-gold{background:var(--gold);color:#000;padding:10px 28px;border-radius:8px;font-weight:700;font-size:.85rem;text-decoration:none;display:inline-block;margin:4px}
+.btn-out{border:1px solid var(--bdr2);color:var(--tx2);padding:10px 28px;border-radius:8px;font-weight:500;font-size:.85rem;text-decoration:none;display:inline-block;margin:4px}
+.btn-out:hover{border-color:var(--gold);color:var(--gold)}
+
+@media(max-width:700px){.panels{grid-template-columns:1fr}.comp-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="top-bar">🚀 AEGIS-X5 — Live Personalized Demo · Based on your qualification profile</div>
+
+<nav>
+<span class="brand">AEGIS<em>-X5</em> <span style="font-size:.6rem;color:var(--mu);font-family:'JetBrains Mono',monospace;margin-left:8px">LIVE DEMO</span></span>
+<a href="/" class="back">← Back to site</a>
+</nav>
+
+<div class="hero">
+<div class="scenario-badge" id="scenario-badge">Loading your scenario...</div>
+<h1 id="hero-title">Your personalized AEGIS-X5 demo</h1>
+<p id="hero-desc">Governance dashboard configured for your sector, stack and regulatory context.</p>
+</div>
+
+<div class="dash">
+
+<!-- KPI ROW -->
+<div class="kpi-row" id="kpi-row">
+<div class="kpi"><div class="kpi-label">Agents Governed</div><div class="kpi-val" style="color:var(--gold)" id="k-agents">—</div><div class="kpi-trend" style="color:var(--gr)">Live · autonomous</div></div>
+<div class="kpi"><div class="kpi-label">Health Score</div><div class="kpi-val" style="color:var(--gr)" id="k-health">—</div><div class="kpi-trend" id="k-health-trend"></div></div>
+<div class="kpi"><div class="kpi-label">Guard Blocks</div><div class="kpi-val" style="color:var(--rd)" id="k-blocks">—</div><div class="kpi-trend" style="color:var(--rd)" id="k-blocks-trend"></div></div>
+<div class="kpi"><div class="kpi-label">Cost/Day</div><div class="kpi-val" style="color:var(--vi)" id="k-cost">—</div><div class="kpi-trend" style="color:var(--gr)">LatencyAutoScale active</div></div>
+<div class="kpi"><div class="kpi-label">Drift Prediction</div><div class="kpi-val" style="color:var(--cy)" id="k-drift">—</div><div class="kpi-trend" id="k-drift-trend"></div></div>
+<div class="kpi"><div class="kpi-label">Latency p95</div><div class="kpi-val" style="color:var(--tx)" id="k-lat">—</div><div class="kpi-trend" style="color:var(--gr)">-23ms vs baseline</div></div>
+</div>
+
+<!-- PANELS ROW 1 -->
+<div class="panels">
+
+<!-- GUARD EVENTS -->
+<div class="panel">
+<div class="panel-title"><span class="live-dot"></span> Guard Events — Real-time</div>
+<div class="guard-feed" id="guard-feed"></div>
+</div>
+
+<!-- COMPLIANCE -->
+<div class="panel">
+<div class="panel-title">⚖️ Compliance Status</div>
+<div class="comp-grid" id="comp-grid"></div>
+</div>
+
+</div>
+
+<!-- PANELS ROW 2 -->
+<div class="panels">
+
+<!-- TRACES -->
+<div class="panel">
+<div class="panel-title">📡 Agent Traces — Last 5</div>
+<div id="trace-list"></div>
+</div>
+
+<!-- PREDICTIONS -->
+<div class="panel">
+<div class="panel-title">🔮 Predictive Intelligence — 48h</div>
+<div id="pred-list" style="margin-top:.5rem"></div>
+<div style="margin-top:1rem;padding:10px;background:var(--s2);border-radius:8px;font-size:.75rem;color:var(--tx2)" id="pred-alert"></div>
+</div>
+
+</div>
+
+</div>
+
+<!-- CTA -->
+<div class="cta-bar">
+<h3 id="cta-title">Ready to govern your agents?</h3>
+<p id="cta-desc">This demo is configured for your profile. Schedule a live 30-min walkthrough with your real stack.</p>
+<a href="/#demo" class="btn-gold">🎯 Schedule Live Demo</a>
+<a href="/#pricing" class="btn-out">View Pricing →</a>
+</div>
+
+<script>
+// ============================================================
+// SCENARIO CONFIGURATIONS
+// ============================================================
+const SCENARIOS = {
+
+  mining: {
+    label: '⛏️ Mining / Metallurgy',
+    agents: ['DensityGuard-Atmo', 'SENTINEL·X5-Alarm', 'SafetyGraph-Mine', 'Hovermap-LiDAR'],
+    guardEvents: [
+      {level:'CRITICAL', badge:'b-crit', msg:'DensityGuard: O₂ level 16.2% detected — evacuation protocol triggered'},
+      {level:'BLOCK', badge:'b-crit', msg:'SENTINEL·X5: 847 alarm flood suppressed — 12 critical escalated (ISA-18.2)'},
+      {level:'WARNING', badge:'b-warn', msg:'SafetyGraph: CNESST Sec. 312 non-compliance detected in blast zone'},
+      {level:'PASS', badge:'b-pass', msg:'Hovermap-LiDAR: 3D gallery scan complete — no structural anomaly'},
+      {level:'BLOCK', badge:'b-crit', msg:'DensityGuard: H₂S 18ppm exceeds threshold — agent blocked unsafe recommendation'},
+      {level:'INFO', badge:'b-info', msg:'PROV-O audit trail: all decisions traceable to MSHA § 57.11052'},
+    ],
+    compliance: ['CNESST Mines','ISO 45001','MSHA § 57','Loi 25 QC'],
+    predictions: [
+      {label:'Atmospheric Risk 48h', val:78, color:'var(--rd)'},
+      {label:'Equipment Drift', val:62, color:'var(--gold)'},
+      {label:'Alarm Flood Risk', val:45, color:'var(--gold)'},
+      {label:'Agent Faithfulness', val:96, color:'var(--gr)'},
+    ],
+    predAlert: '⚠️ DriftPredictor: Atmospheric sensor agent faithfulness projected to drop below 94% threshold in 31h — preventive retraining queued.',
+    cost: '$847', health: 88, blocks: 34, drift: '94.1%', lat: '134ms',
+    healthTrend: '+3 vs baseline', blocksTrend: '28 env. critical',
+    driftTrend: '⚠ projected -2.1% in 48h',
+  },
+
+  construction: {
+    label: '🏗️ Construction',
+    agents: ['SafeScan360-PPE', 'SafeTalk-Chat', 'PrudenceAI-Route', 'SafeTwin-BIM'],
+    guardEvents: [
+      {level:'CRITICAL', badge:'b-crit', msg:'SafeTalk-Chat: BLOCKED — "no harness needed <2m height" hallucination (CNESST Art. 346)'},
+      {level:'BLOCK', badge:'b-crit', msg:'SafeScan360: Hard hat non-compliance detected — Zone C, Camera 4 — alert sent'},
+      {level:'WARNING', badge:'b-warn', msg:'PrudenceAI: Signaling plan missing Tome V MTQ — flagged before approval'},
+      {level:'PASS', badge:'b-pass', msg:'SafeTwin-BIM: Digital twin sync complete — IoT sensors nominal'},
+      {level:'BLOCK', badge:'b-crit', msg:'SafeTalk-Chat: Prompt injection attempt BLOCKED — DAN mode pattern detected'},
+      {level:'INFO', badge:'b-info', msg:'PROV-O: Human validation logged for N4 safety recommendation — compliant'},
+    ],
+    compliance: ['CNESST Art. 346','Tome V MTQ','ISO 45001','CCQ § 2100'],
+    predictions: [
+      {label:'PPE Compliance 48h', val:91, color:'var(--gr)'},
+      {label:'Hallucination Risk', val:23, color:'var(--gr)'},
+      {label:'BIM Drift', val:12, color:'var(--gr)'},
+      {label:'Incident Prediction', val:67, color:'var(--gold)'},
+    ],
+    predAlert: '⚠️ BehaviorX: Pre-incident behavioral signal detected — 2 workers showing fatigue pattern. HITL notification sent to site supervisor.',
+    cost: '$1,247', health: 91, blocks: 43, drift: '95.1%', lat: '142ms',
+    healthTrend: '+4 vs baseline', blocksTrend: '31 hallucinations',
+    driftTrend: 'Stable — last retrain 6h ago',
+  },
+
+  transport: {
+    label: '🚛 Transport / Logistics',
+    agents: ['SafeFleet-Route', 'SafeFleet-Fatigue', 'TDG-Compliance', 'SquadrAI-WBGT'],
+    guardEvents: [
+      {level:'CRITICAL', badge:'b-crit', msg:'SafeFleet-Fatigue: Eye-tracking ALERT — Driver R.Martin drowsiness detected (HOS Rule)'},
+      {level:'BLOCK', badge:'b-crit', msg:'TDG-Compliance: Route blocked — Class 3 flammable via school zone 07:30-09:00'},
+      {level:'WARNING', badge:'b-warn', msg:'SquadrAI-WBGT: 32.1°C heat stress — mandatory 15min break recommended (CNESST)'},
+      {level:'PASS', badge:'b-pass', msg:'SafeFleet-Route: OSMnx geospatial validation complete — optimal route confirmed'},
+      {level:'INFO', badge:'b-info', msg:'SAAQ API: ELD log validated — 11h driving window remaining for fleet unit #47'},
+      {level:'BLOCK', badge:'b-crit', msg:'TDG: Dangerous goods manifest inconsistency — shipment held pending human review'},
+    ],
+    compliance: ['TDG Canada','SAAQ PESR','FMCSA HOS','CNESST Heat'],
+    predictions: [
+      {label:'Fatigue Incident Risk', val:34, color:'var(--gold)'},
+      {label:'TDG Compliance', val:97, color:'var(--gr)'},
+      {label:'Fleet Cost Drift', val:18, color:'var(--gr)'},
+      {label:'Route Safety Score', val:89, color:'var(--gr)'},
+    ],
+    predAlert: '🔮 DriftPredictor: Fleet unit #23 showing -45% fatigue incident trend since SafeFleet deployment. Projected $127K annual savings on insurance claims.',
+    cost: '$623', health: 93, blocks: 18, drift: '97.2%', lat: '89ms',
+    healthTrend: '+6 vs baseline', blocksTrend: '14 TDG violations',
+    driftTrend: 'Excellent — 97.2%',
+  },
+
+  manufacturing: {
+    label: '🏭 Manufacturing',
+    agents: ['RobotSafety-Cobot', 'HolisticErgo-TMS', 'RackingX5-WH', 'SENTINEL·X5'],
+    guardEvents: [
+      {level:'CRITICAL', badge:'b-crit', msg:'RobotSafety: E-STOP triggered <87ms — human detected in cobot zone (ISO 10218:2025)'},
+      {level:'BLOCK', badge:'b-crit', msg:'HolisticErgo: REBA score 9 — HIGH RISK posture detected — task suspended'},
+      {level:'WARNING', badge:'b-warn', msg:'RackingX5: Racking bay C-12 overload 94% capacity — inspection triggered (CSA A344)'},
+      {level:'PASS', badge:'b-pass', msg:'SENTINEL·X5: 312 alarm flood — 289 suppressed, 23 escalated (ISA-18.2 compliant)'},
+      {level:'INFO', badge:'b-info', msg:'HolisticErgo: Exoskeleton adaptation — lumbar load -34% for worker #089'},
+      {level:'BLOCK', badge:'b-crit', msg:'RobotSafety: Swarm intent detection — unexpected trajectory blocked pre-collision'},
+    ],
+    compliance: ['ISO 10218:2025','CSA A344','CNESST','ISA-18.2'],
+    predictions: [
+      {label:'TMS Risk 48h', val:44, color:'var(--gold)'},
+      {label:'Cobot Safety Score', val:98, color:'var(--gr)'},
+      {label:'Racking Integrity', val:76, color:'var(--gold)'},
+      {label:'Alarm Faithfulness', val:94, color:'var(--gr)'},
+    ],
+    predAlert: '⚠️ HolisticErgo: 3 workers showing cumulative TMS risk pattern — ergonomic intervention recommended within 72h to prevent WSIB claim.',
+    cost: '$1,891', health: 87, blocks: 67, drift: '94.8%', lat: '198ms',
+    healthTrend: '+2 vs baseline', blocksTrend: '41 safety-critical',
+    driftTrend: '⚠ cobot drift +1.2%',
+  },
+
+  healthcare: {
+    label: '🏥 Healthcare',
+    agents: ['PII-Guardian', 'ClinicalGuard-N4', 'HIPAA-Validator', 'AuditTrail-PROV'],
+    guardEvents: [
+      {level:'CRITICAL', badge:'b-crit', msg:'PII-Guardian: NAS detected in clinical output — auto-redacted (Loi 25 Art. 12)'},
+      {level:'BLOCK', badge:'b-crit', msg:'ClinicalGuard: Dosage hallucination BLOCKED — "500mg" vs validated "50mg" (N4)'},
+      {level:'WARNING', badge:'b-warn', msg:'HIPAA-Validator: PHI in agent response — quarantined pending human review'},
+      {level:'PASS', badge:'b-pass', msg:'AuditTrail-PROV: Full decision chain logged — reconstructable for regulatory audit'},
+      {level:'BLOCK', badge:'b-crit', msg:'ClinicalGuard: Drug interaction warning suppressed by agent — HITL override triggered'},
+      {level:'INFO', badge:'b-info', msg:'ErasureManager: Patient #4471 right-to-erasure executed — GDPR Art. 17 compliant'},
+    ],
+    compliance: ['HIPAA','Loi 25 QC','RGPD Art. 17','ISO 27001'],
+    predictions: [
+      {label:'PII Exposure Risk', val:8, color:'var(--gr)'},
+      {label:'Clinical Hallucination', val:15, color:'var(--gr)'},
+      {label:'Audit Readiness', val:96, color:'var(--gr)'},
+      {label:'Compliance Drift', val:4, color:'var(--gr)'},
+    ],
+    predAlert: '✅ All clinical agents operating within compliance bounds. Next HIPAA audit window: 14 days. PROV-O trails ready for export.',
+    cost: '$2,140', health: 95, blocks: 28, drift: '98.1%', lat: '167ms',
+    healthTrend: '+7 vs baseline', blocksTrend: '22 PII events',
+    driftTrend: 'Excellent — 98.1%',
+  },
+
+  finance: {
+    label: '💰 Finance / Legal',
+    agents: ['SOX-Validator', 'AuditAgent-PROV', 'RiskGuard-N4', 'ComplianceBot'],
+    guardEvents: [
+      {level:'CRITICAL', badge:'b-crit', msg:'RiskGuard: Agent recommended unauthorized transaction — BLOCKED (SOX § 302)'},
+      {level:'BLOCK', badge:'b-crit', msg:'SOX-Validator: Financial output unverified — held for CFO human validation (N4)'},
+      {level:'WARNING', badge:'b-warn', msg:'ComplianceBot: EU AI Act Art. 13 explanation missing — transparency gap flagged'},
+      {level:'PASS', badge:'b-pass', msg:'AuditAgent: 6-year decision chain reconstructed — CCQ compliant'},
+      {level:'INFO', badge:'b-info', msg:'PII-Guardian: Client NAS auto-redacted from financial report (Loi 25)'},
+      {level:'BLOCK', badge:'b-crit', msg:'RiskGuard: Prompt injection in financial query — DAN pattern BLOCKED'},
+    ],
+    compliance: ['SOX § 302','EU AI Act','Loi 25 QC','OSFI B-10'],
+    predictions: [
+      {label:'Compliance Drift', val:6, color:'var(--gr)'},
+      {label:'Audit Risk 48h', val:12, color:'var(--gr)'},
+      {label:'Regulatory Gap', val:31, color:'var(--gold)'},
+      {label:'Decision Traceability', val:99, color:'var(--gr)'},
+    ],
+    predAlert: '⚠️ EU AI Act compliance gap detected: 3 agents lack required Art. 13 transparency documentation. Auto-generation queued — estimated 2h completion.',
+    cost: '$3,200', health: 92, blocks: 41, drift: '96.4%', lat: '201ms',
+    healthTrend: '+3 vs baseline', blocksTrend: '29 SOX-critical',
+    driftTrend: 'Stable — 96.4%',
+  },
+
+  default: {
+    label: '🤖 AI Agent Governance',
+    agents: ['Observe-Core', 'Guard-N4', 'Evaluate-RAG', 'Remember-PROV'],
+    guardEvents: [
+      {level:'CRITICAL', badge:'b-crit', msg:'Guard N4: Hallucination BLOCKED — output contained unverified safety claim'},
+      {level:'BLOCK', badge:'b-crit', msg:'Guard: Prompt injection detected — DAN mode pattern blocked at input'},
+      {level:'WARNING', badge:'b-warn', msg:'Evaluate: RAG faithfulness 91.2% — below 95% threshold — DriftAutoCorrect triggered'},
+      {level:'PASS', badge:'b-pass', msg:'Observe: All 16 agents nominal — cost $0.006/call avg — latency 142ms p95'},
+      {level:'INFO', badge:'b-info', msg:'Remember: PROV-O audit trail complete — 1,847 decisions logged and traceable'},
+      {level:'BLOCK', badge:'b-crit', msg:'Guard: PII detected in output — auto-redacted before delivery (Loi 25)'},
+    ],
+    compliance: ['ISO 45001','Loi 25 QC','EU AI Act','NIST AI RMF'],
+    predictions: [
+      {label:'Agent Faithfulness', val:91, color:'var(--gold)'},
+      {label:'Hallucination Risk', val:24, color:'var(--gold)'},
+      {label:'Cost Forecast 7d', val:68, color:'var(--cy)'},
+      {label:'Compliance Score', val:94, color:'var(--gr)'},
+    ],
+    predAlert: '⚠️ DriftPredictor: Faithfulness projected to drop below 95% threshold in 36h. DriftAutoCorrect queued — zero user impact expected.',
+    cost: '$1,247', health: 87, blocks: 43, drift: '91.2%', lat: '142ms',
+    healthTrend: '+4 vs baseline', blocksTrend: '28 hallucinations',
+    driftTrend: '⚠ projected -3.8% in 36h',
+  }
+};
+
+// ============================================================
+// PAIN + PHASE OVERLAYS
+// ============================================================
+const PAIN_EXTRA = {
+  'Compliance / Audit pressure': '🏛️ Compliance mode: All decisions mapped to regulatory framework. PROV-O audit export ready.',
+  'Hallucinations reaching end-users': '🛡️ Guard N4 active: Zero hallucinations reached end-users in last 24h. 43 blocked autonomously.',
+  'Uncontrolled LLM costs': '💰 LatencyAutoScale active: Model routing optimized — -34% cost vs baseline this week.',
+  'Prompt injection / Cybersecurity': '🔐 OWASP LLM Top 10 coverage active: 0 injections succeeded. 12 DAN patterns blocked.',
+  'No visibility on agent behavior': '👁️ Full observability: 100% traces captured. Per-agent cost, latency, faithfulness live.',
+  'Agent drift / quality degradation': '🔮 DriftPredictor: 48h early warning active. DriftAutoCorrect triggered 3 times this week.',
+  'PII / Data sovereignty concerns': '🔒 PIIDetector + ErasureManager: 0 PII leaks. Right-to-erasure executed on demand.',
+};
+
+const PHASE_MSG = {
+  '1-4': 'You are building agents. AEGIS-X5 integrates at line 1 — govern from day 0.',
+  '5': 'Your agents are live. Guard N4 is blocking issues you don\'t know about yet.',
+  '6': 'Optimizing production agents. DriftPredictor and LatencyAutoScale are your tools.',
+  '7': 'Regulators are asking. PROV-O audit trails are your proof. Export in one click.',
+};
+
+// ============================================================
+// RENDER
+// ============================================================
+function getSector(p) {
+  const s = (p.get('sector') || '').toLowerCase();
+  if(s.includes('mining') || s.includes('metallurgy')) return 'mining';
+  if(s.includes('construction')) return 'construction';
+  if(s.includes('transport') || s.includes('logistic')) return 'transport';
+  if(s.includes('manufacturing')) return 'manufacturing';
+  if(s.includes('healthcare') || s.includes('health')) return 'healthcare';
+  if(s.includes('finance') || s.includes('legal')) return 'finance';
+  return 'default';
+}
+
+function render() {
+  const p = new URLSearchParams(window.location.search);
+  const sectorKey = getSector(p);
+  const sc = SCENARIOS[sectorKey];
+
+  const persona = p.get('persona') || '';
+  const pain = p.get('pain') || '';
+  const phase = p.get('phase') || '';
+  const framework = p.get('framework') || '';
+  const jurisdiction = p.get('jurisdiction') || '';
+  const maturity = p.get('maturity') || '';
+  const agents = p.get('agents') || '';
+
+  // BADGE
+  const parts = [sc.label];
+  if(persona) parts.push(persona.includes('Enterprise') ? '🏢 Enterprise' : '⚡ Developer');
+  if(phase) parts.push('Phase '+phase);
+  if(framework) parts.push(framework.split('/')[0]);
+  document.getElementById('scenario-badge').textContent = parts.join(' · ');
+
+  // HERO
+  const isEnterprise = persona.includes('Enterprise') || persona.includes('VP');
+  document.getElementById('hero-title').textContent = isEnterprise
+    ? 'Executive governance dashboard — ' + sc.label
+    : 'Developer integration view — ' + sc.label;
+
+  const descParts = [];
+  if(pain) descParts.push('Configured for: ' + pain + '.');
+  if(phase && PHASE_MSG[phase]) descParts.push(PHASE_MSG[phase]);
+  document.getElementById('hero-desc').textContent = descParts.join(' ') || 'Real-time governance across your agent fleet.';
+
+  // KPIs
+  document.getElementById('k-agents').textContent = sc.agents.length;
+  document.getElementById('k-health').textContent = sc.health;
+  document.getElementById('k-health-trend').textContent = sc.healthTrend;
+  document.getElementById('k-blocks').textContent = sc.blocks;
+  document.getElementById('k-blocks-trend').textContent = sc.blocksTrend;
+  document.getElementById('k-cost').textContent = sc.cost;
+  document.getElementById('k-drift').textContent = sc.drift;
+  document.getElementById('k-drift-trend').textContent = sc.driftTrend;
+  document.getElementById('k-lat').textContent = sc.lat;
+
+  // GUARD FEED
+  const feed = document.getElementById('guard-feed');
+  feed.innerHTML = '';
+  sc.guardEvents.forEach(function(ev) {
+    const now = new Date();
+    const mins = Math.floor(Math.random()*12);
+    const ts = new Date(now - mins*60000).toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
+    const d = document.createElement('div');
+    d.className = 'guard-event';
+    d.innerHTML = '<span class="badge '+ev.badge+'">'+ev.level+'</span><span style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:var(--mu);white-space:nowrap">'+ts+'</span><span style="color:var(--tx2)">'+ev.msg+'</span>';
+    feed.appendChild(d);
+  });
+
+  // COMPLIANCE
+  const compGrid = document.getElementById('comp-grid');
+  compGrid.innerHTML = '';
+  sc.compliance.forEach(function(c) {
+    const d = document.createElement('div');
+    d.className = 'comp-item';
+    d.innerHTML = '<div class="comp-name">'+c+'</div><div class="comp-status">✅ Governed</div>';
+    compGrid.appendChild(d);
+  });
+
+  // TRACES
+  const traceList = document.getElementById('trace-list');
+  traceList.innerHTML = '';
+  sc.agents.forEach(function(ag, i) {
+    const ms = (80 + Math.floor(Math.random()*300));
+    const cost = '$0.00'+(4+Math.floor(Math.random()*8));
+    const tok = (800 + Math.floor(Math.random()*2000));
+    const pass = i !== 1;
+    const d = document.createElement('div');
+    d.className = 'trace-row';
+    d.innerHTML = '<span class="badge '+(pass?'b-pass':'b-crit')+'">'+(pass?'PASS':'FLAG')+'</span>'
+      +'<span style="font-size:.78rem">'+ag+'</span>'
+      +'<span style="font-family:JetBrains Mono,monospace;font-size:.65rem;color:var(--mu)">'+ms+'ms</span>'
+      +'<span style="font-family:JetBrains Mono,monospace;font-size:.65rem;color:var(--vi)">'+cost+'</span>'
+      +'<span style="font-family:JetBrains Mono,monospace;font-size:.65rem;color:var(--mu)">'+tok+'t</span>';
+    traceList.appendChild(d);
+  });
+
+  // PREDICTIONS
+  const predList = document.getElementById('pred-list');
+  predList.innerHTML = '';
+  sc.predictions.forEach(function(pr) {
+    const d = document.createElement('div');
+    d.className = 'pred-bar';
+    d.innerHTML = '<span class="pred-label">'+pr.label+'</span>'
+      +'<div class="pred-track"><div class="pred-fill" style="width:'+pr.val+'%;background:'+pr.color+'"></div></div>'
+      +'<span class="pred-val" style="color:'+pr.color+'">'+pr.val+'%</span>';
+    predList.appendChild(d);
+  });
+
+  // PRED ALERT
+  let alert = sc.predAlert;
+  if(pain && PAIN_EXTRA[pain]) alert = PAIN_EXTRA[pain] + '\n\n' + alert;
+  document.getElementById('pred-alert').style.whiteSpace = 'pre-line';
+  document.getElementById('pred-alert').textContent = alert;
+
+  // CTA
+  const ctaTitle = isEnterprise
+    ? 'Schedule your 30-min executive briefing'
+    : 'Start your free developer integration';
+  const ctaDesc = 'We\'ll configure a live session with your real agents and stack'
+    + (framework ? ' — including ' + framework : '')
+    + (jurisdiction ? ' — ' + jurisdiction + ' compliance context included.' : '.');
+  document.getElementById('cta-title').textContent = ctaTitle;
+  document.getElementById('cta-desc').textContent = ctaDesc;
+}
+
+render();
+
+// LIVE UPDATE every 4s
+setInterval(function() {
+  const j = function() { return Math.floor(Math.random()*5)-2; };
+  const h = document.getElementById('k-health');
+  const b = document.getElementById('k-blocks');
+  if(h) h.textContent = parseInt(h.textContent) + j();
+  if(b) b.textContent = parseInt(b.textContent) + Math.floor(Math.random()*2);
+}, 4000);
+</script>
+</body>
+</html>

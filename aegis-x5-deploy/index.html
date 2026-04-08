@@ -1186,7 +1186,7 @@ nav{padding:.5rem 1rem}.nr a:not(.cta){display:none}
 <div class="title en" style="display:inline-block">See AEGIS-X5 in action</div>
 <div class="title fr" style="display:inline-block">Voir AEGIS-X5 en action</div>
 <div class="fcard">
-<form name="demo-request" method="POST" data-netlify="true" action="/?submitted=1">
+<form name="demo-request" id="demo-form" data-netlify="true">
 <input type="hidden" name="form-name" value="demo-request">
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
 <div class="frow"><label class="en">First Name *</label><label class="fr">Prénom *</label><input type="text" required name="first_name"></div>
@@ -1298,6 +1298,14 @@ window.location.href='mailto:team@agenticx5.com?subject='+s+'&body='+b;
 alert(document.body.classList.contains('fr')?'Merci ! Un courriel pré-rempli va s\'ouvrir.':'Thank you! A pre-filled email will open.');
 }
 
+// FORM SUBMIT
+document.getElementById("demo-form").addEventListener("submit",function(e){
+e.preventDefault();
+const fd=new FormData(e.target);
+fetch("/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:new URLSearchParams(fd).toString()})
+.then(()=>{document.querySelector(".form-sec").innerHTML="<div style=\"text-align:center;padding:3rem\"><div style=\"font-size:3rem\">✅</div><h2 style=\"color:var(--gold);margin:.5rem 0\">Request received!</h2><p style=\"color:var(--tx2)\">We will be in touch within 24h.</p></div>";})
+.catch(()=>alert("Error — please email team@agenticx5.com"));
+});
 // FORM SUCCESS
 if(window.location.search.includes("submitted=1")){
   document.querySelector(".form-sec").innerHTML="<div style=\"text-align:center;padding:3rem\"><div style=\"font-size:2rem\">✅</div><h2 style=\"color:var(--gold);margin:.5rem 0\">Request received!</h2><p style=\"color:var(--tx2)\">We will be in touch within 24h.</p><a href=\"/\" class=\"cta\" style=\"display:inline-block;margin-top:1.5rem\">Back to site</a></div>";

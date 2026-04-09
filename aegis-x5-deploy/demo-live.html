@@ -150,6 +150,78 @@ nav{padding:.6rem 2rem;display:flex;align-items:center;justify-content:space-bet
 
 <script>
 // ============================================================
+// LIVE BACKEND
+// ============================================================
+const API_BASE = "https://shield-ops-x5-api.onrender.com";
+var liveData = null; // populated if backend responds
+
+async function fetchLiveData() {
+  try {
+    const ctrl = new AbortController();
+    const timeout = setTimeout(function(){ ctrl.abort(); }, 5000);
+
+    const [agentsRes, guardRes, metricsRes, tracesRes] = await Promise.all([
+      fetch(API_BASE + "/api/v1/agents", {signal: ctrl.signal}).then(function(r){ return r.ok ? r.json() : null; }).catch(function(){ return null; }),
+      fetch(API_BASE + "/api/v1/guard/events?limit=10", {signal: ctrl.signal}).then(function(r){ return r.ok ? r.json() : null; }).catch(function(){ return null; }),
+      fetch(API_BASE + "/api/v1/metrics/summary", {signal: ctrl.signal}).then(function(r){ return r.ok ? r.json() : null; }).catch(function(){ return null; }),
+      fetch(API_BASE + "/api/v1/traces?limit=20", {signal: ctrl.signal}).then(function(r){ return r.ok ? r.json() : null; }).catch(function(){ return null; }),
+    ]);
+
+    clearTimeout(timeout);
+
+    // Only use live data if at least agents or metrics responded
+    if(agentsRes || metricsRes) {
+      liveData = { agents: agentsRes, guard: guardRes, metrics: metricsRes, traces: tracesRes };
+    }
+  } catch(e) {
+    // Silently fall back to simulated data
+    liveData = null;
+  }
+}
+
+function applyLiveData(sc) {
+  if(!liveData) return sc;
+
+  // Override KPIs from metrics summary
+  if(liveData.metrics) {
+    var m = liveData.metrics;
+    if(m.health_score != null) sc.health = Math.round(m.health_score);
+    if(m.guard_blocks != null) sc.blocks = m.guard_blocks;
+    if(m.cost_per_day != null) sc.cost = '$' + m.cost_per_day;
+    if(m.drift_score != null) sc.drift = m.drift_score + '%';
+    if(m.latency_p95 != null) sc.lat = m.latency_p95 + 'ms';
+    if(m.agent_count != null) sc.agents = Array.from({length: m.agent_count}, function(_, i){ return 'Agent-' + (i+1); });
+  }
+
+  // Override agents list
+  if(liveData.agents && Array.isArray(liveData.agents) && liveData.agents.length > 0) {
+    sc.agents = liveData.agents.map(function(a){ return a.name || a.agent_id || a.id || 'Agent'; });
+    // If agents have health scores, update KPI
+    var healths = liveData.agents.filter(function(a){ return a.health_score != null; }).map(function(a){ return a.health_score; });
+    if(healths.length) sc.health = Math.round(healths.reduce(function(s,v){return s+v;}, 0) / healths.length);
+  }
+
+  // Override guard events
+  if(liveData.guard && Array.isArray(liveData.guard) && liveData.guard.length > 0) {
+    var LEVEL_MAP = {critical:'b-crit', block:'b-crit', warning:'b-warn', pass:'b-pass', info:'b-info'};
+    var liveGuard = liveData.guard.map(function(ev) {
+      var lvl = (ev.level || ev.severity || 'info').toUpperCase();
+      var badge = LEVEL_MAP[(ev.level || ev.severity || 'info').toLowerCase()] || 'b-info';
+      return {level: lvl, badge: badge, msg: ev.message || ev.msg || ev.description || JSON.stringify(ev)};
+    });
+    // Prepend live events, keep simulated as fallback padding
+    sc.guardEvents = liveGuard.concat(sc.guardEvents).slice(0, 12);
+  }
+
+  // Override traces
+  if(liveData.traces && Array.isArray(liveData.traces) && liveData.traces.length > 0) {
+    sc._liveTraces = liveData.traces;
+  }
+
+  return sc;
+}
+
+// ============================================================
 // SCENARIO CONFIGURATIONS
 // ============================================================
 const SCENARIOS = {
@@ -361,7 +433,8 @@ function getSector(p) {
 function render() {
   const p = new URLSearchParams(window.location.search);
   const sectorKey = getSector(p);
-  const sc = SCENARIOS[sectorKey];
+  var sc = JSON.parse(JSON.stringify(SCENARIOS[sectorKey])); // deep copy
+  sc = applyLiveData(sc);
 
   const persona = p.get('persona') || '';
   const pain = p.get('main_pain') || p.get('pain') || '';
@@ -503,25 +576,45 @@ function render() {
     compGrid.appendChild(d);
   });
 
-  // TRACES — include framework-specific agents
-  const traceAgents = sc.agents.slice();
-  frameworks.forEach(function(f) { if(f !== 'None') traceAgents.push(f+'-Connector'); });
+  // TRACES — live or simulated
   const traceList = document.getElementById('trace-list');
   traceList.innerHTML = '';
-  traceAgents.slice(0, 6).forEach(function(ag, i) {
-    const ms = (80 + Math.floor(Math.random()*300));
-    const cost = '$0.00'+(4+Math.floor(Math.random()*8));
-    const tok = (800 + Math.floor(Math.random()*2000));
-    const pass = i !== 1;
-    const d = document.createElement('div');
-    d.className = 'trace-row';
-    d.innerHTML = '<span class="badge '+(pass?'b-pass':'b-crit')+'">'+(pass?'PASS':'FLAG')+'</span>'
-      +'<span style="font-size:.78rem">'+ag+'</span>'
-      +'<span style="font-family:JetBrains Mono,monospace;font-size:.65rem;color:var(--mu)">'+ms+'ms</span>'
-      +'<span style="font-family:JetBrains Mono,monospace;font-size:.65rem;color:var(--vi)">'+cost+'</span>'
-      +'<span style="font-family:JetBrains Mono,monospace;font-size:.65rem;color:var(--mu)">'+tok+'t</span>';
-    traceList.appendChild(d);
-  });
+  if(sc._liveTraces && sc._liveTraces.length > 0) {
+    // Render real traces from backend
+    sc._liveTraces.slice(0, 6).forEach(function(tr) {
+      var name = tr.agent_name || tr.agent_id || tr.name || 'Agent';
+      var ms = tr.latency_ms || tr.duration_ms || Math.floor(Math.random()*300+80);
+      var cost = tr.cost ? '$'+tr.cost : '$0.00'+(4+Math.floor(Math.random()*8));
+      var tok = tr.tokens || tr.total_tokens || (800+Math.floor(Math.random()*2000));
+      var pass = tr.status !== 'flagged' && tr.status !== 'blocked' && tr.status !== 'error';
+      var d = document.createElement('div');
+      d.className = 'trace-row';
+      d.innerHTML = '<span class="badge '+(pass?'b-pass':'b-crit')+'">'+(pass?'PASS':'FLAG')+'</span>'
+        +'<span style="font-size:.78rem">'+name+'</span>'
+        +'<span style="font-family:JetBrains Mono,monospace;font-size:.65rem;color:var(--mu)">'+ms+'ms</span>'
+        +'<span style="font-family:JetBrains Mono,monospace;font-size:.65rem;color:var(--vi)">'+cost+'</span>'
+        +'<span style="font-family:JetBrains Mono,monospace;font-size:.65rem;color:var(--mu)">'+tok+'t</span>';
+      traceList.appendChild(d);
+    });
+  } else {
+    // Simulated traces
+    const traceAgents = sc.agents.slice();
+    frameworks.forEach(function(f) { if(f !== 'None') traceAgents.push(f+'-Connector'); });
+    traceAgents.slice(0, 6).forEach(function(ag, i) {
+      const ms = (80 + Math.floor(Math.random()*300));
+      const cost = '$0.00'+(4+Math.floor(Math.random()*8));
+      const tok = (800 + Math.floor(Math.random()*2000));
+      const pass = i !== 1;
+      const d = document.createElement('div');
+      d.className = 'trace-row';
+      d.innerHTML = '<span class="badge '+(pass?'b-pass':'b-crit')+'">'+(pass?'PASS':'FLAG')+'</span>'
+        +'<span style="font-size:.78rem">'+ag+'</span>'
+        +'<span style="font-family:JetBrains Mono,monospace;font-size:.65rem;color:var(--mu)">'+ms+'ms</span>'
+        +'<span style="font-family:JetBrains Mono,monospace;font-size:.65rem;color:var(--vi)">'+cost+'</span>'
+        +'<span style="font-family:JetBrains Mono,monospace;font-size:.65rem;color:var(--mu)">'+tok+'t</span>';
+      traceList.appendChild(d);
+    });
+  }
 
   // PREDICTIONS
   const predList = document.getElementById('pred-list');
@@ -608,7 +701,15 @@ function cycleGuardEvent() {
   while(feed.children.length > 6) feed.removeChild(feed.lastChild);
 }
 
-render();
+// BOOT: try live backend, then render (fallback to simulated)
+fetchLiveData().then(function() {
+  render();
+  if(liveData) {
+    document.querySelector('.top-bar').textContent = '🟢 AEGIS-X5 — Live Demo · Connected to production backend';
+  }
+}).catch(function() {
+  render();
+});
 
 // LIVE GUARD CYCLING every 8s
 setInterval(cycleGuardEvent, 8000);

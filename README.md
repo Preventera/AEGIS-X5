@@ -4,6 +4,13 @@
 </p>
 
 <p align="center">
+  <a href="https://pypi.org/project/aegis-x5/"><img src="https://badge.fury.io/py/aegis-x5.svg" alt="PyPI version"></a>
+  <a href="https://www.python.org/"><img src="https://img.shields.io/badge/python-3.11+-blue.svg" alt="Python 3.11+"></a>
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
+  <a href="https://github.com/Preventera/AEGIS-X5/actions"><img src="https://github.com/Preventera/AEGIS-X5/actions/workflows/ci.yml/badge.svg" alt="Tests"></a>
+</p>
+
+<p align="center">
   Observe, guard, evaluate, and autonomously govern AI agent fleets — at scale.<br>
   From first trace to full autonomous loops, in under 2 minutes.
 </p>
